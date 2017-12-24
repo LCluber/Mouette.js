@@ -1,0 +1,49 @@
+@import "variables";
+@import "mixins";
+
+.absolute-wrapper{
+  position: fixed;
+  //width:100%;
+  bottom:0%;
+  right:0%;
+  font-size: 12px;
+  line-height: 1.0;
+  
+}
+
+.panel-resizable {
+  // resize: both;
+  // overflow: auto;
+}
+
+.panel-transparent {
+  border-radius: 0px 0px 0 0 ;
+  border-width: 0px;
+  background: none;
+  .panel-body{
+    background: rgba(200, 200, 200, $opacity)!important;
+    max-height: 300px;
+    padding:10px;
+    .DEBUG{
+      color: #777777;
+    }
+    .INFO{
+      color: #31708f;
+    }
+    .TIME{
+      color: #337ab7;
+    }
+    .WARN{
+      color: #8a6d3b;
+    }
+    .ERROR{
+      color: #a94442;
+    }
+  }
+  .panel-footer{
+    background: rgba(160, 160, 160, $opacity)!important;
+    padding-bottom:0;
+    border-width: 0px;
+    border-radius: 0px 0px 0 0 ;
+  }
+}

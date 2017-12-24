@@ -1,37 +1,6 @@
-## Synopsis
-
-Mouette.js is a lightweight logger written in Typescript.
-
-## Code Example
-
- [See a basic example on the dedicated website](http://mouettejs.lcluber.com/#source).
-
-## Motivation
-
-The purpose of this library is to provide a simple and easy way to log infos throughout your code.
-
-## Installation
-
-To use **Mouette.js** download it **[here](http://mouettejs.lcluber.com/#download)** and learn how to use it **[there](http://mouettejs.lcluber.com/#source)**.
-
-## API Reference
-
-[See the documentation on the dedicated website](http://mouettejs.lcluber.com/doc/).
-
-## Tests
-
-No tests to run yet
-
-## Contributors
-
-There is still a lot of work to do on this project and I would be glad to get all the help you can provide.
-To contribute you can clone the project on **[GitHub](https://github.com/LCluber/Mouette.js)** and see  **INSTALL.md** for detailed installation walkthrough of the project.
-
-## License
-
 MIT License
 
-Copyright (c) 2017 Ludovic CLUBER
+Copyright (c) 2015 Ludovic CLUBER
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
