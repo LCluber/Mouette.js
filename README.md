@@ -1,0 +1,2 @@
+# Mouette.js
+Lightweight logger
