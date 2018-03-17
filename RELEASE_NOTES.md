@@ -1,3 +1,8 @@
+Version 0.2.1 (March 18th 2018)
+-----------------------------
+ * Added TypeScript Declaration File
+ * New colors
+
 Version 0.2.0 (March 17th 2018)
 -----------------------------
  * Mouette.js is now static. No instantiation needed. One logger for the entire project. even if dependencies use it. 

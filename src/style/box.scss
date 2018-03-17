@@ -23,21 +23,22 @@
   .panel-body{
     background: rgba(200, 200, 200, $opacity)!important;
     max-height: 300px;
+    overflow: auto;
     padding:10px;
-    .DEBUG{
-      color: #777777;
+    .debug{
+      color: #28a745;
     }
-    .INFO{
-      color: #31708f;
+    .info{
+      color: #17a2b8;
     }
-    .TIME{
-      color: #337ab7;
+    .time{
+      color: #007bff;
     }
-    .WARN{
-      color: #8a6d3b;
+    .warn{
+      color: #ffc107;
     }
-    .ERROR{
-      color: #a94442;
+    .error{
+      color: #dc3545;
     }
   }
   .panel-footer{

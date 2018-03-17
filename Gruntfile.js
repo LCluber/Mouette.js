@@ -60,7 +60,7 @@ module.exports = function(grunt){
     clean: {
       lib:{
         src: [  distDir        + '*',
-                docDir         + '*'
+                compiledSrcDir + '*'
               ]
       },
       web:{
@@ -211,7 +211,7 @@ module.exports = function(grunt){
         outDir: compiledSrcDir,
         options: {
           rootDir: srcDir + 'ts/',
-          declaration: false
+          declaration: true
         },
         src: [ srcDir + '**/*.ts', '!node_modules/**/*.ts' ]
       }
@@ -219,7 +219,8 @@ module.exports = function(grunt){
     rollup: {
       options: {
         format:'umd',
-        moduleName: projectName
+        moduleName: projectName,
+        banner: banner
       },
       bundle:{
         files: [ {
@@ -229,16 +230,16 @@ module.exports = function(grunt){
       }
     },
     uglify: {
-      lib: {
-        options: {
-          beautify: true,
-          banner: banner,
-          mangle: false,
-          compress:false,
-        },
-        src: distDir + projectNameLC + '.js',
-        dest: distDir + projectNameLC + '.js'
-      },
+      // lib: {
+      //   options: {
+      //     beautify: true,
+      //     banner: banner,
+      //     mangle: false,
+      //     compress:false,
+      //   },
+      //   src: distDir + projectNameLC + '.js',
+      //   dest: distDir + projectNameLC + '.js'
+      // },
       libmin: {
         options: {
           sourceMap: true,
@@ -308,6 +309,15 @@ module.exports = function(grunt){
       }
     },
     concat:{
+      declaration: {
+        options: {
+          separator: '',
+          stripBanners: false,
+          banner: banner
+        },
+        src: srcDir + '**/*.d.ts',
+        dest: distDir + projectNameLC + '.d.ts'
+      },
       libpug: {
         options: {
           separator: ''
@@ -361,6 +371,19 @@ module.exports = function(grunt){
               publicDir + 'css/style.min.css'
             ],
         dest: publicDir + 'css/style.min.css'
+      }
+    },
+    strip_code: {
+      options: {
+        //import { IBase64Service } from '../services/base64.service';
+        // /// <reference path="../config/typings/index.d.ts" />
+        patterns: [ /import.*';/g,
+                    /export { .* } from '.*';/g,
+                    /\/\/\/ <reference path=.*\/>/g
+                  ]
+      },
+      declaration: {
+          src: distDir + projectName + '.d.ts'
       }
     },
     symlink: {
@@ -481,6 +504,7 @@ module.exports = function(grunt){
   grunt.loadNpmTasks( 'grunt-contrib-symlink' );
   grunt.loadNpmTasks( 'grunt-contrib-compress' );
   grunt.loadNpmTasks( 'grunt-contrib-watch' );
+  grunt.loadNpmTasks( 'grunt-strip-code' );
   grunt.loadNpmTasks( 'grunt-jsdoc' );
   grunt.loadNpmTasks( 'grunt-concurrent' );
   grunt.loadNpmTasks( 'grunt-nodemon' );
@@ -496,7 +520,9 @@ module.exports = function(grunt){
                         'ts:lib',
                         'rollup',
                         //'jsdoc',
-                        'uglify:libmin', 'uglify:lib',
+                        'uglify:libmin',
+                        'concat:declaration',
+                        'strip_code:declaration',
                         'sass:lib',
                         'pug:lib',
                         'concat:libhtm', 'concat:libcss', 'concat:libpug'

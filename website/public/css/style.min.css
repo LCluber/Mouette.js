@@ -21,17 +21,18 @@
   .panel-transparent .panel-body {
     background: rgba(200, 200, 200, 0.6) !important;
     max-height: 300px;
+    overflow: auto;
     padding: 10px; }
-    .panel-transparent .panel-body .DEBUG {
-      color: #777777; }
-    .panel-transparent .panel-body .INFO {
-      color: #31708f; }
-    .panel-transparent .panel-body .TIME {
-      color: #337ab7; }
-    .panel-transparent .panel-body .WARN {
-      color: #8a6d3b; }
-    .panel-transparent .panel-body .ERROR {
-      color: #a94442; }
+    .panel-transparent .panel-body .debug {
+      color: #28a745; }
+    .panel-transparent .panel-body .info {
+      color: #17a2b8; }
+    .panel-transparent .panel-body .time {
+      color: #007bff; }
+    .panel-transparent .panel-body .warn {
+      color: #ffc107; }
+    .panel-transparent .panel-body .error {
+      color: #dc3545; }
   .panel-transparent .panel-footer {
     background: rgba(160, 160, 160, 0.6) !important;
     padding-bottom: 0;

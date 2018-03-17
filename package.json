@@ -1,6 +1,6 @@
 {
   "name": "Mouettejs",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "javascript library",
   "keywords": [
     "logger"
@@ -32,7 +32,6 @@
     "morgan": "1.8.1",
     "pug": "2.0.0-beta11",
     "serve-favicon": "2.4.0"
-    
   },
   "devDependencies": {
     "bootstrap": "3.3.7",
@@ -52,6 +51,7 @@
     "grunt-contrib-compress": "1.4.3",
     "grunt-contrib-jshint": "1.1.0",
     "grunt-contrib-csslint": "2.0.0",
+    "grunt-strip-code": "^1.0.6",
     "grunt-jsdoc": "2.1.0",
     "grunt-contrib-watch": "1.0.0",
     "grunt-concurrent": "2.3.1",

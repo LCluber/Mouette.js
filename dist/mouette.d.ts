@@ -22,36 +22,38 @@
 *
 * http://mouettejs.lcluber.com
 */
-.absolute-wrapper {
-  position: fixed;
-  bottom: 0%;
-  right: 0%;
-  font-size: 12px;
-  line-height: 1.0; }
+export declare class Level {
+    id: number;
+    name: string;
+}
 
-.panel-transparent {
-  border-radius: 0px 0px 0 0;
-  border-width: 0px;
-  background: none; }
-  .panel-transparent .panel-body {
-    background: rgba(200, 200, 200, 0.6) !important;
-    max-height: 300px;
-    overflow: auto;
-    padding: 10px; }
-    .panel-transparent .panel-body .debug {
-      color: #28a745; }
-    .panel-transparent .panel-body .info {
-      color: #17a2b8; }
-    .panel-transparent .panel-body .time {
-      color: #007bff; }
-    .panel-transparent .panel-body .warn {
-      color: #ffc107; }
-    .panel-transparent .panel-body .error {
-      color: #dc3545; }
-  .panel-transparent .panel-footer {
-    background: rgba(160, 160, 160, 0.6) !important;
-    padding-bottom: 0;
-    border-width: 0px;
-    border-radius: 0px 0px 0 0; }
+export declare class Message {
+    level: Level;
+    text: string;
+    html: string;
+    constructor(levelName: string, text: string);
+    setLevel(name: string): void;
+    getLevelId(): number;
+    private findLevel(name);
+}
 
-/*# sourceMappingURL=box.css.map */
+export declare const LEVELS: Level[];
+
+
+export declare class Logger {
+    static _level: Level;
+    static messages: Array<Message>;
+    static nbMessages: number;
+    static target: HTMLElement;
+    level: string;
+    static debug(text: string): void;
+    static info(text: string): void;
+    static time(text: string): void;
+    static warn(text: string): void;
+    static error(text: string): void;
+    private static log(levelName, text);
+    private static addMessage(levelName, text);
+    private static logMessage();
+    private static findLevel(name);
+    private static findDOMElementById(id);
+}
