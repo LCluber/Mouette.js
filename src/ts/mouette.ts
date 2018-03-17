@@ -5,59 +5,58 @@ import { Message }  from './message';
 
 export class Logger {
   
-  level: Level;
-  messages: Array<Message>;
-  nbMessages: number;
-  target: HTMLElement;
+  static _level: Level = Logger.findLevel(LEVELS[0].name);
+  static messages: Array<Message> = [];
+  static nbMessages: number = 0;
+  static target: HTMLElement = Logger.findDOMElementById('Mouette');
 
-  constructor(levelName: string ) {
-    this.setLevel(levelName);
-    this.messages = [];
-    this.nbMessages = 0;
-    this.target = this.findDOMElementById('Mouette');
+  // constructor(levelName: string ) {
+  //   this.setLevel(levelName);
+  //   this.messages = [];
+  //   this.nbMessages = 0;
+  //   this.target = this.findDOMElementById('Mouette');
+  // }
+  set level(name: string) {
+    Logger._level = Logger.findLevel(name);
   }
   
-  public setLevel(name: string): void {
-    this.level = this.findLevel(name);
+  get level(): string {
+    return Logger._level.name;
   }
   
-  public getLevel(): Level {
-    return this.level;
+  public static debug(text: string){
+    Logger.log('debug',text);
   }
   
-  public debug(text: string){
-    this.log('debug',text);
+  public static info(text: string){
+    Logger.log('info',text);
   }
   
-  public info(text: string){
-    this.log('info',text);
+  public static time(text: string){
+    Logger.log('time',text);
   }
   
-  public time(text: string){
-    this.log('time',text);
+  public static warn(text: string){
+    Logger.log('warn',text);
   }
   
-  public warn(text: string){
-    this.log('warn',text);
+  public static error(text: string){
+    Logger.log('error',text);
   }
   
-  public error(text: string){
-    this.log('error',text);
+  private static log(levelName: string, text: string): void {
+    Logger.addMessage(levelName, text);
+    Logger.logMessage();
   }
   
-  private log(levelName: string, text: string): void {
-    this.addMessage(levelName, text);
-    this.logMessage();
-  }
-  
-  private addMessage(levelName: string, text: string) {
+  private static addMessage(levelName: string, text: string): void {
     this.messages.push( new Message(levelName, text));
     this.nbMessages ++;
   }
   
-  private logMessage(){
+  private static logMessage(): void {
     let message = this.messages[this.nbMessages-1];
-    if(this.level.id <= message.getLevelId()) {
+    if(this._level.id <= message.getLevelId()) {
       this.target.innerHTML += message.html;
       // console.log(this.level.name);
       // console.log(this.text);
@@ -69,16 +68,16 @@ export class Logger {
     }
   }
   
-  private findLevel(name: string): Level {
+  private static findLevel(name: string): Level {
     for (let level of LEVELS) {
       if(level.name === name) {
         return level;
       }
     }
-    return this.level ? this.level : LEVELS[0];
+    return this._level ? this._level : LEVELS[0];
   }
   
-  private findDOMElementById(id: string): HTMLElement {
+  private static findDOMElementById(id: string): HTMLElement {
     return document.getElementById(id);
   }
   
