@@ -329,8 +329,7 @@ module.exports = function(grunt){
       libhtm: {
         options: {
           separator: '',
-          stripBanners: false,
-          banner: banner
+          stripBanners: false
         },
         src: [srcDir + 'template/build/**/*.htm'
             ],

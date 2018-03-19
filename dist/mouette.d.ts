@@ -46,11 +46,11 @@ export declare class Logger {
     static nbMessages: number;
     static target: HTMLElement;
     level: string;
-    static debug(text: string): void;
-    static info(text: string): void;
-    static time(text: string): void;
-    static warn(text: string): void;
-    static error(text: string): void;
+    static debug(text: string | number): void;
+    static info(text: string | number): void;
+    static time(text: string | number): void;
+    static warn(text: string | number): void;
+    static error(text: string | number): void;
     private static log(levelName, text);
     private static addMessage(levelName, text);
     private static logMessage();

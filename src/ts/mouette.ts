@@ -24,24 +24,24 @@ export class Logger {
     return Logger._level.name;
   }
   
-  public static debug(text: string){
-    Logger.log('debug',text);
+  public static debug(text: string|number){
+    Logger.log('debug',<string>text);
   }
   
-  public static info(text: string){
-    Logger.log('info',text);
+  public static info(text: string|number){
+    Logger.log('info',<string>text);
   }
   
-  public static time(text: string){
-    Logger.log('time',text);
+  public static time(text: string|number){
+    Logger.log('time',<string>text);
   }
   
-  public static warn(text: string){
-    Logger.log('warn',text);
+  public static warn(text: string|number){
+    Logger.log('warn',<string>text);
   }
   
-  public static error(text: string){
-    Logger.log('error',text);
+  public static error(text: string|number){
+    Logger.log('error',<string>text);
   }
   
   private static log(levelName: string, text: string): void {
