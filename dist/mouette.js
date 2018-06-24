@@ -23,109 +23,88 @@
 * http://mouettejs.lcluber.com
 */
 
-(function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-    typeof define === 'function' && define.amd ? define(['exports'], factory) :
-    (factory((global.MOUETTE = {})));
-}(this, (function (exports) { 'use strict';
+import { Dom } from '../../node_modules/weejs/dist/wee.js';
 
-    var LEVELS = [
-        { id: 1, name: 'debug' },
-        { id: 2, name: 'info' },
-        { id: 3, name: 'time' },
-        { id: 4, name: 'timeEnd' },
-        { id: 5, name: 'warn' },
-        { id: 6, name: 'error' },
-        { id: 99, name: 'off' }
-    ];
+const LEVELS = [
+    { id: 1, name: 'debug' },
+    { id: 2, name: 'info' },
+    { id: 3, name: 'time' },
+    { id: 4, name: 'timeEnd' },
+    { id: 5, name: 'warn' },
+    { id: 6, name: 'error' },
+    { id: 99, name: 'off' }
+];
 
-    var Message = (function () {
-        function Message(levelName, text) {
-            this.setLevel(levelName);
-            this.text = text;
-            this.html = '<span class="' + this.level.name + '">' + this.text + '</span><br>';
+class Message {
+    constructor(levelName, text) {
+        this.setLevel(levelName);
+        this.text = text;
+        this.html = '<span class="' + this.level.name + '">' + this.text + '</span><br>';
+    }
+    setLevel(name) {
+        this.level = this.findLevel(name);
+    }
+    getLevelId() {
+        return this.level.id;
+    }
+    findLevel(name) {
+        for (let level of LEVELS) {
+            if (level.name === name) {
+                return level;
+            }
         }
-        Message.prototype.setLevel = function (name) {
-            this.level = this.findLevel(name);
-        };
-        Message.prototype.getLevelId = function () {
-            return this.level.id;
-        };
-        Message.prototype.findLevel = function (name) {
-            for (var _i = 0, LEVELS_1 = LEVELS; _i < LEVELS_1.length; _i++) {
-                var level = LEVELS_1[_i];
-                if (level.name === name) {
-                    return level;
-                }
-            }
-            return this.level ? this.level : LEVELS[0];
-        };
-        return Message;
-    }());
+        return this.level ? this.level : LEVELS[0];
+    }
+}
 
-    var Logger = (function () {
-        function Logger() {
+class Logger {
+    set level(name) {
+        Logger._level = Logger.findLevel(name);
+    }
+    get level() {
+        return Logger._level.name;
+    }
+    static debug(text) {
+        Logger.log('debug', text);
+    }
+    static info(text) {
+        Logger.log('info', text);
+    }
+    static time(text) {
+        Logger.log('time', text);
+    }
+    static warn(text) {
+        Logger.log('warn', text);
+    }
+    static error(text) {
+        Logger.log('error', text);
+    }
+    static log(levelName, text) {
+        Logger.addMessage(levelName, text);
+        Logger.logMessage();
+    }
+    static addMessage(levelName, text) {
+        this.messages.push(new Message(levelName, text));
+        this.nbMessages++;
+    }
+    static logMessage() {
+        let message = this.messages[this.nbMessages - 1];
+        if (this._level.id <= message.getLevelId()) {
+            this.target.innerHTML += message.html;
         }
-        Object.defineProperty(Logger.prototype, "level", {
-            get: function () {
-                return Logger._level.name;
-            },
-            set: function (name) {
-                Logger._level = Logger.findLevel(name);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Logger.debug = function (text) {
-            Logger.log('debug', text);
-        };
-        Logger.info = function (text) {
-            Logger.log('info', text);
-        };
-        Logger.time = function (text) {
-            Logger.log('time', text);
-        };
-        Logger.warn = function (text) {
-            Logger.log('warn', text);
-        };
-        Logger.error = function (text) {
-            Logger.log('error', text);
-        };
-        Logger.log = function (levelName, text) {
-            Logger.addMessage(levelName, text);
-            Logger.logMessage();
-        };
-        Logger.addMessage = function (levelName, text) {
-            this.messages.push(new Message(levelName, text));
-            this.nbMessages++;
-        };
-        Logger.logMessage = function () {
-            var message = this.messages[this.nbMessages - 1];
-            if (this._level.id <= message.getLevelId()) {
-                this.target.innerHTML += message.html;
+    }
+    static findLevel(name) {
+        for (let level of LEVELS) {
+            if (level.name === name) {
+                return level;
             }
-        };
-        Logger.findLevel = function (name) {
-            for (var _i = 0, LEVELS_1 = LEVELS; _i < LEVELS_1.length; _i++) {
-                var level = LEVELS_1[_i];
-                if (level.name === name) {
-                    return level;
-                }
-            }
-            return this._level ? this._level : LEVELS[0];
-        };
-        Logger.findDOMElementById = function (id) {
-            return document.getElementById(id);
-        };
-        Logger._level = Logger.findLevel(LEVELS[0].name);
-        Logger.messages = [];
-        Logger.nbMessages = 0;
-        Logger.target = Logger.findDOMElementById('Mouette');
-        return Logger;
-    }());
+        }
+        return this._level ? this._level : LEVELS[0];
+    }
+}
+Logger._level = Logger.findLevel(LEVELS[0].name);
+Logger.messages = [];
+Logger.nbMessages = 0;
+Logger.target = Dom.findById('Mouette');
 
-    exports.Logger = Logger;
-
-    Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
+export { Logger };

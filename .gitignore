@@ -4,7 +4,7 @@ node_modules/
 website/static/
 website/sass/build/
 website/js/build/
-src/build/
+build/
 src/template/build/
 src/style/build/
 .sass-cache/

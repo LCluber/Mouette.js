@@ -28,6 +28,10 @@ You just cloned Mouette.js : git clone https://github.com/LCluber/Mouette.js.git
   - Run **npm install -g grunt-cli**
 
 
+### Install typescript :
+  - Run **npm install -g typescript**
+
+
 ### Install project dependencies
   - Run **npm install** in your project directory
 
@@ -47,8 +51,8 @@ You just cloned Mouette.js : git clone https://github.com/LCluber/Mouette.js.git
       - Linux / OSX : Run **DEBUG=Mouettejs:* npm start**
     - Go to **http://localhost:3009/** to test the app.
     - Keep in mind running **grunt** once will do all this automatically.
-    
-    
-  - Set node environment if needed : 
+
+
+  - Set node environment if needed :
     - Run **export NODE_ENV=development**
     - Or **export NODE_ENV=production**

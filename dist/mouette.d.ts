@@ -22,7 +22,7 @@
 *
 * http://mouettejs.lcluber.com
 */
-export declare class Level {
+export interface Level {
     id: number;
     name: string;
 }
@@ -34,7 +34,7 @@ export declare class Message {
     constructor(levelName: string, text: string);
     setLevel(name: string): void;
     getLevelId(): number;
-    private findLevel(name);
+    private findLevel;
 }
 
 export declare const LEVELS: Level[];
@@ -51,9 +51,8 @@ export declare class Logger {
     static time(text: string | number): void;
     static warn(text: string | number): void;
     static error(text: string | number): void;
-    private static log(levelName, text);
-    private static addMessage(levelName, text);
-    private static logMessage();
-    private static findLevel(name);
-    private static findDOMElementById(id);
+    private static log;
+    private static addMessage;
+    private static logMessage;
+    private static findLevel;
 }
