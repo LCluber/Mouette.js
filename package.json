@@ -6,7 +6,7 @@
     "logger"
   ],
   "homepage": "http://mouettejs.lcluber.com",
-  "main": "dist/mouette.es6",
+  "main": "dist/mouette",
   "repository": {
     "type": "git",
     "url": "https://github.com/LCluber/Mouette.js.git"
