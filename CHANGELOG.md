@@ -1,3 +1,10 @@
+Version 0.2.3 (July 08th 2018)
+-----------------------------
+ * Documentation automatically generated in /doc folder
+ * Typedoc and grunt-typedoc added in devDependencies
+ * New "typedoc" task in Gruntfile.js
+ * Typescript upgraded to version 2.9.2
+
 Version 0.2.2 (June 25th 2018)
 -----------------------------
  * Library exported as ES6 and IIFE modules instead of UMD.

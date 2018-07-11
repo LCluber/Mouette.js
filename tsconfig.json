@@ -12,11 +12,7 @@
     "declaration":true,
     "declarationDir":"build/es6/",
     "outDir":"build/es6/",
-    "rootDir":"src/ts/",
-    "baseUrl": ".",
-    "paths": {
-      "weejs": ["node_modules/weejs/dist/wee"]
-    }
+    "rootDir":"src/ts/"
   },
   "exclude": [
     "node_modules"

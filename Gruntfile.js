@@ -17,6 +17,7 @@ module.exports = function(grunt){
   var webDir          = 'website/';
   var publicDir       = webDir + 'public/';
   var nodeDir         = 'node_modules/';
+  var docDir          = 'doc/';
 
   var banner    = '/** MIT License\n' +
     '* \n' +
@@ -56,6 +57,10 @@ module.exports = function(grunt){
                 compiledES6Dir + '*'
               ]
       },
+      doc:{
+        src: [  docDir + '*'
+              ]
+      },
       websass:{
         src: [  webDir + 'sass/build/*',
                 publicDir + 'css/*'
@@ -70,6 +75,16 @@ module.exports = function(grunt){
         ]
       }
     },
+    typedoc: {
+  		build: {
+  			options: {
+  				out: docDir,
+  				target: 'es6',
+          name: projectName + '.js - Documentation'
+  			},
+  			src: [srcDir + 'ts/*.ts']
+  		}
+  	},
     jshint: {
       options: {
         //jshintrc: 'config/.jshintrc'
@@ -175,12 +190,12 @@ module.exports = function(grunt){
         fast: 'never'
       },
       es6: {
-        tsconfig: 'tsconfig.json',
-        src: [ srcDir + 'ts/**/*.ts' ]
+        tsconfig: './tsconfig.json',
+        src: [ srcDir + 'ts/**/*.ts', '!node_modules/**/*.ts' ]
       },
       es5: {
-        tsconfig: 'tsconfig.es5.json',
-        src: [ srcDir + 'ts/**/*.ts' ]
+        tsconfig: './tsconfig.es5.json',
+        src: [ srcDir + 'ts/**/*.ts', '!node_modules/**/*.ts' ]
       }
     },
     rollup: {
@@ -273,7 +288,6 @@ module.exports = function(grunt){
             hoist_funs:true,
             if_return:true,
             join_vars:true,
-            cascade:true,
             warnings: true,
             drop_console: false,
             keep_fargs: false,
@@ -401,15 +415,15 @@ module.exports = function(grunt){
     watch: {
       libts: {
         files: [ srcDir + 'ts/**/*.ts', '!' + srcDir + 'ts/build/*'],
-        tasks: ['dist']
+        tasks: ['lib', 'webjs']
       },
       libpug: {
         files: srcDir + 'template/**/*.pug',
-        tasks: ['dist'],
+        tasks: ['lib'],
       },
       libsass: {
         files: srcDir + 'style/**/*.scss',
-        tasks: ['dist'],
+        tasks: ['lib'],
       },
       webpug:{
         files: webDir + 'views/**/*.pug'
@@ -455,6 +469,7 @@ module.exports = function(grunt){
   grunt.loadNpmTasks( 'grunt-open' );
   grunt.loadNpmTasks( 'grunt-ts' );
   grunt.loadNpmTasks( 'grunt-rollup' );
+  grunt.loadNpmTasks( 'grunt-typedoc' );
 
   grunt.registerTask( 'lib',
                       'build the library in the dist/ folder',
@@ -474,6 +489,13 @@ module.exports = function(grunt){
                         'pug:lib',
                         'concat:libhtm', 'concat:libcss', 'concat:libpug'
                       ]
+                    );
+
+  grunt.registerTask( 'doc',
+                      'Compile lib documentation',
+                      [ 'clean:doc',
+                        'typedoc'
+                       ]
                     );
 
   grunt.registerTask( 'serve',
@@ -516,21 +538,23 @@ module.exports = function(grunt){
                       }
                     );
 
-  grunt.registerTask( 'dist',
+  grunt.registerTask( 'build',
                       'build library and website',
                       function() {
                         //build lib
                         grunt.task.run('lib');
                         //build site
                         grunt.task.run('website');
+                        //build documentation
+                        grunt.task.run('doc');
+                        // launch server and watch for changes
+                        grunt.task.run('serve');
                       }
                     );
 
   grunt.registerTask( 'default',
                       'build library, website, launch server, open website and watch for changes.',
                       function() {
-                        //build library and website
-                        grunt.task.run('dist');
                         // launch server and watch for changes
                         grunt.task.run('serve');
                       }
