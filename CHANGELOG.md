@@ -1,3 +1,7 @@
+Version 0.2.4 (July 14th 2018)
+-----------------------------
+ * Improved modules resolution with the use of absolute paths
+
 Version 0.2.3 (July 08th 2018)
 -----------------------------
  * Documentation automatically generated in /doc folder

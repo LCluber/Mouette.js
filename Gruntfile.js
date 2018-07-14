@@ -1,6 +1,8 @@
 module.exports = function(grunt){
   var path = require('path');
   var babel = require('rollup-plugin-babel');
+  var resolve = require('rollup-plugin-node-resolve');
+
   require('time-grunt')(grunt);
 
   var projectName = 'Mouette';
@@ -80,7 +82,9 @@ module.exports = function(grunt){
   			options: {
   				out: docDir,
   				target: 'es6',
-          name: projectName + '.js - Documentation'
+          name: projectName + '.js - Documentation',
+          includeDeclarations: false,
+          hideGenerator: true
   			},
   			src: [srcDir + 'ts/*.ts']
   		}
@@ -205,9 +209,13 @@ module.exports = function(grunt){
           // moduleName: projectName,
           banner: banner,
           // sourceMap: 'inline'
+          plugins: [
+            resolve({
+            //   //exclude: './node_modules/**'
+            })
+          ],
           external: [
-            //'weejs',
-            path.resolve( './node_modules/weejs/dist/wee.js' )
+            'weejs'
           ]
         },
         files: [ {
@@ -223,11 +231,14 @@ module.exports = function(grunt){
           plugins: [
             babel({
             //   //exclude: './node_modules/**'
+            }),
+            resolve({
+              //   //exclude: './node_modules/**'
             })
           ]
           // sourceMap: 'inline'
           // external: [
-          //   path.resolve( './node_modules/weejs/dist/wee.js' )
+
           // ]
         },
         files: [ {

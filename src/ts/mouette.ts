@@ -1,6 +1,6 @@
 
-// import { Dom } from 'weejs';
-import { Dom } from '../../node_modules/weejs/dist/wee';
+import { Dom } from 'weejs';
+//import { Dom } from '../../node_modules/weejs/dist/wee';
 import { Level }  from './level';
 import { LEVELS } from './mock-levels';
 import { Message }  from './message';

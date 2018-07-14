@@ -23,7 +23,7 @@
 * http://mouettejs.lcluber.com
 */
 
-import { Dom } from '../../node_modules/weejs/dist/wee.js';
+import { Dom } from 'weejs';
 
 const LEVELS = [
     { id: 1, name: 'debug' },
