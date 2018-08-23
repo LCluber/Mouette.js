@@ -29,11 +29,11 @@ export interface Level {
 
 export declare class Message {
     level: Level;
-    text: string;
-    html: string;
-    constructor(levelName: string, text: string);
+    content: string | Array<any> | Object;
+    constructor(levelName: string, content: string | Array<any> | Object);
     setLevel(name: string): void;
     getLevelId(): number;
+    display(): void;
     private findLevel;
 }
 
@@ -46,13 +46,12 @@ export declare class Logger {
     static nbMessages: number;
     static target: HTMLElement;
     level: string;
-    static debug(text: string | number): void;
     static info(text: string | number): void;
+    static trace(text: string | number): void;
     static time(text: string | number): void;
     static warn(text: string | number): void;
     static error(text: string | number): void;
     private static log;
     private static addMessage;
-    private static logMessage;
     private static findLevel;
 }

@@ -26,26 +26,26 @@
 import { Dom } from 'weejs';
 
 const LEVELS = [
-    { id: 1, name: 'debug' },
-    { id: 2, name: 'info' },
-    { id: 3, name: 'time' },
-    { id: 4, name: 'timeEnd' },
-    { id: 5, name: 'warn' },
-    { id: 6, name: 'error' },
+    { id: 1, name: 'info' },
+    { id: 2, name: 'trace' },
+    { id: 3, name: 'warn' },
+    { id: 4, name: 'error' },
     { id: 99, name: 'off' }
 ];
 
 class Message {
-    constructor(levelName, text) {
+    constructor(levelName, content) {
         this.setLevel(levelName);
-        this.text = text;
-        this.html = '<span class="' + this.level.name + '">' + this.text + '</span><br>';
+        this.content = content;
     }
     setLevel(name) {
         this.level = this.findLevel(name);
     }
     getLevelId() {
         return this.level.id;
+    }
+    display() {
+        console[this.level.name](this.content);
     }
     findLevel(name) {
         for (let level of LEVELS) {
@@ -64,11 +64,11 @@ class Logger {
     get level() {
         return Logger._level.name;
     }
-    static debug(text) {
-        Logger.log('debug', text);
-    }
     static info(text) {
         Logger.log('info', text);
+    }
+    static trace(text) {
+        Logger.log('trace', text);
     }
     static time(text) {
         Logger.log('time', text);
@@ -79,19 +79,16 @@ class Logger {
     static error(text) {
         Logger.log('error', text);
     }
-    static log(levelName, text) {
-        Logger.addMessage(levelName, text);
-        Logger.logMessage();
-    }
-    static addMessage(levelName, text) {
-        this.messages.push(new Message(levelName, text));
-        this.nbMessages++;
-    }
-    static logMessage() {
+    static log(levelName, content) {
+        Logger.addMessage(levelName, content);
         let message = this.messages[this.nbMessages - 1];
         if (this._level.id <= message.getLevelId()) {
-            this.target.innerHTML += message.html;
+            message.display();
         }
+    }
+    static addMessage(levelName, content) {
+        this.messages.push(new Message(levelName, content));
+        this.nbMessages++;
     }
     static findLevel(name) {
         for (let level of LEVELS) {

@@ -387,19 +387,21 @@ var Mouette = (function (exports) {
         return Sound;
     }();
 
-    var LEVELS = [{ id: 1, name: 'debug' }, { id: 2, name: 'info' }, { id: 3, name: 'time' }, { id: 4, name: 'timeEnd' }, { id: 5, name: 'warn' }, { id: 6, name: 'error' }, { id: 99, name: 'off' }];
+    var LEVELS = [{ id: 1, name: 'info' }, { id: 2, name: 'trace' }, { id: 3, name: 'warn' }, { id: 4, name: 'error' }, { id: 99, name: 'off' }];
 
     var Message = function () {
-        function Message(levelName, text) {
+        function Message(levelName, content) {
             this.setLevel(levelName);
-            this.text = text;
-            this.html = '<span class="' + this.level.name + '">' + this.text + '</span><br>';
+            this.content = content;
         }
         Message.prototype.setLevel = function (name) {
             this.level = this.findLevel(name);
         };
         Message.prototype.getLevelId = function () {
             return this.level.id;
+        };
+        Message.prototype.display = function () {
+            console[this.level.name](this.content);
         };
         Message.prototype.findLevel = function (name) {
             for (var _i = 0, LEVELS_1 = LEVELS; _i < LEVELS_1.length; _i++) {
@@ -425,11 +427,11 @@ var Mouette = (function (exports) {
             enumerable: true,
             configurable: true
         });
-        Logger.debug = function (text) {
-            Logger.log('debug', text);
-        };
         Logger.info = function (text) {
             Logger.log('info', text);
+        };
+        Logger.trace = function (text) {
+            Logger.log('trace', text);
         };
         Logger.time = function (text) {
             Logger.log('time', text);
@@ -440,19 +442,16 @@ var Mouette = (function (exports) {
         Logger.error = function (text) {
             Logger.log('error', text);
         };
-        Logger.log = function (levelName, text) {
-            Logger.addMessage(levelName, text);
-            Logger.logMessage();
-        };
-        Logger.addMessage = function (levelName, text) {
-            this.messages.push(new Message(levelName, text));
-            this.nbMessages++;
-        };
-        Logger.logMessage = function () {
+        Logger.log = function (levelName, content) {
+            Logger.addMessage(levelName, content);
             var message = this.messages[this.nbMessages - 1];
             if (this._level.id <= message.getLevelId()) {
-                this.target.innerHTML += message.html;
+                message.display();
             }
+        };
+        Logger.addMessage = function (levelName, content) {
+            this.messages.push(new Message(levelName, content));
+            this.nbMessages++;
         };
         Logger.findLevel = function (name) {
             for (var _i = 0, LEVELS_1 = LEVELS; _i < LEVELS_1.length; _i++) {

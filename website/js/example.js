@@ -1,7 +1,20 @@
 
-// Mouette.Logger.prototype.level = 'time';
-Mouette.Logger.debug('This is a debug log');
-Mouette.Logger.info('This is an info log');
-Mouette.Logger.time('This is a time log');
-Mouette.Logger.warn('This is a warn log');
-Mouette.Logger.error('This is an error log');
+Mouette.Logger.prototype.level = 'info';
+
+Mouette.Logger.info(window);
+
+function traceExample(){
+  Mouette.Logger.trace(window);
+}
+traceExample();
+// Mouette.Logger.time('This is a time log');
+
+function warnExample(){
+  Mouette.Logger.warn(window);
+}
+warnExample();
+
+function errorExample(){
+  Mouette.Logger.error(window);
+}
+errorExample();

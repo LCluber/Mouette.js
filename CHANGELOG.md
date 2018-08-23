@@ -1,3 +1,7 @@
+Version 0.2.5 (August 23th 2018)
+-----------------------------
+ * Logs into browser console by default
+
 Version 0.2.4 (July 14th 2018)
 -----------------------------
  * Improved modules resolution with the use of absolute paths
