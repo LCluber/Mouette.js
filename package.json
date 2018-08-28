@@ -1,6 +1,6 @@
 {
   "name": "mouettejs",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "javascript library",
   "keywords": [
     "logger"
@@ -69,7 +69,7 @@
     "jquery": "3.2.1",
     "jquery-easing": "0.0.1",
     "rollup-plugin-babel": "3.0.4",
-    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-node-resolve": "3.3.0",
     "time-grunt": "1.4.0",
     "tslint": "5.9.1",
     "typedoc": "0.11.1",
