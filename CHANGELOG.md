@@ -1,3 +1,7 @@
+Version 0.2.6 (September 05th 2018)
+-----------------------------
+ * Fixed iife library console.
+
 Version 0.2.5 (August 23th 2018)
 -----------------------------
  * Logs into browser console by default
