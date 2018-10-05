@@ -1,5 +1,5 @@
 
-import { Dom } from 'weejs';
+import { Dom } from '@lcluber/weejs';
 import { Level }  from './level';
 import { LEVELS } from './mock-levels';
 import { Message }  from './message';
