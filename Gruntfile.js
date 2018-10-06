@@ -4,11 +4,12 @@ module.exports = function(grunt){
   var resolve = require('rollup-plugin-node-resolve');
 
   require('time-grunt')(grunt);
+  const sass = require('node-sass');
 
   var projectName = 'Mouette';
   var projectNameLC = projectName.toLowerCase();
 
-  var port            = 3009;
+  var port            = 3000;
   var host            = 'localhost';
 
   var srcDir          = 'src/';
@@ -97,10 +98,11 @@ module.exports = function(grunt){
       web: [ webDir + 'js/**/*.js']
     },
     sass: {
+      options: {
+        implementation: sass,
+        sourceMap: true
+      },
       lib: {
-        options: {
-          trace:true
-        },
         files: [{
           expand: true,
           cwd: srcDir + 'style/',
@@ -110,9 +112,6 @@ module.exports = function(grunt){
         }]
       },
       web: {
-        options: {
-          trace:true
-        },
         files: [{
           expand: true,
           cwd: webDir + 'sass/',
@@ -215,7 +214,7 @@ module.exports = function(grunt){
             })
           ],
           external: [
-            'weejs'
+            '@lcluber/weejs'
           ]
         },
         files: [ {
@@ -471,7 +470,6 @@ module.exports = function(grunt){
   grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
   grunt.loadNpmTasks( 'grunt-contrib-concat' );
   grunt.loadNpmTasks( 'grunt-contrib-pug' );
-  grunt.loadNpmTasks( 'grunt-contrib-sass' );
   grunt.loadNpmTasks( 'grunt-contrib-htmlmin' );
   grunt.loadNpmTasks( 'grunt-contrib-watch' );
   grunt.loadNpmTasks( 'grunt-strip-code' );
@@ -481,6 +479,7 @@ module.exports = function(grunt){
   grunt.loadNpmTasks( 'grunt-ts' );
   grunt.loadNpmTasks( 'grunt-rollup' );
   grunt.loadNpmTasks( 'grunt-typedoc' );
+  grunt.loadNpmTasks( 'grunt-sass' );
 
   grunt.registerTask( 'lib',
                       'build the library in the dist/ folder',
@@ -517,7 +516,7 @@ module.exports = function(grunt){
   grunt.registerTask( 'websass',
                       'Compile website css',
                       [ 'clean:websass',
-                        'sass',
+                        'sass:web',
                         'cssmin',
                         'concat:webcss'
                        ]
