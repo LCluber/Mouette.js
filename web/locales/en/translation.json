@@ -1,6 +1,6 @@
 {
   "title": "Mouette.js",
-  "menu" : { 
+  "menu" : {
     "menu"          : "Menu",
     "home"          : "Home",
     "about"         : "About",
@@ -26,9 +26,10 @@
     },
     "download" : {
       "h2" : "Download Mouette.js",
-      "min" : "Mouette.min.js",
+      "min" : "Standalone IIFE",
+      "npm" : "Install with ",
       "zip" : "Mouettejs.zip",
-      "github" : "Clone from Github"
+      "github" : "Clone from Github "
     },
     "contact" : {
       "h2" : "Contact me",
@@ -36,6 +37,6 @@
       "website" : "lcluber.com"
     }
   },
-  "github":"Github",
+  "github":" Github",
   "twitter":"Twitter"
 }
