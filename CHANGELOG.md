@@ -1,3 +1,8 @@
+Version 0.2.7 (October 06th 2018)
+-----------------------------
+ * Mouette.js published on NPM at @lcluber/mouettejs.
+ * Updated README.md with NPM installation procedure.
+
 Version 0.2.6 (September 05th 2018)
 -----------------------------
  * Fixed iife library console.
