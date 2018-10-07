@@ -2,4 +2,6 @@
 .sass-cache
 .ts-cache
 node_modules
+web/sass
+web/js
 npm-debug.log
