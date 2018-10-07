@@ -406,7 +406,7 @@ module.exports = function(grunt){
         options: {
           //nodeArgs: ['--debug'],
           delay:1000,
-          watch: ['website/routes', 'website/app.js'],
+          watch: ['web/routes', 'web/app.js'],
           ext: 'js,scss'
         }
       }
