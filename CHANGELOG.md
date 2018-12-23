@@ -1,3 +1,7 @@
+Version 0.2.8 (December 06th 2018)
+-----------------------------
+ * Dropped Wee.js dependency.
+
 Version 0.2.7 (October 06th 2018)
 -----------------------------
  * Mouette.js published on NPM at @lcluber/mouettejs.

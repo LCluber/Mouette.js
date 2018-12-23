@@ -23,8 +23,6 @@
 * http://mouettejs.lcluber.com
 */
 
-import { Dom } from '@lcluber/weejs';
-
 const LEVELS = [
     { id: 1, name: 'info' },
     { id: 2, name: 'trace' },
@@ -102,6 +100,6 @@ class Logger {
 Logger._level = Logger.findLevel(LEVELS[0].name);
 Logger.messages = [];
 Logger.nbMessages = 0;
-Logger.target = Dom.findById('Mouette');
+Logger.target = document.getElementById('Mouette');
 
 export { Logger };

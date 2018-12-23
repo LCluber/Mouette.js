@@ -1,5 +1,5 @@
 
-import { Dom } from '@lcluber/weejs';
+// import { Dom } from '@lcluber/weejs';
 import { Level }  from './level';
 import { LEVELS } from './mock-levels';
 import { Message }  from './message';
@@ -9,7 +9,7 @@ export class Logger {
   static _level: Level = Logger.findLevel(LEVELS[0].name);
   static messages: Array<Message> = [];
   static nbMessages: number = 0;
-  static target: HTMLElement = Dom.findById('Mouette');
+  static target: HTMLElement = document.getElementById('Mouette');
 
   set level(name: string) {
     Logger._level = Logger.findLevel(name);

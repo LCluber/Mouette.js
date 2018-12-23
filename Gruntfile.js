@@ -14,7 +14,7 @@ module.exports = function(grunt){
 
   var srcDir          = 'src/';
   var compiledSrcDir  = 'build/';
-  var compiledES5Dir  = compiledSrcDir + 'es5/';
+  // var compiledES5Dir  = compiledSrcDir + 'es5/';
   var compiledES6Dir  = compiledSrcDir + 'es6/';
   var distDir         = 'dist/';
   var webDir          = 'web/';
@@ -56,7 +56,7 @@ module.exports = function(grunt){
       lib:{
         dot: true,
         src: [  distDir        + '*',
-                compiledES5Dir + '*',
+                // compiledES5Dir + '*',
                 compiledES6Dir + '*'
               ]
       },
@@ -195,10 +195,6 @@ module.exports = function(grunt){
       es6: {
         tsconfig: './tsconfig.json',
         src: [ srcDir + 'ts/**/*.ts', '!node_modules/**/*.ts' ]
-      },
-      es5: {
-        tsconfig: './tsconfig.es5.json',
-        src: [ srcDir + 'ts/**/*.ts', '!node_modules/**/*.ts' ]
       }
     },
     rollup: {
@@ -209,12 +205,10 @@ module.exports = function(grunt){
           banner: banner,
           // sourceMap: 'inline'
           plugins: [
-            resolve({
-            //   //exclude: './node_modules/**'
-            })
+            
           ],
           external: [
-            '@lcluber/weejs'
+            // '@lcluber/weejs'
           ]
         },
         files: [ {
@@ -241,7 +235,7 @@ module.exports = function(grunt){
           // ]
         },
         files: [ {
-          src : compiledES5Dir + projectNameLC + '.js',
+          src : compiledES6Dir + projectNameLC + '.js',
           dest : distDir + projectNameLC + '.iife.js'
         } ]
       }
@@ -380,11 +374,9 @@ module.exports = function(grunt){
     },
     strip_code: {
       options: {
-        //import { IBase64Service } from '../services/base64.service';
-        // /// <reference path="../config/typings/index.d.ts" />
         patterns: [ /import.*';/g,
                     /export { .* } from '.*';/g,
-                    /\/\/\/ <reference path=.*\/>/g
+                    // /\/\/\/ <reference path=.*\/>/g
                   ]
       },
       declaration: {
@@ -483,7 +475,7 @@ module.exports = function(grunt){
                         'ts:es6',
                         'rollup:es6',
                         //lib es5
-                        'ts:es5',
+                        //'ts:es5',
                         'rollup:iife',
                         'uglify:libIife',
                         //declaration
