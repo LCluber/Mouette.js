@@ -27,7 +27,7 @@ export class Message {
   // }
 
   display(): void {
-    console[this.level.name](this.content);
+    console[this.level.name]('%c'+this.content, 'color:'+this.level.color+';');
   }
 
   private findLevel(name: string): Level {

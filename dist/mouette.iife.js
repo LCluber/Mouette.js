@@ -44,19 +44,24 @@ var Mouette = (function (exports) {
 
   var LEVELS = [{
     id: 1,
-    name: 'info'
+    name: 'info',
+    color: '#28a745'
   }, {
     id: 2,
-    name: 'trace'
+    name: 'trace',
+    color: '#17a2b8'
   }, {
     id: 3,
-    name: 'warn'
+    name: 'warn',
+    color: '#ffc107'
   }, {
     id: 4,
-    name: 'error'
+    name: 'error',
+    color: '#dc3545'
   }, {
     id: 99,
-    name: 'off'
+    name: 'off',
+    color: null
   }];
 
   var Message =
@@ -78,7 +83,7 @@ var Mouette = (function (exports) {
     };
 
     _proto.display = function display() {
-      console[this.level.name](this.content);
+      console[this.level.name]('%c' + this.content, 'color:' + this.level.color + ';');
     };
 
     _proto.findLevel = function findLevel(name) {

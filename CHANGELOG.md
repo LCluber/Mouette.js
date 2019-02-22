@@ -1,3 +1,7 @@
+Version 0.2.9 (February 22nd 2019)
+-----------------------------
+ * Added color to levels.
+
 Version 0.2.8 (December 06th 2018)
 -----------------------------
  * Dropped Wee.js dependency.

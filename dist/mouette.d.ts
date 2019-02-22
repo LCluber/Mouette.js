@@ -25,6 +25,7 @@
 export interface Level {
     id: number;
     name: string;
+    color: string;
 }
 
 export declare class Message {
