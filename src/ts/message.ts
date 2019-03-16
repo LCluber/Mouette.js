@@ -1,42 +1,29 @@
 
-import { Level }  from './level';
-import { LEVELS } from './mock-levels';
+import { Level }  from './interfaces';
 
-export class Message {
+declare global {
+  interface Console {
+    [key: string]: Function
+  }
+}
 
-  level: Level;
+export class Message implements Level {
+  id: number;
+  name: string;
+  color: string|null;
   content: string|Array<any>|Object;
   //html: string;
 
-  constructor(levelName: string, content: string|Array<any>|Object) {
-    this.setLevel(levelName);
+  constructor(level: Level, content: string|Array<any>|Object) {
+    this.id = level.id;
+    this.name = level.name;
+    this.color = level.color
     this.content = content;
     //this.html = '<span class="' + this.level.name + '">' + this.content + '</span><br>'
   }
 
-  setLevel(name: string): void {
-    this.level = this.findLevel(name);
-  }
-
-  getLevelId(): number {
-    return this.level.id;
-  }
-
-  // getLevelName(): string {
-  //   return this.level.name;
-  // }
-
-  display(): void {
-    console[this.level.name]('%c'+this.content, 'color:'+this.level.color+';');
-  }
-
-  private findLevel(name: string): Level {
-    for (let level of LEVELS) {
-      if(level.name === name) {
-        return level;
-      }
-    }
-    return this.level ? this.level : LEVELS[0];
+  public display(): void {
+    console[this.name]('%c'+this.content, 'color:'+this.color+';');
   }
 
 }
