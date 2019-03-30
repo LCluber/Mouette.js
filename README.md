@@ -60,15 +60,6 @@ static error(message: string|number|any[]|Object): void {}
 
 ```
 
-
-## Usage
-
-Learn how to use it **[here](http://mouettejs.lcluber.com/#source)**.
-
-## API Reference
-
-Read the documentation **[here](http://mouettejs.lcluber.com/doc/)**.
-
 ## Tests
 
 No tests to run yet
