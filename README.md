@@ -53,10 +53,10 @@ Mouette.Logger.error(window);
 ```javascript
 
 static Logger.level = 'info' | 'trace' | 'warn' | 'error' | 'off';
-static info(message: string|number|any[]|Object): void {}
-static trace(message: string|number|any[]|Object): void {}
-static warn(message: string|number|any[]|Object): void {}
-static error(message: string|number|any[]|Object): void {}
+static Logger.info(message: string|number|any[]|Object): void {}
+static Logger.trace(message: string|number|any[]|Object): void {}
+static Logger.warn(message: string|number|any[]|Object): void {}
+static Logger.error(message: string|number|any[]|Object): void {}
 
 ```
 
