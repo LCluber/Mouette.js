@@ -1,7 +1,13 @@
-Version 0.2.10 (February 25th 2019)
+
+Version 0.2.11 (March 30th 2019)
 -----------------------------
  * Updated README.md with usage examples
- 
+
+Version 0.2.10 (March 16th 2019)
+-----------------------------
+ * Improved typings
+ * Lighter Library
+
 Version 0.2.9 (February 22nd 2019)
 -----------------------------
  * Added color to levels.

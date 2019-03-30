@@ -23,67 +23,56 @@
 * http://mouettejs.lcluber.com
 */
 
-const LEVELS = [
-    { id: 1, name: 'info', color: '#28a745' },
-    { id: 2, name: 'trace', color: '#17a2b8' },
-    { id: 3, name: 'warn', color: '#ffc107' },
-    { id: 4, name: 'error', color: '#dc3545' },
-    { id: 99, name: 'off', color: null }
-];
+const LEVELS = {
+    info: { id: 1, name: 'info', color: '#28a745' },
+    trace: { id: 2, name: 'trace', color: '#17a2b8' },
+    warn: { id: 3, name: 'warn', color: '#ffc107' },
+    error: { id: 4, name: 'error', color: '#dc3545' },
+    off: { id: 99, name: 'off', color: null }
+};
 
 class Message {
     constructor(level, content) {
-        this.level = level;
+        this.id = level.id;
+        this.name = level.name;
+        this.color = level.color;
         this.content = content;
     }
-    getLevelId() {
-        return this.level.id;
-    }
     display() {
-        console[this.level.name]('%c' + this.content, 'color:' + this.level.color + ';');
+        console[this.name]('%c' + this.content, 'color:' + this.color + ';');
     }
 }
 
 class Logger {
     set level(name) {
-        Logger._level = Logger.isLevel(name) || Logger._level;
+        Logger._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : LEVELS.info;
     }
     get level() {
         return Logger._level.name;
     }
     static info(text) {
-        Logger.log('info', text);
+        Logger.log(LEVELS.info, text);
     }
     static trace(text) {
-        Logger.log('trace', text);
-    }
-    static time(text) {
-        Logger.log('time', text);
+        Logger.log(LEVELS.trace, text);
     }
     static warn(text) {
-        Logger.log('warn', text);
+        Logger.log(LEVELS.warn, text);
     }
     static error(text) {
-        Logger.log('error', text);
+        Logger.log(LEVELS.error, text);
     }
-    static log(levelName, content) {
-        Logger.addMessage(levelName, content);
-        let message = this.messages[this.nbMessages - 1];
-        if (this._level.id <= message.getLevelId()) {
+    static log(level, content) {
+        let message = new Message(level, content);
+        this.messages.push(message);
+        this.nbMessages++;
+        if (this._level.id <= message.id) {
             message.display();
         }
     }
-    static addMessage(levelName, content) {
-        this.messages.push(new Message(Logger.isLevel(levelName) || Logger._level, content));
-        this.nbMessages++;
-    }
-    static isLevel(name) {
-        return LEVELS.find((level) => level.name === name);
-    }
 }
-Logger._level = LEVELS[0];
+Logger._level = LEVELS.info;
 Logger.messages = [];
 Logger.nbMessages = 0;
-Logger.target = document.getElementById('Mouette');
 
 export { Logger };

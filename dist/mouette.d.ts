@@ -25,32 +25,42 @@
 export interface Level {
     id: number;
     name: string;
-    color: string;
+    color: string | null;
+}
+export interface Levels {
+    info: Level;
+    trace: Level;
+    warn: Level;
+    error: Level;
+    off: Level;
+    [key: string]: Level;
 }
 
-export declare class Message {
-    level: Level;
+declare global {
+    interface Console {
+        [key: string]: Function;
+    }
+}
+export declare class Message implements Level {
+    id: number;
+    name: string;
+    color: string | null;
     content: string | Array<any> | Object;
     constructor(level: Level, content: string | Array<any> | Object);
-    getLevelId(): number;
     display(): void;
 }
 
-export declare const LEVELS: Level[];
+export declare const LEVELS: Levels;
 
 
 export declare class Logger {
     static _level: Level;
     static messages: Array<Message>;
     static nbMessages: number;
-    static target: HTMLElement;
     level: string;
     static info(text: string | number): void;
     static trace(text: string | number): void;
-    static time(text: string | number): void;
     static warn(text: string | number): void;
     static error(text: string | number): void;
     private static log;
-    private static addMessage;
-    private static isLevel;
 }
