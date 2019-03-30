@@ -1,18 +1,17 @@
 
-// import { Dom } from '@lcluber/weejs';
 import { Level }  from './level';
 import { LEVELS } from './mock-levels';
 import { Message }  from './message';
 
 export class Logger {
 
-  static _level: Level = Logger.findLevel(LEVELS[0].name);
-  static messages: Array<Message> = [];
+  static _level: Level = LEVELS[0];
+  static messages: Message[] = [];
   static nbMessages: number = 0;
-  static target: HTMLElement = document.getElementById('Mouette');
+  // static target: HTMLElement = document.getElementById('Mouette');
 
   set level(name: string) {
-    Logger._level = Logger.findLevel(name);
+    Logger._level = Logger.isLevel(name) || Logger._level;
   }
 
   get level(): string {
@@ -39,7 +38,7 @@ export class Logger {
     Logger.log('error',<string>text);
   }
 
-  private static log(levelName: string, content: string|Array<any>|Object): void {
+  private static log(levelName: string, content: string|any[]|Object): void {
     Logger.addMessage(levelName, content);
     let message = this.messages[this.nbMessages-1];
     if(this._level.id <= message.getLevelId()) {
@@ -48,18 +47,13 @@ export class Logger {
     }
   }
 
-  private static addMessage(levelName: string, content: string|Array<any>|Object): void {
-    this.messages.push( new Message(levelName, content));
+  private static addMessage(levelName: string, content: string|any[]|Object): void {
+    this.messages.push( new Message(Logger.isLevel(levelName) || Logger._level, content));
     this.nbMessages ++;
   }
 
-  private static findLevel(name: string): Level {
-    for (let level of LEVELS) {
-      if(level.name === name) {
-        return level;
-      }
-    }
-    return this._level ? this._level : LEVELS[0];
+  private static isLevel(name: string): Level|undefined {
+    return LEVELS.find( (level:Level) => level.name === name );
   }
 
 }

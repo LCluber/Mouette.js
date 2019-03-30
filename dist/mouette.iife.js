@@ -67,16 +67,12 @@ var Mouette = (function (exports) {
   var Message =
   /*#__PURE__*/
   function () {
-    function Message(levelName, content) {
-      this.setLevel(levelName);
+    function Message(level, content) {
+      this.level = level;
       this.content = content;
     }
 
     var _proto = Message.prototype;
-
-    _proto.setLevel = function setLevel(name) {
-      this.level = this.findLevel(name);
-    };
 
     _proto.getLevelId = function getLevelId() {
       return this.level.id;
@@ -84,29 +80,6 @@ var Mouette = (function (exports) {
 
     _proto.display = function display() {
       console[this.level.name]('%c' + this.content, 'color:' + this.level.color + ';');
-    };
-
-    _proto.findLevel = function findLevel(name) {
-      for (var _iterator = LEVELS, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-        var _ref;
-
-        if (_isArray) {
-          if (_i >= _iterator.length) break;
-          _ref = _iterator[_i++];
-        } else {
-          _i = _iterator.next();
-          if (_i.done) break;
-          _ref = _i.value;
-        }
-
-        var level = _ref;
-
-        if (level.name === name) {
-          return level;
-        }
-      }
-
-      return this.level ? this.level : LEVELS[0];
     };
 
     return Message;
@@ -147,37 +120,20 @@ var Mouette = (function (exports) {
     };
 
     Logger.addMessage = function addMessage(levelName, content) {
-      this.messages.push(new Message(levelName, content));
+      this.messages.push(new Message(Logger.isLevel(levelName) || Logger._level, content));
       this.nbMessages++;
     };
 
-    Logger.findLevel = function findLevel(name) {
-      for (var _iterator = LEVELS, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-        var _ref;
-
-        if (_isArray) {
-          if (_i >= _iterator.length) break;
-          _ref = _iterator[_i++];
-        } else {
-          _i = _iterator.next();
-          if (_i.done) break;
-          _ref = _i.value;
-        }
-
-        var level = _ref;
-
-        if (level.name === name) {
-          return level;
-        }
-      }
-
-      return this._level ? this._level : LEVELS[0];
+    Logger.isLevel = function isLevel(name) {
+      return LEVELS.find(function (level) {
+        return level.name === name;
+      });
     };
 
     _createClass(Logger, [{
       key: "level",
       set: function set(name) {
-        Logger._level = Logger.findLevel(name);
+        Logger._level = Logger.isLevel(name) || Logger._level;
       },
       get: function get() {
         return Logger._level.name;
@@ -186,7 +142,7 @@ var Mouette = (function (exports) {
 
     return Logger;
   }();
-  Logger._level = Logger.findLevel(LEVELS[0].name);
+  Logger._level = LEVELS[0];
   Logger.messages = [];
   Logger.nbMessages = 0;
   Logger.target = document.getElementById('Mouette');

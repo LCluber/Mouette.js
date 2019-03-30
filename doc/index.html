@@ -71,7 +71,38 @@
 				<h2 id="installation">Installation</h2>
 				<pre><code class="lang-bash">$ npm install @lcluber/mouettejs
 </code></pre>
-				<p>Or download it <strong><a href="http://mouettejs.lcluber.com/#download">here</a></strong>.</p>
+				<h2 id="usage">Usage</h2>
+				<h3 id="es6">ES6</h3>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { Logger } <span class="hljs-keyword">from</span> <span class="hljs-string">'@lcluber/mouettejs'</span>;
+
+<span class="hljs-comment">//set log level</span>
+<span class="hljs-comment">//Logs everything &gt;= info</span>
+Logger.level = <span class="hljs-string">'info'</span>; 
+
+Logger.info(<span class="hljs-built_in">window</span>);
+Logger.trace(<span class="hljs-built_in">window</span>);
+Logger.warn(<span class="hljs-built_in">window</span>);
+Logger.error(<span class="hljs-built_in">window</span>);
+
+</code></pre>
+				<h3 id="iife">IIFE</h3>
+				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node-modules/@lcluber/mouettejs/dist/mouette.iife.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+				<pre><code class="lang-javascript"><span class="hljs-comment">//set log level</span>
+<span class="hljs-comment">//Logs everything &gt;= info</span>
+Mouette.Logger.prototype.level = <span class="hljs-string">'info'</span>;
+
+Mouette.Logger.info(<span class="hljs-built_in">window</span>);
+Mouette.Logger.trace(<span class="hljs-built_in">window</span>);
+Mouette.Logger.warn(<span class="hljs-built_in">window</span>);
+Mouette.Logger.error(<span class="hljs-built_in">window</span>);
+
+</code></pre>
+				<h2 id="api-reference">API Reference</h2>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">static</span> Is.json(string: any): <span class="hljs-built_in">Object</span>|<span class="hljs-literal">false</span> {}
+
+
+</code></pre>
 				<h2 id="usage">Usage</h2>
 				<p>Learn how to use it <strong><a href="http://mouettejs.lcluber.com/#source">here</a></strong>.</p>
 				<h2 id="api-reference">API Reference</h2>

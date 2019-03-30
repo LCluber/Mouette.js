@@ -32,12 +32,9 @@ const LEVELS = [
 ];
 
 class Message {
-    constructor(levelName, content) {
-        this.setLevel(levelName);
+    constructor(level, content) {
+        this.level = level;
         this.content = content;
-    }
-    setLevel(name) {
-        this.level = this.findLevel(name);
     }
     getLevelId() {
         return this.level.id;
@@ -45,19 +42,11 @@ class Message {
     display() {
         console[this.level.name]('%c' + this.content, 'color:' + this.level.color + ';');
     }
-    findLevel(name) {
-        for (let level of LEVELS) {
-            if (level.name === name) {
-                return level;
-            }
-        }
-        return this.level ? this.level : LEVELS[0];
-    }
 }
 
 class Logger {
     set level(name) {
-        Logger._level = Logger.findLevel(name);
+        Logger._level = Logger.isLevel(name) || Logger._level;
     }
     get level() {
         return Logger._level.name;
@@ -85,19 +74,14 @@ class Logger {
         }
     }
     static addMessage(levelName, content) {
-        this.messages.push(new Message(levelName, content));
+        this.messages.push(new Message(Logger.isLevel(levelName) || Logger._level, content));
         this.nbMessages++;
     }
-    static findLevel(name) {
-        for (let level of LEVELS) {
-            if (level.name === name) {
-                return level;
-            }
-        }
-        return this._level ? this._level : LEVELS[0];
+    static isLevel(name) {
+        return LEVELS.find((level) => level.name === name);
     }
 }
-Logger._level = Logger.findLevel(LEVELS[0].name);
+Logger._level = LEVELS[0];
 Logger.messages = [];
 Logger.nbMessages = 0;
 Logger.target = document.getElementById('Mouette');

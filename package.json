@@ -1,6 +1,6 @@
 {
   "name": "@lcluber/mouettejs",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "Lightweight logger written in Typescript",
   "keywords": [
     "logger"
@@ -71,7 +71,7 @@
     "rollup-plugin-node-resolve": "4.0.0",
     "time-grunt": "1.4.0",
     "tslint": "5.9.1",
-    "typedoc": "0.11.1",
+    "typedoc": "0.13.0",
     "typescript": "3.2.2"
   }
 }

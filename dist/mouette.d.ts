@@ -31,11 +31,9 @@ export interface Level {
 export declare class Message {
     level: Level;
     content: string | Array<any> | Object;
-    constructor(levelName: string, content: string | Array<any> | Object);
-    setLevel(name: string): void;
+    constructor(level: Level, content: string | Array<any> | Object);
     getLevelId(): number;
     display(): void;
-    private findLevel;
 }
 
 export declare const LEVELS: Level[];
@@ -54,5 +52,5 @@ export declare class Logger {
     static error(text: string | number): void;
     private static log;
     private static addMessage;
-    private static findLevel;
+    private static isLevel;
 }

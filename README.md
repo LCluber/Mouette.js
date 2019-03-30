@@ -11,7 +11,49 @@ The purpose of this library is to provide a simple and easy way to log infos thr
 ```bash
 $ npm install @lcluber/mouettejs
 ```
-Or download it **[here](http://mouettejs.lcluber.com/#download)**.
+
+## Usage
+
+### ES6
+
+```javascript
+import { Logger } from '@lcluber/mouettejs';
+
+//set log level
+//Logs everything >= info
+Logger.level = 'info'; 
+
+Logger.info(window);
+Logger.trace(window);
+Logger.warn(window);
+Logger.error(window);
+
+```
+
+### IIFE
+
+```html
+<script src="node-modules/@lcluber/mouettejs/dist/mouette.iife.min.js"></script>
+```
+
+```javascript
+//set log level
+//Logs everything >= info
+Mouette.Logger.prototype.level = 'info';
+
+Mouette.Logger.info(window);
+Mouette.Logger.trace(window);
+Mouette.Logger.warn(window);
+Mouette.Logger.error(window);
+
+```
+
+## API Reference
+
+```javascript
+
+```
+
 
 ## Usage
 
