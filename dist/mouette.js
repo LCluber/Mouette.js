@@ -50,20 +50,20 @@ class Logger {
     get level() {
         return Logger._level.name;
     }
-    static info(text) {
-        Logger.log(LEVELS.info, text);
+    static info(message) {
+        Logger.log(LEVELS.info, message);
     }
-    static trace(text) {
-        Logger.log(LEVELS.trace, text);
+    static trace(message) {
+        Logger.log(LEVELS.trace, message);
     }
-    static warn(text) {
-        Logger.log(LEVELS.warn, text);
+    static warn(message) {
+        Logger.log(LEVELS.warn, message);
     }
-    static error(text) {
-        Logger.log(LEVELS.error, text);
+    static error(message) {
+        Logger.log(LEVELS.error, message);
     }
-    static log(level, content) {
-        let message = new Message(level, content);
+    static log(level, messageContent) {
+        let message = new Message(level, messageContent);
         this.messages.push(message);
         this.nbMessages++;
         if (this._level.id <= message.id) {

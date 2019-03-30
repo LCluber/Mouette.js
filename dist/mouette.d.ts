@@ -22,9 +22,10 @@
 *
 * http://mouettejs.lcluber.com
 */
+
 export interface Level {
     id: number;
-    name: string;
+    name: LevelNames;
     color: string | null;
 }
 export interface Levels {
@@ -33,8 +34,10 @@ export interface Levels {
     warn: Level;
     error: Level;
     off: Level;
-    [key: string]: Level;
 }
+
+export declare const LEVELS: Levels;
+
 
 declare global {
     interface Console {
@@ -43,24 +46,25 @@ declare global {
 }
 export declare class Message implements Level {
     id: number;
-    name: string;
+    name: LevelNames;
     color: string | null;
-    content: string | Array<any> | Object;
-    constructor(level: Level, content: string | Array<any> | Object);
+    content: MessageContent;
+    constructor(level: Level, content: MessageContent);
     display(): void;
 }
 
-export declare const LEVELS: Levels;
 
 
 export declare class Logger {
     static _level: Level;
-    static messages: Array<Message>;
+    static messages: Message[];
     static nbMessages: number;
-    level: string;
-    static info(text: string | number): void;
-    static trace(text: string | number): void;
-    static warn(text: string | number): void;
-    static error(text: string | number): void;
+    level: LevelNames;
+    static info(message: MessageContent): void;
+    static trace(message: MessageContent): void;
+    static warn(message: MessageContent): void;
+    static error(message: MessageContent): void;
     private static log;
 }
+export declare type LevelNames = 'info' | 'trace' | 'warn' | 'error' | 'off';
+export declare type MessageContent = string | number | any[] | Object;

@@ -1,6 +1,7 @@
 
 Version 0.2.11 (March 30th 2019)
 -----------------------------
+ * Improved typings
  * Updated README.md with usage examples
 
 Version 0.2.10 (March 16th 2019)

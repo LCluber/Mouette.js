@@ -100,6 +100,12 @@ Mouette.Logger.error(<span class="hljs-built_in">window</span>);
 </code></pre>
 				<h2 id="api-reference">API Reference</h2>
 				<pre><code class="lang-javascript">
+<span class="hljs-keyword">static</span> Logger.level = <span class="hljs-string">'info'</span> | <span class="hljs-string">'trace'</span> | <span class="hljs-string">'warn'</span> | <span class="hljs-string">'error'</span> | <span class="hljs-string">'off'</span>;
+<span class="hljs-keyword">static</span> info(message: string|number|any[]|<span class="hljs-built_in">Object</span>): <span class="hljs-keyword">void</span> {}
+<span class="hljs-keyword">static</span> trace(message: string|number|any[]|<span class="hljs-built_in">Object</span>): <span class="hljs-keyword">void</span> {}
+<span class="hljs-keyword">static</span> warn(message: string|number|any[]|<span class="hljs-built_in">Object</span>): <span class="hljs-keyword">void</span> {}
+<span class="hljs-keyword">static</span> error(message: string|number|any[]|<span class="hljs-built_in">Object</span>): <span class="hljs-keyword">void</span> {}
+
 </code></pre>
 				<h2 id="usage">Usage</h2>
 				<p>Learn how to use it <strong><a href="http://mouettejs.lcluber.com/#source">here</a></strong>.</p>
@@ -140,13 +146,16 @@ Mouette.Logger.error(<span class="hljs-built_in">window</span>);
 						<a href="modules/_interfaces_.html">"interfaces"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_levels_.html">"levels"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_message_.html">"message"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_mock_levels_.html">"mock-<wbr>levels"</a>
+						<a href="modules/_mouette_.html">"mouette"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_mouette_.html">"mouette"</a>
+						<a href="modules/_types_.html">"types"</a>
 					</li>
 				</ul>
 			</nav>

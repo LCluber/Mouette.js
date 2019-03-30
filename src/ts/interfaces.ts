@@ -1,7 +1,8 @@
+import { LevelNames } from './types';
 
 export interface Level {
   id: number;
-  name: string;
+  name: LevelNames;
   color: string|null;
 }
 
@@ -10,6 +11,6 @@ export interface Levels {
   trace : Level,
   warn : Level,
   error : Level,
-  off : Level,
-  [key: string]: Level
+  off : Level
+  // [key: string]: Level
 }

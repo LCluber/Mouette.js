@@ -1,4 +1,4 @@
-
+import { LevelNames, MessageContent } from './types';
 import { Level }  from './interfaces';
 
 declare global {
@@ -9,21 +9,21 @@ declare global {
 
 export class Message implements Level {
   id: number;
-  name: string;
+  name: LevelNames;
   color: string|null;
-  content: string|Array<any>|Object;
+  content: MessageContent;
   //html: string;
 
-  constructor(level: Level, content: string|Array<any>|Object) {
+  constructor(level: Level, content: MessageContent) {
     this.id = level.id;
     this.name = level.name;
-    this.color = level.color
+    this.color = level.color;
     this.content = content;
     //this.html = '<span class="' + this.level.name + '">' + this.content + '</span><br>'
   }
 
   public display(): void {
-    console[this.name]('%c'+this.content, 'color:'+this.color+';');
+    console[<string>this.name]('%c'+this.content, 'color:'+this.color+';');
   }
 
 }
