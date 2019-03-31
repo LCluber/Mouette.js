@@ -6,10 +6,10 @@ export interface Level {
 }
 
 export interface Levels {
-  info : Level,
-  trace : Level,
-  warn : Level,
-  error : Level,
-  off : Level,
+  info : Level;
+  trace : Level;
+  warn : Level;
+  error : Level;
+  off : Level;
   [key: string]: Level
 }
