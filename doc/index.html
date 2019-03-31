@@ -71,11 +71,42 @@
 				<h2 id="installation">Installation</h2>
 				<pre><code class="lang-bash">$ npm install @lcluber/mouettejs
 </code></pre>
-				<p>Or download it <strong><a href="http://mouettejs.lcluber.com/#download">here</a></strong>.</p>
 				<h2 id="usage">Usage</h2>
-				<p>Learn how to use it <strong><a href="http://mouettejs.lcluber.com/#source">here</a></strong>.</p>
+				<h3 id="es6">ES6</h3>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { Logger } <span class="hljs-keyword">from</span> <span class="hljs-string">'@lcluber/mouettejs'</span>;
+
+<span class="hljs-comment">//set log level</span>
+<span class="hljs-comment">//Logs everything &gt;= info</span>
+Logger.level = <span class="hljs-string">'info'</span>; 
+
+Logger.info(<span class="hljs-built_in">window</span>);
+Logger.trace(<span class="hljs-built_in">window</span>);
+Logger.warn(<span class="hljs-built_in">window</span>);
+Logger.error(<span class="hljs-built_in">window</span>);
+
+</code></pre>
+				<h3 id="iife">IIFE</h3>
+				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node-modules/@lcluber/mouettejs/dist/mouette.iife.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+				<pre><code class="lang-javascript"><span class="hljs-comment">//set log level</span>
+<span class="hljs-comment">//Logs everything &gt;= info</span>
+Mouette.Logger.prototype.level = <span class="hljs-string">'info'</span>;
+
+Mouette.Logger.info(<span class="hljs-built_in">window</span>);
+Mouette.Logger.trace(<span class="hljs-built_in">window</span>);
+Mouette.Logger.warn(<span class="hljs-built_in">window</span>);
+Mouette.Logger.error(<span class="hljs-built_in">window</span>);
+
+</code></pre>
 				<h2 id="api-reference">API Reference</h2>
-				<p>Read the documentation <strong><a href="http://mouettejs.lcluber.com/doc/">here</a></strong>.</p>
+				<pre><code class="lang-javascript">
+<span class="hljs-keyword">static</span> Logger.level = <span class="hljs-string">'info'</span> | <span class="hljs-string">'trace'</span> | <span class="hljs-string">'warn'</span> | <span class="hljs-string">'error'</span> | <span class="hljs-string">'off'</span>;
+<span class="hljs-keyword">static</span> Logger.info(message: string|number|any[]|<span class="hljs-built_in">Object</span>): <span class="hljs-keyword">void</span> {}
+<span class="hljs-keyword">static</span> Logger.trace(message: string|number|any[]|<span class="hljs-built_in">Object</span>): <span class="hljs-keyword">void</span> {}
+<span class="hljs-keyword">static</span> Logger.warn(message: string|number|any[]|<span class="hljs-built_in">Object</span>): <span class="hljs-keyword">void</span> {}
+<span class="hljs-keyword">static</span> Logger.error(message: string|number|any[]|<span class="hljs-built_in">Object</span>): <span class="hljs-keyword">void</span> {}
+
+</code></pre>
 				<h2 id="tests">Tests</h2>
 				<p>No tests to run yet</p>
 				<h2 id="contributors">Contributors</h2>
@@ -111,13 +142,16 @@
 						<a href="modules/_interfaces_.html">"interfaces"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_levels_.html">"levels"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_message_.html">"message"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_mock_levels_.html">"mock-<wbr>levels"</a>
+						<a href="modules/_mouette_.html">"mouette"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_mouette_.html">"mouette"</a>
+						<a href="modules/_types_.html">"types"</a>
 					</li>
 				</ul>
 			</nav>

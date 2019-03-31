@@ -1,45 +1,46 @@
 
-import { Level }   from './interfaces';
-import { LEVELS }  from './mock-levels';
-import { Message } from './message';
+import { LevelNames, MessageContent } from './types';
+import { Level }                      from './interfaces';
+import { LEVELS }                     from './levels';
+import { Message }                    from './message';
 
 export class Logger {
 
   static _level: Level = LEVELS.info;
-  static messages: Array<Message> = [];
+  static messages: Message[] = [];
   static nbMessages: number = 0;
   // static target: HTMLElement|null = document.getElementById('Mouette');
 
-  set level(name: string) {
+  set level(name: LevelNames) {
     Logger._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : LEVELS.info;
   }
 
-  get level(): string {
+  get level(): LevelNames {
     return Logger._level.name;
   }
 
-  public static info(text: string|number){
-    Logger.log(LEVELS.info,<string>text);
+  public static info(message: MessageContent): void {
+    Logger.log(LEVELS.info, message);
   }
 
-  public static trace(text: string|number){
-    Logger.log(LEVELS.trace,<string>text);
+  public static trace(message: MessageContent): void {
+    Logger.log(LEVELS.trace, message);
   }
 
-  // public static time(text: string|number){
-  //   Logger.log(LEVELS.time,<string>text);
+  // public static time(message: MessageContent): void {
+  //   Logger.log(LEVELS.time, message);
   // }
 
-  public static warn(text: string|number){
-    Logger.log(LEVELS.warn,<string>text);
+  public static warn(message: MessageContent): void {
+    Logger.log(LEVELS.warn, message);
   }
 
-  public static error(text: string|number){
-    Logger.log(LEVELS.error,<string>text);
+  public static error(message: MessageContent): void {
+    Logger.log(LEVELS.error, message);
   }
 
-  private static log(level: Level, content: string|Array<any>|Object): void {
-    let message = new Message(level, content);
+  private static log(level: Level, messageContent: MessageContent): void {
+    let message = new Message(level, messageContent);
     this.messages.push(message);
     this.nbMessages ++;
     if(this._level.id <= message.id) {
@@ -47,5 +48,4 @@ export class Logger {
       message.display();
     }
   }
-
 }

@@ -94,24 +94,24 @@ var Mouette = (function (exports) {
   function () {
     function Logger() {}
 
-    Logger.info = function info(text) {
-      Logger.log(LEVELS.info, text);
+    Logger.info = function info(message) {
+      Logger.log(LEVELS.info, message);
     };
 
-    Logger.trace = function trace(text) {
-      Logger.log(LEVELS.trace, text);
+    Logger.trace = function trace(message) {
+      Logger.log(LEVELS.trace, message);
     };
 
-    Logger.warn = function warn(text) {
-      Logger.log(LEVELS.warn, text);
+    Logger.warn = function warn(message) {
+      Logger.log(LEVELS.warn, message);
     };
 
-    Logger.error = function error(text) {
-      Logger.log(LEVELS.error, text);
+    Logger.error = function error(message) {
+      Logger.log(LEVELS.error, message);
     };
 
-    Logger.log = function log(level, content) {
-      var message = new Message(level, content);
+    Logger.log = function log(level, messageContent) {
+      var message = new Message(level, messageContent);
       this.messages.push(message);
       this.nbMessages++;
 
