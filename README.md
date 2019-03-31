@@ -1,6 +1,6 @@
 ## Synopsis
 
-[Mouette.js](http://mouettejs.lcluber.com) is a lightweight logger written in Typescript.
+Mouette.js is a lightweight logger written in Typescript.
 
 ## Motivation
 
@@ -21,7 +21,7 @@ import { Logger } from '@lcluber/mouettejs';
 
 //set log level
 //Logs everything >= info
-Logger.level = 'info'; 
+Logger.level = 'info';
 
 Logger.info(window);
 Logger.trace(window);
