@@ -29,7 +29,7 @@ import { Logger } from '@lcluber/mouettejs';
 
 //set log level
 //Logs everything >= info
-Logger.level = 'info'; 
+Logger.level = 'info';
 
 Logger.info(window);
 Logger.trace(window);
