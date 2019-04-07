@@ -1,6 +1,6 @@
 ## Synopsis
 
-[Mouette.js](http://mouettejs.lcluber.com) is a lightweight logger written in Typescript.
+Mouette.js is a lightweight logger written in Typescript.
 
 ## Motivation
 
@@ -8,8 +8,16 @@ The purpose of this library is to provide a simple and easy way to log infos thr
 
 ## Installation
 
+### NPM
+
 ```bash
 $ npm install @lcluber/mouettejs
+```
+
+### Yarn
+
+```bash
+$ yarn add @lcluber/mouettejs
 ```
 
 ## Usage

@@ -1,4 +1,8 @@
 
+Version 0.2.12 (April 07th 2019)
+-----------------------------
+ * Updated README.md with Yarn install command
+
 Version 0.2.11 (March 30th 2019)
 -----------------------------
  * Improved typings
