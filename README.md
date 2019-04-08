@@ -29,12 +29,13 @@ import { Logger } from '@lcluber/mouettejs';
 
 //set log level
 //Logs everything >= info
-Logger.level = 'info';
+Logger.setLevel('info');
 
-Logger.info(window);
-Logger.trace(window);
-Logger.warn(window);
-Logger.error(window);
+let newLogsGroup = Logger.addGroup('newLogsGroup');
+newLogsGroup.info(window);
+newLogsGroup.trace(window);
+newLogsGroup.warn(window);
+newLogsGroup.error(window);
 
 ```
 
@@ -47,24 +48,29 @@ Logger.error(window);
 ```javascript
 //set log level
 //Logs everything >= info
-Mouette.Logger.prototype.level = 'info';
+Mouette.Logger.setLevel('info');
 
-Mouette.Logger.info(window);
-Mouette.Logger.trace(window);
-Mouette.Logger.warn(window);
-Mouette.Logger.error(window);
+var newLogsGroup = Mouette.Logger.addGroup('newLogsGroup');
+newLogsGroup.info(window);
+newLogsGroup.trace(window);
+newLogsGroup.warn(window);
+newLogsGroup.error(window);
 
 ```
 
 ## API Reference
 
 ```javascript
+static Logger.setLevel(name: 'info' | 'trace' | 'warn' | 'error' | 'off'): void {}
+static Logger.getLevel(): LevelNames {}
+static Logger.getGroup(name: string): Group|null {}
+static Logger.addGroup(name: string): Group {}
 
-static Logger.level = 'info' | 'trace' | 'warn' | 'error' | 'off';
-static Logger.info(message: string|number|any[]|Object): void {}
-static Logger.trace(message: string|number|any[]|Object): void {}
-static Logger.warn(message: string|number|any[]|Object): void {}
-static Logger.error(message: string|number|any[]|Object): void {}
+Group.level = 'info' | 'trace' | 'warn' | 'error' | 'off';
+Group.info(message: string|number|any[]|Object): void {}
+Group.trace(message: string|number|any[]|Object): void {}
+Group.warn(message: string|number|any[]|Object): void {}
+Group.error(message: string|number|any[]|Object): void {}
 
 ```
 

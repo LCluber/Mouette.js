@@ -26,22 +26,6 @@
 var Mouette = (function (exports) {
   'use strict';
 
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-  }
-
   var LEVELS = {
     info: {
       id: 1,
@@ -70,6 +54,33 @@ var Mouette = (function (exports) {
     }
   };
 
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  }
+
+  function addZero(value) {
+    return value < 10 ? '0' + value : value;
+  }
+
+  function formatDate() {
+    var now = new Date();
+    var date = [addZero(now.getMonth() + 1), addZero(now.getDate()), now.getFullYear().toString().substr(-2)];
+    var time = [addZero(now.getHours()), addZero(now.getMinutes()), addZero(now.getSeconds())];
+    return date.join("/") + " " + time.join(":");
+  }
+
   var Message =
   /*#__PURE__*/
   function () {
@@ -78,15 +89,66 @@ var Mouette = (function (exports) {
       this.name = level.name;
       this.color = level.color;
       this.content = content;
+      this.date = formatDate();
     }
 
     var _proto = Message.prototype;
 
-    _proto.display = function display() {
-      console[this.name]('%c' + this.content, 'color:' + this.color + ';');
+    _proto.display = function display(groupName) {
+      console[this.name]('%c[' + groupName + '] ' + this.date + ' : ', 'color:' + this.color + ';', this.content);
     };
 
     return Message;
+  }();
+
+  var Group =
+  /*#__PURE__*/
+  function () {
+    function Group(name) {
+      this.messages = [];
+      this.name = name;
+      this.messages = [];
+      this._level = LEVELS.info;
+    }
+
+    var _proto = Group.prototype;
+
+    _proto.info = function info(message) {
+      this.log(LEVELS.info, message);
+    };
+
+    _proto.trace = function trace(message) {
+      this.log(LEVELS.trace, message);
+    };
+
+    _proto.warn = function warn(message) {
+      this.log(LEVELS.warn, message);
+    };
+
+    _proto.error = function error(message) {
+      this.log(LEVELS.error, message);
+    };
+
+    _proto.log = function log(level, messageContent) {
+      var message = new Message(level, messageContent);
+      this.messages.push(message);
+
+      if (this._level.id <= message.id) {
+        message.display(this.name);
+      }
+    };
+
+    _createClass(Group, [{
+      key: "level",
+      set: function set(name) {
+        this._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._level;
+      },
+      get: function get() {
+        return this._level.name;
+      }
+    }]);
+
+    return Group;
   }();
 
   var Logger =
@@ -94,47 +156,63 @@ var Mouette = (function (exports) {
   function () {
     function Logger() {}
 
-    Logger.info = function info(message) {
-      Logger.log(LEVELS.info, message);
-    };
+    Logger.setLevel = function setLevel(name) {
+      Logger.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : Logger.level;
 
-    Logger.trace = function trace(message) {
-      Logger.log(LEVELS.trace, message);
-    };
+      for (var _iterator = Logger.groups, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+        var _ref;
 
-    Logger.warn = function warn(message) {
-      Logger.log(LEVELS.warn, message);
-    };
+        if (_isArray) {
+          if (_i >= _iterator.length) break;
+          _ref = _iterator[_i++];
+        } else {
+          _i = _iterator.next();
+          if (_i.done) break;
+          _ref = _i.value;
+        }
 
-    Logger.error = function error(message) {
-      Logger.log(LEVELS.error, message);
-    };
-
-    Logger.log = function log(level, messageContent) {
-      var message = new Message(level, messageContent);
-      this.messages.push(message);
-      this.nbMessages++;
-
-      if (this._level.id <= message.id) {
-        message.display();
+        var group = _ref;
+        group.level = Logger.level.name;
       }
     };
 
-    _createClass(Logger, [{
-      key: "level",
-      set: function set(name) {
-        Logger._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : LEVELS.info;
-      },
-      get: function get() {
-        return Logger._level.name;
+    Logger.getLevel = function getLevel() {
+      return Logger.level.name;
+    };
+
+    Logger.getGroup = function getGroup(name) {
+      for (var _iterator2 = Logger.groups, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+        var _ref2;
+
+        if (_isArray2) {
+          if (_i2 >= _iterator2.length) break;
+          _ref2 = _iterator2[_i2++];
+        } else {
+          _i2 = _iterator2.next();
+          if (_i2.done) break;
+          _ref2 = _i2.value;
+        }
+
+        var group = _ref2;
+
+        if (group.name === name) {
+          return group;
+        }
       }
-    }]);
+
+      return null;
+    };
+
+    Logger.addGroup = function addGroup(name) {
+      var group = new Group(name);
+      Logger.groups.push(group);
+      return group;
+    };
 
     return Logger;
   }();
-  Logger._level = LEVELS.info;
-  Logger.messages = [];
-  Logger.nbMessages = 0;
+  Logger.level = LEVELS.info;
+  Logger.groups = [];
 
   exports.Logger = Logger;
 

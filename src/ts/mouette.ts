@@ -1,51 +1,38 @@
 
-import { LevelNames, MessageContent } from './types';
-import { Level }                      from './interfaces';
-import { LEVELS }                     from './levels';
-import { Message }                    from './message';
+import { LevelNames } from './types';
+import { Level }      from './interfaces';
+import { LEVELS }     from './levels';
+import { Group }      from './group';
 
 export class Logger {
 
-  static _level: Level = LEVELS.info;
-  static messages: Message[] = [];
-  static nbMessages: number = 0;
-  // static target: HTMLElement|null = document.getElementById('Mouette');
+  private static level: Level = LEVELS.info;
+  private static groups: Group[] = [];
 
-  set level(name: LevelNames) {
-    Logger._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : LEVELS.info;
-  }
-
-  get level(): LevelNames {
-    return Logger._level.name;
-  }
-
-  public static info(message: MessageContent): void {
-    Logger.log(LEVELS.info, message);
-  }
-
-  public static trace(message: MessageContent): void {
-    Logger.log(LEVELS.trace, message);
-  }
-
-  // public static time(message: MessageContent): void {
-  //   Logger.log(LEVELS.time, message);
-  // }
-
-  public static warn(message: MessageContent): void {
-    Logger.log(LEVELS.warn, message);
-  }
-
-  public static error(message: MessageContent): void {
-    Logger.log(LEVELS.error, message);
-  }
-
-  private static log(level: Level, messageContent: MessageContent): void {
-    let message = new Message(level, messageContent);
-    this.messages.push(message);
-    this.nbMessages ++;
-    if(this._level.id <= message.id) {
-      //this.target.innerHTML += message.html;
-      message.display();
+  public static setLevel(name: LevelNames): void {
+    Logger.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : Logger.level;
+    for (let group of Logger.groups) {
+      group.level = Logger.level.name;
     }
   }
+
+  public static getLevel(): LevelNames {
+    return Logger.level.name;
+  }
+
+  public static getGroup(name: string): Group|null {
+    for (let group of Logger.groups) {
+      if(group.name === name){
+        return group;
+      }
+    }
+    return null;
+  }
+
+  public static addGroup(name: string): Group {
+    let group = new Group(name)
+    Logger.groups.push(group);
+    return group;
+  }
+
 }

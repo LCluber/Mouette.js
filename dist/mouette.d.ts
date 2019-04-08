@@ -22,6 +22,21 @@
 *
 * http://mouettejs.lcluber.com
 */
+export declare function formatDate(): string;
+
+
+export declare class Group {
+    private _level;
+    name: string;
+    messages: Message[];
+    constructor(name: string);
+    level: LevelNames;
+    info(message: MessageContent): void;
+    trace(message: MessageContent): void;
+    warn(message: MessageContent): void;
+    error(message: MessageContent): void;
+    private log;
+}
 
 export interface Level {
     id: number;
@@ -49,22 +64,19 @@ export declare class Message implements Level {
     name: LevelNames;
     color: string | null;
     content: MessageContent;
+    date: string;
     constructor(level: Level, content: MessageContent);
-    display(): void;
+    display(groupName: string): void;
 }
 
 
-
 export declare class Logger {
-    static _level: Level;
-    static messages: Message[];
-    static nbMessages: number;
-    level: LevelNames;
-    static info(message: MessageContent): void;
-    static trace(message: MessageContent): void;
-    static warn(message: MessageContent): void;
-    static error(message: MessageContent): void;
-    private static log;
+    private static level;
+    private static groups;
+    static setLevel(name: LevelNames): void;
+    static getLevel(): LevelNames;
+    static getGroup(name: string): Group | null;
+    static addGroup(name: string): Group;
 }
 export declare type LevelNames = 'info' | 'trace' | 'warn' | 'error' | 'off';
 export declare type MessageContent = string | number | any[] | Object;

@@ -1,4 +1,9 @@
 
+Version 0.3.0 (April 07th 2019)
+-----------------------------
+ * Added Group class to set different levels if needed
+ * Added Date to messages
+
 Version 0.2.12 (April 07th 2019)
 -----------------------------
  * Updated README.md with Yarn install command

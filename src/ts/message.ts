@@ -1,9 +1,10 @@
 import { LevelNames, MessageContent } from './types';
 import { Level }  from './interfaces';
+import { formatDate } from './date';
 
 declare global {
   interface Console {
-    [key: string]: Function
+    [key: string]: Function;
   }
 }
 
@@ -12,6 +13,7 @@ export class Message implements Level {
   name: LevelNames;
   color: string|null;
   content: MessageContent;
+  date: string;
   //html: string;
 
   constructor(level: Level, content: MessageContent) {
@@ -19,11 +21,11 @@ export class Message implements Level {
     this.name = level.name;
     this.color = level.color;
     this.content = content;
-    //this.html = '<span class="' + this.level.name + '">' + this.content + '</span><br>'
+    this.date = formatDate();
   }
 
-  public display(): void {
-    console[<string>this.name]('%c'+this.content, 'color:'+this.color+';');
+  public display(groupName: string): void {
+    console[<string>this.name]('%c['+ groupName + '] ' + this.date + ' : ' , 'color:'+this.color+';', this.content);
   }
 
 }

@@ -31,48 +31,91 @@ const LEVELS = {
     off: { id: 99, name: 'off', color: null }
 };
 
+function addZero(value) {
+    return (value < 10) ? '0' + value : value;
+}
+function formatDate() {
+    let now = new Date();
+    let date = [addZero(now.getMonth() + 1),
+        addZero(now.getDate()),
+        now.getFullYear().toString().substr(-2)
+    ];
+    let time = [addZero(now.getHours()), addZero(now.getMinutes()), addZero(now.getSeconds())];
+    return date.join("/") + " " + time.join(":");
+}
+
 class Message {
     constructor(level, content) {
         this.id = level.id;
         this.name = level.name;
         this.color = level.color;
         this.content = content;
+        this.date = formatDate();
     }
-    display() {
-        console[this.name]('%c' + this.content, 'color:' + this.color + ';');
+    display(groupName) {
+        console[this.name]('%c[' + groupName + '] ' + this.date + ' : ', 'color:' + this.color + ';', this.content);
+    }
+}
+
+class Group {
+    constructor(name) {
+        this.messages = [];
+        this.name = name;
+        this.messages = [];
+        this._level = LEVELS.info;
+    }
+    set level(name) {
+        this._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._level;
+    }
+    get level() {
+        return this._level.name;
+    }
+    info(message) {
+        this.log(LEVELS.info, message);
+    }
+    trace(message) {
+        this.log(LEVELS.trace, message);
+    }
+    warn(message) {
+        this.log(LEVELS.warn, message);
+    }
+    error(message) {
+        this.log(LEVELS.error, message);
+    }
+    log(level, messageContent) {
+        let message = new Message(level, messageContent);
+        this.messages.push(message);
+        if (this._level.id <= message.id) {
+            message.display(this.name);
+        }
     }
 }
 
 class Logger {
-    set level(name) {
-        Logger._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : LEVELS.info;
-    }
-    get level() {
-        return Logger._level.name;
-    }
-    static info(message) {
-        Logger.log(LEVELS.info, message);
-    }
-    static trace(message) {
-        Logger.log(LEVELS.trace, message);
-    }
-    static warn(message) {
-        Logger.log(LEVELS.warn, message);
-    }
-    static error(message) {
-        Logger.log(LEVELS.error, message);
-    }
-    static log(level, messageContent) {
-        let message = new Message(level, messageContent);
-        this.messages.push(message);
-        this.nbMessages++;
-        if (this._level.id <= message.id) {
-            message.display();
+    static setLevel(name) {
+        Logger.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : Logger.level;
+        for (let group of Logger.groups) {
+            group.level = Logger.level.name;
         }
     }
+    static getLevel() {
+        return Logger.level.name;
+    }
+    static getGroup(name) {
+        for (let group of Logger.groups) {
+            if (group.name === name) {
+                return group;
+            }
+        }
+        return null;
+    }
+    static addGroup(name) {
+        let group = new Group(name);
+        Logger.groups.push(group);
+        return group;
+    }
 }
-Logger._level = LEVELS.info;
-Logger.messages = [];
-Logger.nbMessages = 0;
+Logger.level = LEVELS.info;
+Logger.groups = [];
 
 export { Logger };

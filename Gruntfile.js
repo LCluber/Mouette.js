@@ -205,7 +205,7 @@ module.exports = function(grunt){
           banner: banner,
           // sourceMap: 'inline'
           plugins: [
-            
+
           ],
           external: [
             // '@lcluber/weejs'
@@ -487,12 +487,12 @@ module.exports = function(grunt){
                       ]
                     );
 
-  grunt.registerTask( 'doc',
-                      'Compile lib documentation',
-                      [ 'clean:doc',
-                        'typedoc'
-                       ]
-                    );
+  // grunt.registerTask( 'doc',
+  //                     'Compile lib documentation',
+  //                     [ 'clean:doc',
+  //                       'typedoc'
+  //                      ]
+  //                   );
 
   grunt.registerTask( 'serve',
                       'launch server, open website and watch for changes',
@@ -541,7 +541,7 @@ module.exports = function(grunt){
                         //build site
                         grunt.task.run('website');
                         //build documentation
-                        grunt.task.run('doc');
+                        // grunt.task.run('doc');
                         // launch server and watch for changes
                         grunt.task.run('serve');
                       }
