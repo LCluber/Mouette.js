@@ -1,5 +1,5 @@
 
-Version 0.3.0 (April 07th 2019)
+Version 0.3.0 (April 09th 2019)
 -----------------------------
  * Added Group class to set different levels if needed
  * Added Date to messages
