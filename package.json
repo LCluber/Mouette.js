@@ -5,12 +5,12 @@
   "keywords": [
     "logger"
   ],
-  "homepage": "http://mouettejs.lcluber.com",
+  "homepage": "https://github.com/LCluber/Mouette.js",
   "main": "dist/mouette",
   "types": "dist/mouette",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LCluber/Mouette.js.git"
+    "url": "https://github.com/LCluber/Mouette.js"
   },
   "bugs": {
     "url": "https://github.com/LCluber/Mouette.js/issues",
