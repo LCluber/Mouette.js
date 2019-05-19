@@ -1,6 +1,6 @@
 ## Synopsis
 
-Mouette.js is a lightweight logger written in Typescript.
+**Mouette.js** is a lightweight logger written in Typescript.
 
 ## Motivation
 
