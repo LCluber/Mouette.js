@@ -58,11 +58,11 @@ class Message {
 }
 
 class Group {
-    constructor(name) {
+    constructor(name, level) {
         this.messages = [];
         this.name = name;
         this.messages = [];
-        this._level = LEVELS.info;
+        this._level = level;
     }
     set level(name) {
         this._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._level;
@@ -110,12 +110,15 @@ class Logger {
         return null;
     }
     static addGroup(name) {
-        let group = new Group(name);
+        return this.getGroup(name) || this.pushGroup(name);
+    }
+    static pushGroup(name) {
+        let group = new Group(name, Logger.level);
         Logger.groups.push(group);
         return group;
     }
 }
-Logger.level = LEVELS.info;
+Logger.level = LEVELS.error;
 Logger.groups = [];
 
 export { Logger };

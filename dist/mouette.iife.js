@@ -104,11 +104,11 @@ var Mouette = (function (exports) {
   var Group =
   /*#__PURE__*/
   function () {
-    function Group(name) {
+    function Group(name, level) {
       this.messages = [];
       this.name = name;
       this.messages = [];
-      this._level = LEVELS.info;
+      this._level = level;
     }
 
     var _proto = Group.prototype;
@@ -204,14 +204,18 @@ var Mouette = (function (exports) {
     };
 
     Logger.addGroup = function addGroup(name) {
-      var group = new Group(name);
+      return this.getGroup(name) || this.pushGroup(name);
+    };
+
+    Logger.pushGroup = function pushGroup(name) {
+      var group = new Group(name, Logger.level);
       Logger.groups.push(group);
       return group;
     };
 
     return Logger;
   }();
-  Logger.level = LEVELS.info;
+  Logger.level = LEVELS.error;
   Logger.groups = [];
 
   exports.Logger = Logger;

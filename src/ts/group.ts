@@ -8,10 +8,10 @@ export class Group {
   public name: string;
   public messages: Message[] = [];
 
-  constructor(name: string) {
+  constructor(name: string, level: Level) {
     this.name = name;
     this.messages = [];
-    this._level = LEVELS.info;
+    this._level = level;
     //this.html = '<span class="' + this.level.name + '">' + this.content + '</span><br>'
   }
 

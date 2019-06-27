@@ -1,3 +1,6 @@
+Version 0.3.1 (June 27th 2019)
+-----------------------------
+ * Changed default level to error
 
 Version 0.3.0 (April 09th 2019)
 -----------------------------

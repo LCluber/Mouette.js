@@ -4,23 +4,15 @@ module.exports = function(grunt){
   var resolve = require('rollup-plugin-node-resolve');
 
   require('time-grunt')(grunt);
-  const sass = require('node-sass');
 
   var projectName = 'Mouette';
   var projectNameLC = projectName.toLowerCase();
-
-  var port            = 3000;
-  var host            = 'localhost';
 
   var srcDir          = 'src/';
   var compiledSrcDir  = 'build/';
   // var compiledES5Dir  = compiledSrcDir + 'es5/';
   var compiledES6Dir  = compiledSrcDir + 'es6/';
   var distDir         = 'dist/';
-  var webDir          = 'web/';
-  var publicDir       = webDir + 'public/';
-  var nodeDir         = 'node_modules/';
-  var docDir          = 'doc/';
 
   var banner    = '/** MIT License\n' +
     '* \n' +
@@ -59,135 +51,9 @@ module.exports = function(grunt){
                 // compiledES5Dir + '*',
                 compiledES6Dir + '*'
               ]
-      },
-      doc:{
-        src: [  docDir + '*'
-              ]
-      },
-      websass:{
-        src: [  webDir + 'sass/build/*',
-                publicDir + 'css/*'
-        ]
-      },
-      webjs:{
-        src: [  publicDir + 'js/*'
-        ]
-      },
-      webmisc: {
-        src: [  publicDir + 'fonts/*'
-        ]
-      }
-    },
-    typedoc: {
-  		build: {
-  			options: {
-  				out: docDir,
-  				target: 'es6',
-          name: projectName + '.js - Documentation',
-          includeDeclarations: false,
-          hideGenerator: true
-  			},
-  			src: [srcDir + 'ts/*.ts']
-  		}
-  	},
-    jshint: {
-      options: {
-        //jshintrc: 'config/.jshintrc'
-      },
-      //lib: [ 'Gruntfile.js'],
-      web: [ webDir + 'js/**/*.js']
-    },
-    sass: {
-      options: {
-        implementation: sass,
-        sourceMap: true
-      },
-      lib: {
-        files: [{
-          expand: true,
-          cwd: srcDir + 'style/',
-          src: ['*.scss'],
-          dest: srcDir + 'style/build/',
-          ext: '.css'
-        }]
-      },
-      web: {
-        files: [{
-          expand: true,
-          cwd: webDir + 'sass/',
-          src: ['*.scss'],
-          dest: webDir + 'sass/build/',
-          ext: '.css'
-        }]
-      }
-    },
-    csslint: {
-      dist: {
-        options: {
-          import: false
-        },
-        src: [webDir + 'sass/build/**/*.css']
-      }
-    },
-    cssmin:{
-      options: {
-        shorthandCompacting: false,
-        roundingPrecision: -1
-      },
-      target: {
-        files: [{
-          src: webDir  + 'sass/build/**/*.css',
-          dest: publicDir + 'css/style.min.css'
-        }]
       }
     },
 
-    pug: {
-      lib: {
-        options: {
-          namespace   : 'JST',
-          separator   : '\n\n',
-          amd         : false,
-          client      : false,
-          pretty      : true,
-          self        : false,
-          debug       : false,
-          compileDebug: true
-        },
-        files: [ {
-          cwd: srcDir + 'template/',
-          src: ['**/*.pug', '!**/_*.pug'],
-          dest: srcDir + 'template/build',
-          expand: true,
-          ext: '.htm'
-        } ]
-      }
-    },
-    htmlmin: {
-      static: {
-        options: {
-          removeComments: true,
-          collapseWhitespace: true
-        },
-        expand: true,
-        cwd: webDir + 'static',
-        src: ['**/*.htm'],
-        dest: webDir + 'static/'
-      }
-    },
-    // tslint: {
-    //   options: {
-    //     // configuration: 'config/tslint.json',
-    //     force: false
-    //   },
-    //   lib: {
-    //     files: [{
-    //       expand: true,
-    //       cwd: srcDir,
-    //       src: [ srcDir + 'ts/**/*.ts' ]
-    //     }]
-    //   }
-    // },
     ts: {
       options: {
         fast: 'never'
@@ -270,42 +136,6 @@ module.exports = function(grunt){
         },
         src: distDir + projectNameLC + '.iife.js',
         dest: distDir + projectNameLC + '.iife.min.js'
-      },
-      web: {
-        options: {
-          sourceMap: true,
-          sourceMapName: srcDir + 'sourcemap.map',
-          banner: '',
-          mangle: {
-            reserved: ['jQuery']
-          },
-          compress: {
-            sequences: true,
-            properties: true,
-            dead_code: true,
-            unsafe: false,
-            conditionals:true,
-            comparisons:true,
-            booleans:true,
-            loops:true,
-            unused: true,
-            hoist_funs:true,
-            if_return:true,
-            join_vars:true,
-            warnings: true,
-            drop_console: false,
-            keep_fargs: false,
-            keep_fnames: false
-          }
-        },
-        files: [{
-          src  : [
-            nodeDir + 'jquery-easing/jquery.easing.1.3.js',
-            distDir + projectNameLC + '.iife.js',
-            webDir + 'js/*.js'
-          ],
-          dest : publicDir + 'js/main.min.js'
-        }]
       }
     },
     concat:{
@@ -318,59 +148,7 @@ module.exports = function(grunt){
         src: compiledES6Dir + '*.d.ts',
         dest: distDir + projectNameLC + '.d.ts'
       },
-      libpug: {
-        options: {
-          separator: ''
-        },
-        src: [srcDir + 'template/**/*.pug'
-            ],
-        dest: webDir + 'views/_' + projectNameLC +'.pug'
-      },
-      libhtm: {
-        options: {
-          separator: '',
-          stripBanners: false
-        },
-        src: [srcDir + 'template/build/**/*.htm'
-            ],
-        dest: distDir + projectNameLC + '.htm'
-      },
-      libcss: {
-        options: {
-          separator: '',
-          stripBanners: false,
-          banner: banner
-        },
-        src: [srcDir + 'style/build/**/*.css'
-            ],
-        dest: distDir + projectNameLC + '.css'
-      },
-      webjs: {
-        options: {
-          separator: '',
-          stripBanners: true,
-          banner: ''
-        },
-        src: [  nodeDir   + 'jquery/dist/jquery.min.js',
-                nodeDir   + '@fortawesome/fontawesome-free/js/all.min.js',
-                nodeDir   + 'bootstrap/dist/js/bootstrap.min.js',
-                publicDir + 'js/main.min.js'
-            ],
-        dest: publicDir + 'js/main.min.js'
-      },
-      webcss: {
-        options: {
-          separator: '',
-          stripBanners: true,
-          banner: ''
-        },
-        src: [// nodeDir + 'font-awesome/css/font-awesome.min.css',
-              nodeDir + 'bootstrap/dist/css/bootstrap.min.css',
-              distDir + projectNameLC + '.css',
-              publicDir + 'css/style.min.css'
-            ],
-        dest: publicDir + 'css/style.min.css'
-      }
+
     },
     strip_code: {
       options: {
@@ -383,54 +161,11 @@ module.exports = function(grunt){
         src: distDir + projectName + '.d.ts'
       }
     },
-    copy: {
-      fonts:{
-        expand: true,
-        cwd: nodeDir + 'bootstrap/dist/',
-        src: ['fonts/**/*'],
-        dest: publicDir,
-        filter: 'isFile'
-      }
-    },
-    nodemon: {
-      dev: {
-        script: 'bin/www',
-        options: {
-          //nodeArgs: ['--debug'],
-          delay:1000,
-          watch: ['web/routes', 'web/app.js'],
-          ext: 'js,scss'
-        }
-      }
-    },
-    open: {
-      all: {
-        path: 'http://' + host + ':' + port
-      }
-    },
+
     watch: {
       libts: {
         files: [ srcDir + 'ts/**/*.ts', '!' + srcDir + 'ts/build/*'],
         tasks: ['lib', 'webjs']
-      },
-      libpug: {
-        files: srcDir + 'template/**/*.pug',
-        tasks: ['lib'],
-      },
-      libsass: {
-        files: srcDir + 'style/**/*.scss',
-        tasks: ['lib'],
-      },
-      webpug:{
-        files: webDir + 'views/**/*.pug'
-      },
-      webjs: {
-        files: webDir + 'js/**/*.js',
-        tasks: ['webjs']
-      },
-      websass: {
-        files: [webDir + 'sass/**/*.scss', '!' + webDir + 'sass/build/*'],
-        tasks: ['websass']
       },
       options: {
         interrupt: true,
@@ -450,22 +185,12 @@ module.exports = function(grunt){
 
   grunt.loadNpmTasks( 'grunt-contrib-clean' );
   grunt.loadNpmTasks( 'grunt-contrib-copy' );
-  grunt.loadNpmTasks( 'grunt-contrib-jshint' );
   grunt.loadNpmTasks( 'grunt-contrib-uglify' );
-  grunt.loadNpmTasks( 'grunt-contrib-csslint' );
-  grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
   grunt.loadNpmTasks( 'grunt-contrib-concat' );
-  grunt.loadNpmTasks( 'grunt-contrib-pug' );
-  grunt.loadNpmTasks( 'grunt-contrib-htmlmin' );
   grunt.loadNpmTasks( 'grunt-contrib-watch' );
   grunt.loadNpmTasks( 'grunt-strip-code' );
-  grunt.loadNpmTasks( 'grunt-concurrent' );
-  grunt.loadNpmTasks( 'grunt-nodemon' );
-  grunt.loadNpmTasks( 'grunt-open' );
   grunt.loadNpmTasks( 'grunt-ts' );
   grunt.loadNpmTasks( 'grunt-rollup' );
-  grunt.loadNpmTasks( 'grunt-typedoc' );
-  grunt.loadNpmTasks( 'grunt-sass' );
 
   grunt.registerTask( 'lib',
                       'build the library in the dist/ folder',
@@ -480,10 +205,7 @@ module.exports = function(grunt){
                         'uglify:libIife',
                         //declaration
                         'concat:declaration',
-                        'strip_code:declaration',
-                        'sass:lib',
-                        'pug:lib',
-                        'concat:libhtm', 'concat:libcss', 'concat:libpug'
+                        'strip_code:declaration'
                       ]
                     );
 
@@ -494,65 +216,22 @@ module.exports = function(grunt){
   //                      ]
   //                   );
 
-  grunt.registerTask( 'serve',
-                      'launch server, open website and watch for changes',
-                      [ 'concurrent' ]
-                    );
 
-  grunt.registerTask( 'websass',
-                      'Compile website css',
-                      [ 'clean:websass',
-                        'sass:web',
-                        'cssmin',
-                        'concat:webcss'
-                       ]
-                    );
-
-  grunt.registerTask( 'webjs',
-                      'Compile website js',
-                      [ 'jshint:web',
-                        'clean:webjs',
-                        'uglify:web',
-                        'concat:webjs'
-                       ]
-                    );
-
-  grunt.registerTask( 'webmisc',
-                      'Compile website misc',
-                      [ 'clean:webmisc',
-                        'copy:fonts'
-                       ]
-                    );
-
-  grunt.registerTask( 'website',
-                      'build the website in the website/ folder',
-                      function() {
-                        grunt.task.run('webjs');
-                        grunt.task.run('websass');
-                        grunt.task.run('webmisc');
-                      }
-                    );
 
   grunt.registerTask( 'build',
                       'build library and website',
                       function() {
                         //build lib
                         grunt.task.run('lib');
-                        //build site
-                        grunt.task.run('website');
-                        //build documentation
-                        // grunt.task.run('doc');
-                        // launch server and watch for changes
-                        grunt.task.run('serve');
                       }
                     );
 
-  grunt.registerTask( 'default',
-                      'build library, website, launch server, open website and watch for changes.',
-                      function() {
-                        // launch server and watch for changes
-                        grunt.task.run('serve');
-                      }
-                    );
+  // grunt.registerTask( 'default',
+  //                     'build library, website, launch server, open website and watch for changes.',
+  //                     function() {
+  //                       // launch server and watch for changes
+  //                       grunt.task.run('serve');
+  //                     }
+  //                   );
 
 };

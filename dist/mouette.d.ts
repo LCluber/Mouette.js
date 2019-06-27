@@ -25,11 +25,12 @@
 export declare function formatDate(): string;
 
 
+
 export declare class Group {
     private _level;
     name: string;
     messages: Message[];
-    constructor(name: string);
+    constructor(name: string, level: Level);
     level: LevelNames;
     info(message: MessageContent): void;
     trace(message: MessageContent): void;
@@ -77,6 +78,7 @@ export declare class Logger {
     static getLevel(): LevelNames;
     static getGroup(name: string): Group | null;
     static addGroup(name: string): Group;
+    private static pushGroup;
 }
 export declare type LevelNames = 'info' | 'trace' | 'warn' | 'error' | 'off';
 export declare type MessageContent = string | number | any[] | Object;

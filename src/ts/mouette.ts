@@ -6,7 +6,7 @@ import { Group }      from './group';
 
 export class Logger {
 
-  private static level: Level = LEVELS.info;
+  private static level: Level = LEVELS.error;
   private static groups: Group[] = [];
 
   public static setLevel(name: LevelNames): void {
@@ -30,9 +30,14 @@ export class Logger {
   }
 
   public static addGroup(name: string): Group {
-    let group = new Group(name)
+    return this.getGroup(name) || this.pushGroup(name);
+  }
+
+  private static pushGroup(name: string): Group {
+    let group = new Group(name, Logger.level);
     Logger.groups.push(group);
     return group;
   }
+
 
 }
