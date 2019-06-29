@@ -25,18 +25,17 @@ $ yarn add @lcluber/mouettejs
 ### ES6
 
 ```javascript
-import { Logger } from '@lcluber/mouettejs';
+import { Logger, Group } from "@lcluber/mouettejs";
 
 //set log level
 //Logs everything >= info
-Logger.setLevel('info');
+Logger.setLevel("info");
 
-let newLogsGroup = Logger.addGroup('newLogsGroup');
+let newLogsGroup: Group = Logger.addGroup("newLogsGroup");
 newLogsGroup.info(window);
 newLogsGroup.trace(window);
 newLogsGroup.warn(window);
 newLogsGroup.error(window);
-
 ```
 
 ### IIFE
@@ -48,20 +47,19 @@ newLogsGroup.error(window);
 ```javascript
 //set log level
 //Logs everything >= info
-Mouette.Logger.setLevel('info');
+Mouette.Logger.setLevel("info");
 
-var newLogsGroup = Mouette.Logger.addGroup('newLogsGroup');
+var newLogsGroup = Mouette.Logger.addGroup("newLogsGroup");
 newLogsGroup.info(window);
 newLogsGroup.trace(window);
 newLogsGroup.warn(window);
 newLogsGroup.error(window);
-
 ```
 
 ## API Reference
 
 ```javascript
-static Logger.setLevel(name: 'info' | 'trace' | 'warn' | 'error' | 'off'): void {}
+static Logger.setLevel(name: 'info' | 'trace' | 'warn' | 'error' | 'off'): LevelNames {}
 static Logger.getLevel(): LevelNames {}
 static Logger.getGroup(name: string): Group|null {}
 static Logger.addGroup(name: string): Group {}
@@ -81,7 +79,7 @@ No tests to run yet
 ## Contributors
 
 There is still a lot of work to do on this project and I would be glad to get all the help you can provide.
-To contribute you can clone the project on **[GitHub](https://github.com/LCluber/Mouette.js)** and see  **NOTICE.md** for detailed installation walkthrough of the project.
+To contribute you can clone the project on **[GitHub](https://github.com/LCluber/Mouette.js)** and see **NOTICE.md** for detailed installation walkthrough of the project.
 
 ## License
 

@@ -1,16 +1,16 @@
-import { LevelNames } from './types';
+import { LevelName } from "./types";
 
 export interface Level {
   id: number;
-  name: LevelNames;
-  color: string|null;
+  name: LevelName;
+  color: string | null;
 }
 
 export interface Levels {
-  info : Level,
-  trace : Level,
-  warn : Level,
-  error : Level,
-  off : Level
+  info: Level;
+  trace: Level;
+  warn: Level;
+  error: Level;
+  off: Level;
   // [key: string]: Level
 }

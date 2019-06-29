@@ -1,19 +1,25 @@
-
-
-function addZero(value: number): string|number {
-  return (value < 10) ? '0' + value : value;
+function addZero(value: number): string | number {
+  return value < 10 ? "0" + value : value;
 }
 
 export function formatDate(): string {
   // Create a date object with the current time
-  let now:Date = new Date();
+  const now: Date = new Date();
   // Create an array with the current month, day and time
-  let date:(number|string)[] = [  addZero(now.getMonth() + 1),
-                                  addZero(now.getDate()),
-                                  now.getFullYear().toString().substr(-2)
-                                ];
+  const date: (number | string)[] = [
+    addZero(now.getMonth() + 1),
+    addZero(now.getDate()),
+    now
+      .getFullYear()
+      .toString()
+      .substr(-2)
+  ];
   // Create an array with the current hour, minute and second
-  let time:(number|string)[] = [ addZero(now.getHours()), addZero(now.getMinutes()), addZero(now.getSeconds()) ];
+  const time: (number | string)[] = [
+    addZero(now.getHours()),
+    addZero(now.getMinutes()),
+    addZero(now.getSeconds())
+  ];
   // Determine AM or PM suffix based on the hour
   //let t0 = time[0];
   //let suffix:string = ( t0 < 12 ) ? "AM" : "PM";

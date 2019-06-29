@@ -1,7 +1,7 @@
-import { LevelNames, MessageContent } from './types';
-import { Level }                      from './interfaces';
-import { LEVELS }                     from './levels';
-import { Message }                    from './message';
+import { LevelName, MessageContent } from "./types";
+import { Level } from "./interfaces";
+import { LEVELS } from "./levels";
+import { Message } from "./message";
 
 export class Group {
   private _level: Level;
@@ -15,11 +15,11 @@ export class Group {
     //this.html = '<span class="' + this.level.name + '">' + this.content + '</span><br>'
   }
 
-  set level(name: LevelNames) {
+  set level(name: LevelName) {
     this._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._level;
   }
 
-  get level(): LevelNames {
+  get level(): LevelName {
     return this._level.name;
   }
 
@@ -44,12 +44,10 @@ export class Group {
   }
 
   private log(level: Level, messageContent: MessageContent): void {
-    let message = new Message(level, messageContent);
+    const message = new Message(level, messageContent);
     this.messages.push(message);
-    if(this._level.id <= message.id) {
+    if (this._level.id <= message.id) {
       message.display(this.name);
     }
   }
-
-
 }

@@ -1,28 +1,27 @@
-
-import { LevelNames } from './types';
-import { Level }      from './interfaces';
-import { LEVELS }     from './levels';
-import { Group }      from './group';
+import { LevelName } from "./types";
+import { Level } from "./interfaces";
+import { LEVELS } from "./levels";
+import { Group } from "./group";
 
 export class Logger {
-
   private static level: Level = LEVELS.error;
   private static groups: Group[] = [];
 
-  public static setLevel(name: LevelNames): void {
+  public static setLevel(name: LevelName): LevelName {
     Logger.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : Logger.level;
-    for (let group of Logger.groups) {
+    for (const group of Logger.groups) {
       group.level = Logger.level.name;
     }
+    return Logger.getLevel();
   }
 
-  public static getLevel(): LevelNames {
+  public static getLevel(): LevelName {
     return Logger.level.name;
   }
 
-  public static getGroup(name: string): Group|null {
-    for (let group of Logger.groups) {
-      if(group.name === name){
+  public static getGroup(name: string): Group | null {
+    for (const group of Logger.groups) {
+      if (group.name === name) {
         return group;
       }
     }
@@ -34,10 +33,8 @@ export class Logger {
   }
 
   private static pushGroup(name: string): Group {
-    let group = new Group(name, Logger.level);
+    const group = new Group(name, Logger.level);
     Logger.groups.push(group);
     return group;
   }
-
-
 }

@@ -1,6 +1,6 @@
-import { LevelNames, MessageContent } from './types';
-import { Level }  from './interfaces';
-import { formatDate } from './date';
+import { LevelName, MessageContent } from "./types";
+import { Level } from "./interfaces";
+import { formatDate } from "./date";
 
 declare global {
   interface Console {
@@ -10,8 +10,8 @@ declare global {
 
 export class Message implements Level {
   id: number;
-  name: LevelNames;
-  color: string|null;
+  name: LevelName;
+  color: string | null;
   content: MessageContent;
   date: string;
   //html: string;
@@ -25,7 +25,10 @@ export class Message implements Level {
   }
 
   public display(groupName: string): void {
-    console[<string>this.name]('%c['+ groupName + '] ' + this.date + ' : ' , 'color:'+this.color+';', this.content);
+    console[<string>this.name](
+      "%c[" + groupName + "] " + this.date + " : ",
+      "color:" + this.color + ";",
+      this.content
+    );
   }
-
 }

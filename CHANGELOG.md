@@ -1,3 +1,8 @@
+Version 0.3.2 (June 29th 2019)
+-----------------------------
+ * setLevel() method no return level name
+ * Updated README.md
+
 Version 0.3.1 (June 27th 2019)
 -----------------------------
  * Changed default level to error
