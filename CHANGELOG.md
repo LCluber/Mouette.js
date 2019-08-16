@@ -1,3 +1,16 @@
+# [2.1.0](https://github.com/LCluber/Mouette.js/compare/v2.0.6...v2.1.0) (2019-08-16)
+
+
+### Bug Fixes
+
+* **declarations:** fixed declarations file ([1677e94](https://github.com/LCluber/Mouette.js/commit/1677e94))
+
+
+### Features
+
+* **prettierignore:** added prettierignore file ([6d5979f](https://github.com/LCluber/Mouette.js/commit/6d5979f))
+* **setlevel:** setLevel() method now returns level name ([3991665](https://github.com/LCluber/Mouette.js/commit/3991665))
+
 ## Version 0.3.2 (June 29th 2019)
 
 - setLevel() method now returns level name
