@@ -2,7 +2,8 @@ const presets = [
   [
     "@babel/env",
     {
-      loose : true
+      loose: true,
+      modules: false
     }
   ]
 ];
