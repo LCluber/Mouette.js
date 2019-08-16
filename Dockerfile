@@ -1,4 +1,7 @@
-FROM node:8.12.0-alpine
+FROM node:12.6.0-stretch
+
+# Install git
+RUN apt install git-all
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -20,7 +23,7 @@ RUN npm install --only=production
 COPY . .
 # COPY . /usr/src/app
 
-EXPOSE 3000
+# EXPOSE 3000
 # USER node
 # CMD [ "grunt" ]
-CMD [ "npm", "start" ]
+# CMD [ "npm", "start" ]
