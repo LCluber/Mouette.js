@@ -54,22 +54,6 @@ var Mouette = (function (exports) {
     }
   };
 
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-  }
-
   function addZero(value) {
     return value < 10 ? "0" + value : value;
   }
@@ -108,10 +92,19 @@ var Mouette = (function (exports) {
       this.messages = [];
       this.name = name;
       this.messages = [];
-      this._level = level;
+      this.level = level;
     }
 
     var _proto = Group.prototype;
+
+    _proto.setLevel = function setLevel(name) {
+      this.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this.level;
+      return this.getLevel();
+    };
+
+    _proto.getLevel = function getLevel() {
+      return this.level.name;
+    };
 
     _proto.info = function info(message) {
       this.log(LEVELS.info, message);
@@ -133,20 +126,10 @@ var Mouette = (function (exports) {
       var message = new Message(level, messageContent);
       this.messages.push(message);
 
-      if (this._level.id <= message.id) {
+      if (this.level.id <= message.id) {
         message.display(this.name);
       }
     };
-
-    _createClass(Group, [{
-      key: "level",
-      set: function set(name) {
-        this._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._level;
-      },
-      get: function get() {
-        return this._level.name;
-      }
-    }]);
 
     return Group;
   }();
@@ -172,7 +155,7 @@ var Mouette = (function (exports) {
         }
 
         var group = _ref;
-        group.level = Logger.level.name;
+        group.setLevel(Logger.level.name);
       }
 
       return Logger.getLevel();

@@ -70,13 +70,14 @@ class Group {
         this.messages = [];
         this.name = name;
         this.messages = [];
-        this._level = level;
+        this.level = level;
     }
-    set level(name) {
-        this._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._level;
+    setLevel(name) {
+        this.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this.level;
+        return this.getLevel();
     }
-    get level() {
-        return this._level.name;
+    getLevel() {
+        return this.level.name;
     }
     info(message) {
         this.log(LEVELS.info, message);
@@ -93,7 +94,7 @@ class Group {
     log(level, messageContent) {
         const message = new Message(level, messageContent);
         this.messages.push(message);
-        if (this._level.id <= message.id) {
+        if (this.level.id <= message.id) {
             message.display(this.name);
         }
     }
@@ -103,7 +104,7 @@ class Logger {
     static setLevel(name) {
         Logger.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : Logger.level;
         for (const group of Logger.groups) {
-            group.level = Logger.level.name;
+            group.setLevel(Logger.level.name);
         }
         return Logger.getLevel();
     }
