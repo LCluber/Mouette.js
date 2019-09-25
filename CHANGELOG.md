@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/LCluber/Mouette.js/compare/v2.2.0...v2.2.1) (2019-09-25)
+
+
+### Bug Fixes
+
+* **console:** fixed console interface definition ([02f7e04](https://github.com/LCluber/Mouette.js/commit/02f7e04))
+
 # [2.2.0](https://github.com/LCluber/Mouette.js/compare/v2.1.0...v2.2.0) (2019-09-25)
 
 
