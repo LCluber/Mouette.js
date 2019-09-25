@@ -57,8 +57,11 @@ export declare const LEVELS: Levels;
 
 
 declare global {
-    interface Console {
-        [key: string]: Function;
+    interface console {
+        info: Function;
+        trace: Function;
+        warn: Function;
+        error: Function;
     }
 }
 export declare class Message implements Level {
@@ -83,3 +86,4 @@ export declare class Logger {
 }
 export declare type LevelName = "info" | "trace" | "warn" | "error" | "off";
 export declare type MessageContent = string | number | any[] | Object;
+export declare type ConsoleMethod = "info" | "trace" | "warn" | "error";

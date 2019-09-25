@@ -1,10 +1,13 @@
-import { LevelName, MessageContent } from "./types";
+import { LevelName, MessageContent, ConsoleMethod } from "./types";
 import { Level } from "./interfaces";
 import { formatDate } from "./date";
 
 declare global {
-  interface Console {
-    [key: string]: Function;
+  interface console {
+    info: Function;
+    trace: Function;
+    warn: Function;
+    error: Function;
   }
 }
 
@@ -25,7 +28,7 @@ export class Message implements Level {
   }
 
   public display(groupName: string): void {
-    console[<string>this.name](
+    console[<ConsoleMethod>this.name](
       "%c[" + groupName + "] " + this.date + " : ",
       "color:" + this.color + ";",
       this.content
