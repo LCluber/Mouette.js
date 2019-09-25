@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/LCluber/Mouette.js/compare/v2.1.0...v2.2.0) (2019-09-25)
+
+
+### Features
+
+* **level:** set log level at group level ([cbb5c50](https://github.com/LCluber/Mouette.js/commit/cbb5c50))
+
 # [2.1.0](https://github.com/LCluber/Mouette.js/compare/v2.0.6...v2.1.0) (2019-08-16)
 
 
