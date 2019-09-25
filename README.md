@@ -59,12 +59,15 @@ newLogsGroup.error(window);
 ## API Reference
 
 ```javascript
-static Logger.setLevel(name: 'info' | 'trace' | 'warn' | 'error' | 'off'): LevelNames {}
-static Logger.getLevel(): LevelNames {}
+type LevelName = "info" | "trace" | "warn" | "error" | "off";
+
+static Logger.setLevel(name: LevelName): LevelName {}
+static Logger.getLevel(): LevelName {}
 static Logger.getGroup(name: string): Group|null {}
 static Logger.addGroup(name: string): Group {}
 
-Group.level = 'info' | 'trace' | 'warn' | 'error' | 'off';
+Group.setLevel(name: LevelName): levelName {}
+Group.getLevel(): LevelName {}
 Group.info(message: string|number|any[]|Object): void {}
 Group.trace(message: string|number|any[]|Object): void {}
 Group.warn(message: string|number|any[]|Object): void {}

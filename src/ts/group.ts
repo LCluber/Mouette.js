@@ -4,23 +4,24 @@ import { LEVELS } from "./levels";
 import { Message } from "./message";
 
 export class Group {
-  private _level: Level;
+  private level: Level;
   public name: string;
   public messages: Message[] = [];
 
   constructor(name: string, level: Level) {
     this.name = name;
     this.messages = [];
-    this._level = level;
+    this.level = level;
     //this.html = '<span class="' + this.level.name + '">' + this.content + '</span><br>'
   }
 
-  set level(name: LevelName) {
-    this._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._level;
+  public setLevel(name: LevelName): LevelName {
+    this.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this.level;
+    return this.getLevel();
   }
 
-  get level(): LevelName {
-    return this._level.name;
+  public getLevel(): LevelName {
+    return this.level.name;
   }
 
   public info(message: MessageContent): void {
@@ -46,7 +47,7 @@ export class Group {
   private log(level: Level, messageContent: MessageContent): void {
     const message = new Message(level, messageContent);
     this.messages.push(message);
-    if (this._level.id <= message.id) {
+    if (this.level.id <= message.id) {
       message.display(this.name);
     }
   }
