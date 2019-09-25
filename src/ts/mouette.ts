@@ -10,7 +10,7 @@ export class Logger {
   public static setLevel(name: LevelName): LevelName {
     Logger.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : Logger.level;
     for (const group of Logger.groups) {
-      group.level = Logger.level.name;
+      group.setLevel(Logger.level.name);
     }
     return Logger.getLevel();
   }

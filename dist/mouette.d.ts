@@ -27,11 +27,12 @@ export declare function formatDate(): string;
 
 
 export declare class Group {
-    private _level;
+    private level;
     name: string;
     messages: Message[];
     constructor(name: string, level: Level);
-    level: LevelName;
+    setLevel(name: LevelName): LevelName;
+    getLevel(): LevelName;
     info(message: MessageContent): void;
     trace(message: MessageContent): void;
     warn(message: MessageContent): void;
