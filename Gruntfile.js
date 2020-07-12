@@ -157,13 +157,13 @@ module.exports = function(grunt) {
     strip_code: {
       options: {
         patterns: [
-          /import.*";/g,
+          /import { .* } from "\..*";/g,
           /export { .* } from ".*";/g
           // /\/\/\/ <reference path=.*\/>/g
         ]
       },
       declaration: {
-        src: distDir + projectName + ".d.ts"
+        src: distDir + projectNameLC + ".d.ts"
       }
     },
 

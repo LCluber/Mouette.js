@@ -36,6 +36,14 @@ newLogsGroup.info(window);
 newLogsGroup.trace(window);
 newLogsGroup.warn(window);
 newLogsGroup.error(window);
+
+newLogsGroup.time("timing log");
+for (i = 0; i < 100000; i++) {
+  // some code
+}
+newLogsGroup.time("timing log");
+
+Logger.setLevel("off");
 ```
 
 ### IIFE
@@ -47,28 +55,43 @@ newLogsGroup.error(window);
 ```javascript
 //set log level
 //Logs everything >= info
-Mouette.Logger.setLevel("info");
+Mouette.Loggler.setLevel("info");
 
 var newLogsGroup = Mouette.Logger.addGroup("newLogsGroup");
 newLogsGroup.info(window);
 newLogsGroup.trace(window);
 newLogsGroup.warn(window);
 newLogsGroup.error(window);
+
+newLogsGroup.time("timing log");
+for (i = 0; i < 100000; i++) {
+  // some code
+}
+newLogsGroup.time("timing log");
+
+newLogsGroup.setLevel("off");
 ```
 
 ## API Reference
 
 ```javascript
-static Logger.setLevel(name: 'info' | 'trace' | 'warn' | 'error' | 'off'): LevelNames {}
+static Logger.setLevel(name: 'info' | 'time' | 'trace' | 'warn' | 'error' | 'off'): LevelNames {}
 static Logger.getLevel(): LevelNames {}
+static Logger.displayConsole(value: boolean): boolean {}
 static Logger.getGroup(name: string): Group|null {}
 static Logger.addGroup(name: string): Group {}
+static Logger.sendLogs(url: string, headers?: HTTPHeaders): Promise<any> {}
 
-Group.level = 'info' | 'trace' | 'warn' | 'error' | 'off';
+Group.level = 'info' | 'time' | 'trace' | 'warn' | 'error' | 'off';
 Group.info(message: string|number|any[]|Object): void {}
+Group.time(key: string | number): void {}
 Group.trace(message: string|number|any[]|Object): void {}
 Group.warn(message: string|number|any[]|Object): void {}
 Group.error(message: string|number|any[]|Object): void {}
+
+Group.setLevel(name: 'info' | 'time' | 'trace' | 'warn' | 'error' | 'off'): LevelNames {}
+Group.getLevel(): LevelNames {}
+Group.displayConsole(value: boolean): boolean {}
 
 ```
 

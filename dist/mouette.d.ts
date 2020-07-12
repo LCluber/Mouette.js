@@ -27,16 +27,22 @@ export declare function formatDate(): string;
 
 
 export declare class Group {
-    private _level;
     name: string;
-    messages: Message[];
-    constructor(name: string, level: Level);
-    level: LevelName;
-    info(message: MessageContent): void;
-    trace(message: MessageContent): void;
-    warn(message: MessageContent): void;
-    error(message: MessageContent): void;
+    logs: Log[];
+    private timers;
+    options: Options;
+    constructor(name: string, level: LevelName);
+    setLevel(name: LevelName): LevelName;
+    getLevel(): LevelName;
+    info(log: MessageContent): void;
+    trace(log: MessageContent): void;
+    time(key: string | number): void;
+    warn(log: MessageContent): void;
+    error(log: MessageContent): void;
+    initLogs(): void;
     private log;
+    private addLog;
+    private addTimer;
 }
 
 export interface Level {
@@ -46,6 +52,7 @@ export interface Level {
 }
 export interface Levels {
     info: Level;
+    time: Level;
     trace: Level;
     warn: Level;
     error: Level;
@@ -60,7 +67,7 @@ declare global {
         [key: string]: Function;
     }
 }
-export declare class Message implements Level {
+export declare class Log implements Level {
     id: number;
     name: LevelName;
     color: string | null;
@@ -69,16 +76,37 @@ export declare class Message implements Level {
     constructor(level: Level, content: MessageContent);
     display(groupName: string): void;
 }
+import { HTTPHeaders } from "@lcluber/aiasjs";
 
 
 export declare class Logger {
-    private static level;
     private static groups;
+    private static options;
     static setLevel(name: LevelName): LevelName;
     static getLevel(): LevelName;
     static getGroup(name: string): Group | null;
     static addGroup(name: string): Group;
-    private static pushGroup;
+    static sendLogs(url: string, headers?: HTTPHeaders): Promise<any>;
+    private static createGroup;
 }
-export declare type LevelName = "info" | "trace" | "warn" | "error" | "off";
+
+export declare class Options {
+    private _logLevel;
+    private _displayConsole;
+    private _maxLength;
+    constructor(levelName?: LevelName, displayConsole?: boolean, maxLength?: number);
+    set logLevel(name: LevelName);
+    get logLevel(): LevelName;
+    set displayConsole(display: boolean);
+    get displayConsole(): boolean;
+    set maxLength(length: number);
+    get maxLength(): number;
+    displayMessage(messageId: number): boolean;
+}
+export declare class Timer {
+    key: string | number;
+    timestamp: number;
+    constructor(key: string | number);
+}
+export declare type LevelName = "info" | "time" | "trace" | "warn" | "error" | "off";
 export declare type MessageContent = string | number | any[] | Object;

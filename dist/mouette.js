@@ -23,13 +23,49 @@
 * http://mouettejs.lcluber.com
 */
 
+import { HTTP } from '@lcluber/aiasjs';
+import { isBoolean } from '@lcluber/chjs';
+
 const LEVELS = {
     info: { id: 1, name: "info", color: "#28a745" },
-    trace: { id: 2, name: "trace", color: "#17a2b8" },
-    warn: { id: 3, name: "warn", color: "#ffc107" },
-    error: { id: 4, name: "error", color: "#dc3545" },
+    time: { id: 2, name: "time", color: "#28a745" },
+    trace: { id: 4, name: "trace", color: "#17a2b8" },
+    warn: { id: 5, name: "warn", color: "#ffc107" },
+    error: { id: 6, name: "error", color: "#dc3545" },
     off: { id: 99, name: "off", color: null }
 };
+
+class Options {
+    constructor(levelName, displayConsole, maxLength) {
+        this._logLevel = LEVELS.error;
+        this._displayConsole = true;
+        this._maxLength = 200;
+        this.logLevel = levelName ? levelName : 'error';
+        this.displayConsole = isBoolean(displayConsole) ? displayConsole : this.displayConsole;
+        this.maxLength = maxLength ? maxLength : this.maxLength;
+    }
+    set logLevel(name) {
+        this._logLevel = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._logLevel;
+    }
+    get logLevel() {
+        return this._logLevel.name;
+    }
+    set displayConsole(display) {
+        this._displayConsole = display ? true : false;
+    }
+    get displayConsole() {
+        return this._displayConsole;
+    }
+    set maxLength(length) {
+        this._maxLength = length > 50 ? length : 50;
+    }
+    get maxLength() {
+        return this._maxLength;
+    }
+    displayMessage(messageId) {
+        return (this._displayConsole && this._logLevel.id <= messageId);
+    }
+}
 
 function addZero(value) {
     return value < 10 ? "0" + value : value;
@@ -52,7 +88,7 @@ function formatDate() {
     return date.join("/") + " " + time.join(":");
 }
 
-class Message {
+class Log {
     constructor(level, content) {
         this.id = level.id;
         this.name = level.name;
@@ -61,57 +97,98 @@ class Message {
         this.date = formatDate();
     }
     display(groupName) {
-        console[this.name]("%c[" + groupName + "] " + this.date + " : ", "color:" + this.color + ";", this.content);
+        let name = this.name;
+        if (name === 'time') {
+            name = 'info';
+        }
+        console[name]("%c[" + groupName + "] " + this.date + " : ", "color:" + this.color + ";", this.content);
+    }
+}
+
+class Timer {
+    constructor(key) {
+        this.key = key;
+        this.timestamp = new Date().getTime();
     }
 }
 
 class Group {
     constructor(name, level) {
-        this.messages = [];
+        this.logs = [];
         this.name = name;
-        this.messages = [];
-        this._level = level;
+        this.logs = [];
+        this.timers = [];
+        this.options = new Options(level);
     }
-    set level(name) {
-        this._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._level;
+    setLevel(name) {
+        this.options.logLevel = name;
+        return this.options.logLevel;
     }
-    get level() {
-        return this._level.name;
+    getLevel() {
+        return this.options.logLevel;
     }
-    info(message) {
-        this.log(LEVELS.info, message);
+    info(log) {
+        this.log(LEVELS.info, log);
     }
-    trace(message) {
-        this.log(LEVELS.trace, message);
+    trace(log) {
+        this.log(LEVELS.trace, log);
     }
-    warn(message) {
-        this.log(LEVELS.warn, message);
+    time(key) {
+        let index = this.timers.findIndex(element => element.key === key);
+        if (index > -1) {
+            let newTimestamp = new Date().getTime();
+            let delta = newTimestamp - this.timers[index].timestamp;
+            this.log(LEVELS.time, key + ' completed in ' + delta + ' ms');
+            this.timers.splice(index, 1);
+        }
+        else {
+            this.addTimer(key);
+            this.log(LEVELS.time, key + ' started');
+        }
     }
-    error(message) {
-        this.log(LEVELS.error, message);
+    warn(log) {
+        this.log(LEVELS.warn, log);
     }
-    log(level, messageContent) {
-        const message = new Message(level, messageContent);
-        this.messages.push(message);
-        if (this._level.id <= message.id) {
+    error(log) {
+        this.log(LEVELS.error, log);
+    }
+    initLogs() {
+        this.logs = [];
+    }
+    log(level, log) {
+        const message = new Log(level, log);
+        this.addLog(message);
+        if (this.options.displayMessage(message.id)) {
             message.display(this.name);
         }
+    }
+    addLog(message) {
+        if (this.logs.length >= this.options.maxLength) {
+            this.logs.shift();
+        }
+        this.logs.push(message);
+    }
+    addTimer(key) {
+        if (this.timers.length >= this.options.maxLength) {
+            this.timers.shift();
+        }
+        this.timers.push(new Timer(key));
     }
 }
 
 class Logger {
     static setLevel(name) {
-        Logger.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : Logger.level;
-        for (const group of Logger.groups) {
-            group.level = Logger.level.name;
+        this.options.logLevel = name;
+        for (const group of this.groups) {
+            group.setLevel(this.options.logLevel);
         }
-        return Logger.getLevel();
+        return this.getLevel();
     }
     static getLevel() {
-        return Logger.level.name;
+        return this.options.logLevel;
     }
     static getGroup(name) {
-        for (const group of Logger.groups) {
+        for (const group of this.groups) {
             if (group.name === name) {
                 return group;
             }
@@ -119,15 +196,34 @@ class Logger {
         return null;
     }
     static addGroup(name) {
-        return this.getGroup(name) || this.pushGroup(name);
+        return this.getGroup(name) || this.createGroup(name);
     }
-    static pushGroup(name) {
-        const group = new Group(name, Logger.level);
-        Logger.groups.push(group);
+    static sendLogs(url, headers) {
+        let logs = [];
+        if (headers) {
+            HTTP.setHeaders("POST", headers);
+        }
+        for (const group of this.groups) {
+            logs.push(...group.logs);
+        }
+        return HTTP.post(url, "json", logs).then(response => {
+            for (const group of this.groups) {
+                group.initLogs();
+            }
+            return response;
+        })
+            .catch(err => {
+            console.log("error", err);
+            return err;
+        });
+    }
+    static createGroup(name) {
+        const group = new Group(name, this.options.logLevel);
+        this.groups.push(group);
         return group;
     }
 }
-Logger.level = LEVELS.error;
 Logger.groups = [];
+Logger.options = new Options();
 
 export { Logger };

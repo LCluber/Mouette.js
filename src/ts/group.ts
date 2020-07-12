@@ -1,53 +1,91 @@
 import { LevelName, MessageContent } from "./types";
+import { Options } from "./options";
 import { Level } from "./interfaces";
 import { LEVELS } from "./levels";
-import { Message } from "./message";
+import { Log } from "./log";
+import { Timer } from "./timer";
 
 export class Group {
-  private _level: Level;
   public name: string;
-  public messages: Message[] = [];
+  public logs: Log[] = [];
+  private timers: Timer[];
+  public options: Options;
 
-  constructor(name: string, level: Level) {
+  constructor(name: string, level: LevelName) {
     this.name = name;
-    this.messages = [];
-    this._level = level;
+    this.logs = [];
+    this.timers = [];
+    this.options = new Options(level);
     //this.html = '<span class="' + this.level.name + '">' + this.content + '</span><br>'
   }
 
-  set level(name: LevelName) {
-    this._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._level;
+  public setLevel(name: LevelName): LevelName {
+    this.options.logLevel = name;
+    return this.options.logLevel;
   }
 
-  get level(): LevelName {
-    return this._level.name;
+  public getLevel(): LevelName {
+    return this.options.logLevel;
   }
 
-  public info(message: MessageContent): void {
-    this.log(LEVELS.info, message);
+  public displayConsole(value: boolean): boolean {
+    this.options.console = value;
+    return this.options.console;
   }
 
-  public trace(message: MessageContent): void {
-    this.log(LEVELS.trace, message);
+  public info(log: MessageContent): void {
+    this.log(LEVELS.info, log);
   }
 
-  // public time(message: MessageContent): void {
-  //   Logger.log(LEVELS.time, message, group);
-  // }
-
-  public warn(message: MessageContent): void {
-    this.log(LEVELS.warn, message);
+  public trace(log: MessageContent): void {
+    this.log(LEVELS.trace, log);
   }
 
-  public error(message: MessageContent): void {
-    this.log(LEVELS.error, message);
+  public time(key: string | number): void {
+    let index = this.timers.findIndex(element => element.key === key);
+    if (index > -1) {
+      //trigger TimeEnd
+      let newTimestamp = new Date().getTime();
+      let delta = newTimestamp - this.timers[index].timestamp;
+      this.log(LEVELS.time, key + " completed in " + delta + " ms");
+      this.timers.splice(index, 1);
+    } else {
+      this.addTimer(key);
+      this.log(LEVELS.time, key + " started");
+    }
   }
 
-  private log(level: Level, messageContent: MessageContent): void {
-    const message = new Message(level, messageContent);
-    this.messages.push(message);
-    if (this._level.id <= message.id) {
+  public warn(log: MessageContent): void {
+    this.log(LEVELS.warn, log);
+  }
+
+  public error(log: MessageContent): void {
+    this.log(LEVELS.error, log);
+  }
+
+  public initLogs() {
+    this.logs = [];
+  }
+
+  private log(level: Level, log: MessageContent): void {
+    const message = new Log(level, log);
+    this.addLog(message);
+    if (this.options.displayMessage(message.id)) {
       message.display(this.name);
     }
+  }
+
+  private addLog(message: Log): void {
+    if (this.logs.length >= this.options.maxLength) {
+      this.logs.shift();
+    }
+    this.logs.push(message);
+  }
+
+  private addTimer(key: string | number): void {
+    if (this.timers.length >= this.options.maxLength) {
+      this.timers.shift();
+    }
+    this.timers.push(new Timer(key));
   }
 }

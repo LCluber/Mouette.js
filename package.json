@@ -26,14 +26,13 @@
   "scripts": {
     "start": "grunt build",
     "pretty": "prettier --check 'src/ts/*.ts' --write",
-    "commit": "git-cz",
-    "semantic-release": "semantic-release"
+    "commit": "git-cz"
   },
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-push": "grunt build"
+      "pre-push": ""
     }
   },
   "config": {
@@ -46,16 +45,15 @@
   ],
   "dependencies": {},
   "devDependencies": {
+    "@babel/core": "7.2.2",
+    "@babel/preset-env": "7.2.3",
     "@commitlint/cli": "8.0.0",
     "@commitlint/config-conventional": "8.0.0",
     "@commitlint/prompt": "8.0.0",
-    "@semantic-release/changelog": "3.0.4",
-    "@semantic-release/git": "7.0.16",
-    "@semantic-release/npm": "5.1.13",
-    "@babel/core": "7.2.2",
-    "@babel/preset-env": "7.2.3",
+    "@lcluber/aiasjs": "2.7.1",
+    "@lcluber/chjs": "2.10.1",
     "cz-conventional-changelog": "2.1.0",
-    "grunt": "1.0.1",
+    "grunt": "1.1.0",
     "grunt-contrib-clean": "1.1.0",
     "grunt-contrib-concat": "1.0.1",
     "grunt-contrib-copy": "1.0.0",
@@ -63,15 +61,14 @@
     "grunt-contrib-watch": "1.0.1",
     "grunt-rollup": "9.0.0",
     "grunt-strip-code": "1.0.6",
-    "grunt-ts": "6.0.0-beta.20",
+    "grunt-ts": "6.0.0-beta.22",
     "husky": "2.7.0",
     "prettier": "1.18.2",
     "pretty-quick": "1.11.1",
     "rollup-plugin-babel": "4.1.0",
     "rollup-plugin-node-resolve": "4.0.0",
-    "semantic-release": "15.13.21",
     "time-grunt": "1.4.0",
-    "tslint": "5.9.1",
-    "typescript": "3.2.2"
+    "tslint": "6.1.2",
+    "typescript": "3.9.5"
   }
 }

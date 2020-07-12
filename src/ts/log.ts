@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-export class Message implements Level {
+export class Log implements Level {
   id: number;
   name: LevelName;
   color: string | null;
@@ -19,13 +19,18 @@ export class Message implements Level {
   constructor(level: Level, content: MessageContent) {
     this.id = level.id;
     this.name = level.name;
+    // this.label = label || null;
     this.color = level.color;
     this.content = content;
     this.date = formatDate();
   }
 
   public display(groupName: string): void {
-    console[<string>this.name](
+    let name = this.name;
+    if (name === "time") {
+      name = "info";
+    }
+    console[name](
       "%c[" + groupName + "] " + this.date + " : ",
       "color:" + this.color + ";",
       this.content
