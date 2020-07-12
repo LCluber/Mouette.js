@@ -14,5 +14,4 @@ export interface Levels {
   warn: Level;
   error: Level;
   off: Level;
-  // [key: string]: Level
 }

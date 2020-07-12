@@ -1,12 +1,15 @@
-import { LevelName, MessageContent } from "./types";
+import { LevelName, MessageContent, ConsoleMethod } from "./types";
 import { Level } from "./interfaces";
 import { formatDate } from "./date";
 
-declare global {
-  interface Console {
-    [key: string]: Function;
-  }
-}
+// declare global {
+//   interface console {
+//     info:  Function;
+//     trace: Function;
+//     warn:  Function;
+//     error: Function;
+//   }
+// }
 
 export class Log implements Level {
   id: number;
@@ -19,7 +22,6 @@ export class Log implements Level {
   constructor(level: Level, content: MessageContent) {
     this.id = level.id;
     this.name = level.name;
-    // this.label = label || null;
     this.color = level.color;
     this.content = content;
     this.date = formatDate();
@@ -30,7 +32,7 @@ export class Log implements Level {
     if (name === "time") {
       name = "info";
     }
-    console[name](
+    console[<ConsoleMethod>name](
       "%c[" + groupName + "] " + this.date + " : ",
       "color:" + this.color + ";",
       this.content

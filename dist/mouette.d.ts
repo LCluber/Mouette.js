@@ -1,6 +1,6 @@
 /** MIT License
 * 
-* Copyright (c) 2015 Ludovic CLUBER 
+* Copyright (c) 2017 Ludovic CLUBER 
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,7 @@ export declare class Group {
     constructor(name: string, level: LevelName);
     setLevel(name: LevelName): LevelName;
     getLevel(): LevelName;
+    displayConsole(value: boolean): boolean;
     info(log: MessageContent): void;
     trace(log: MessageContent): void;
     time(key: string | number): void;
@@ -62,11 +63,6 @@ export interface Levels {
 export declare const LEVELS: Levels;
 
 
-declare global {
-    interface Console {
-        [key: string]: Function;
-    }
-}
 export declare class Log implements Level {
     id: number;
     name: LevelName;
@@ -85,20 +81,21 @@ export declare class Logger {
     static setLevel(name: LevelName): LevelName;
     static getLevel(): LevelName;
     static getGroup(name: string): Group | null;
+    static displayConsole(value: boolean): boolean;
     static addGroup(name: string): Group;
     static sendLogs(url: string, headers?: HTTPHeaders): Promise<any>;
     private static createGroup;
 }
 
 export declare class Options {
-    private _logLevel;
-    private _displayConsole;
+    private _level;
+    private _console;
     private _maxLength;
-    constructor(levelName?: LevelName, displayConsole?: boolean, maxLength?: number);
-    set logLevel(name: LevelName);
-    get logLevel(): LevelName;
-    set displayConsole(display: boolean);
-    get displayConsole(): boolean;
+    constructor(levelName?: LevelName, console?: boolean, maxLength?: number);
+    set level(name: LevelName);
+    get level(): LevelName;
+    set console(display: boolean);
+    get console(): boolean;
     set maxLength(length: number);
     get maxLength(): number;
     displayMessage(messageId: number): boolean;
@@ -110,3 +107,4 @@ export declare class Timer {
 }
 export declare type LevelName = "info" | "time" | "trace" | "warn" | "error" | "off";
 export declare type MessageContent = string | number | any[] | Object;
+export declare type ConsoleMethod = "info" | "trace" | "warn" | "error";

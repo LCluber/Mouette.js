@@ -1,6 +1,6 @@
 /** MIT License
 * 
-* Copyright (c) 2015 Ludovic CLUBER 
+* Copyright (c) 2017 Ludovic CLUBER 
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -36,25 +36,27 @@ const LEVELS = {
 };
 
 class Options {
-    constructor(levelName, displayConsole, maxLength) {
-        this._logLevel = LEVELS.error;
-        this._displayConsole = true;
+    constructor(levelName, console, maxLength) {
+        this._level = LEVELS.error;
+        this._console = true;
         this._maxLength = 200;
-        this.logLevel = levelName ? levelName : 'error';
-        this.displayConsole = isBoolean(displayConsole) ? displayConsole : this.displayConsole;
+        this.level = levelName ? levelName : "error";
+        this.console = isBoolean(console) ? console : this.console;
         this.maxLength = maxLength ? maxLength : this.maxLength;
     }
-    set logLevel(name) {
-        this._logLevel = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._logLevel;
+    set level(name) {
+        this._level = LEVELS.hasOwnProperty(name)
+            ? LEVELS[name]
+            : this._level;
     }
-    get logLevel() {
-        return this._logLevel.name;
+    get level() {
+        return this._level.name;
     }
-    set displayConsole(display) {
-        this._displayConsole = display ? true : false;
+    set console(display) {
+        this._console = display ? true : false;
     }
-    get displayConsole() {
-        return this._displayConsole;
+    get console() {
+        return this._console;
     }
     set maxLength(length) {
         this._maxLength = length > 50 ? length : 50;
@@ -63,7 +65,7 @@ class Options {
         return this._maxLength;
     }
     displayMessage(messageId) {
-        return (this._displayConsole && this._logLevel.id <= messageId);
+        return this._console && this._level.id <= messageId;
     }
 }
 
@@ -98,8 +100,8 @@ class Log {
     }
     display(groupName) {
         let name = this.name;
-        if (name === 'time') {
-            name = 'info';
+        if (name === "time") {
+            name = "info";
         }
         console[name]("%c[" + groupName + "] " + this.date + " : ", "color:" + this.color + ";", this.content);
     }
@@ -114,18 +116,21 @@ class Timer {
 
 class Group {
     constructor(name, level) {
-        this.logs = [];
         this.name = name;
         this.logs = [];
         this.timers = [];
         this.options = new Options(level);
     }
     setLevel(name) {
-        this.options.logLevel = name;
-        return this.options.logLevel;
+        this.options.level = name;
+        return this.options.level;
     }
     getLevel() {
-        return this.options.logLevel;
+        return this.options.level;
+    }
+    displayConsole(value) {
+        this.options.console = value;
+        return this.options.console;
     }
     info(log) {
         this.log(LEVELS.info, log);
@@ -138,12 +143,12 @@ class Group {
         if (index > -1) {
             let newTimestamp = new Date().getTime();
             let delta = newTimestamp - this.timers[index].timestamp;
-            this.log(LEVELS.time, key + ' completed in ' + delta + ' ms');
+            this.log(LEVELS.time, key + " completed in " + delta + " ms");
             this.timers.splice(index, 1);
         }
         else {
             this.addTimer(key);
-            this.log(LEVELS.time, key + ' started');
+            this.log(LEVELS.time, key + " started");
         }
     }
     warn(log) {
@@ -178,14 +183,14 @@ class Group {
 
 class Logger {
     static setLevel(name) {
-        this.options.logLevel = name;
+        this.options.level = name;
         for (const group of this.groups) {
-            group.setLevel(this.options.logLevel);
+            group.setLevel(this.options.level);
         }
         return this.getLevel();
     }
     static getLevel() {
-        return this.options.logLevel;
+        return this.options.level;
     }
     static getGroup(name) {
         for (const group of this.groups) {
@@ -194,6 +199,13 @@ class Logger {
             }
         }
         return null;
+    }
+    static displayConsole(value) {
+        this.options.console = value;
+        for (const group of this.groups) {
+            group.displayConsole(this.options.console);
+        }
+        return this.options.console;
     }
     static addGroup(name) {
         return this.getGroup(name) || this.createGroup(name);
@@ -206,7 +218,8 @@ class Logger {
         for (const group of this.groups) {
             logs.push(...group.logs);
         }
-        return HTTP.post(url, "json", logs).then(response => {
+        return HTTP.post(url, "json", logs)
+            .then(response => {
             for (const group of this.groups) {
                 group.initLogs();
             }
@@ -218,7 +231,7 @@ class Logger {
         });
     }
     static createGroup(name) {
-        const group = new Group(name, this.options.logLevel);
+        const group = new Group(name, this.options.level);
         this.groups.push(group);
         return group;
     }

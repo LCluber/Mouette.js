@@ -1,14 +1,26 @@
-## Version 0.4.0 (July 13th 2020)
+## Version 2.3.0 (July 13th 2020)
 
 - New options parameter with 'logLevel' and 'displayConsole' parameters at logger and group levels
 - Add time feature to log timings
 - Send logs to the server with http post requests using sendLogs() method
 
+## [2.2.1](https://github.com/LCluber/Mouette.js/compare/v2.2.0...v2.2.1) (2019-09-25)
+
+### Bug Fixes
+
+- **console:** fix console interface definition ([02f7e04](https://github.com/LCluber/Mouette.js/commit/02f7e04))
+
+# [2.2.0](https://github.com/LCluber/Mouette.js/compare/v2.1.0...v2.2.0) (2019-09-25)
+
+### Features
+
+- **level:** set log level at group level ([cbb5c50](https://github.com/LCluber/Mouette.js/commit/cbb5c50))
+
 # [2.1.0](https://github.com/LCluber/Mouette.js/compare/v2.0.6...v2.1.0) (2019-08-16)
 
 ### Bug Fixes
 
-- **declarations:** fixed declarations file ([1677e94](https://github.com/LCluber/Mouette.js/commit/1677e94))
+- **declarations:** fix declarations file ([1677e94](https://github.com/LCluber/Mouette.js/commit/1677e94))
 
 ### Features
 

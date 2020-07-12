@@ -75,23 +75,24 @@ newLogsGroup.setLevel("off");
 ## API Reference
 
 ```javascript
-static Logger.setLevel(name: 'info' | 'time' | 'trace' | 'warn' | 'error' | 'off'): LevelNames {}
-static Logger.getLevel(): LevelNames {}
+type LevelName = "info" | "time" | "trace" | "warn" | "error" | "off";
+
+static Logger.setLevel(name: LevelName): LevelName {}
+static Logger.getLevel(): LevelName {}
 static Logger.displayConsole(value: boolean): boolean {}
-static Logger.getGroup(name: string): Group|null {}
+static Logger.getGroup(name: string): Group | null {}
 static Logger.addGroup(name: string): Group {}
 static Logger.sendLogs(url: string, headers?: HTTPHeaders): Promise<any> {}
 
-Group.level = 'info' | 'time' | 'trace' | 'warn' | 'error' | 'off';
+Group.setLevel(name: LevelName): levelName {}
+Group.getLevel(): LevelName {}
+Group.displayConsole(value: boolean): boolean {}
+
 Group.info(message: string|number|any[]|Object): void {}
 Group.time(key: string | number): void {}
 Group.trace(message: string|number|any[]|Object): void {}
 Group.warn(message: string|number|any[]|Object): void {}
 Group.error(message: string|number|any[]|Object): void {}
-
-Group.setLevel(name: 'info' | 'time' | 'trace' | 'warn' | 'error' | 'off'): LevelNames {}
-Group.getLevel(): LevelNames {}
-Group.displayConsole(value: boolean): boolean {}
 
 ```
 

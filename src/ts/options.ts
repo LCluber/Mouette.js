@@ -4,27 +4,25 @@ import { LEVELS } from "./levels";
 import { Level } from "./interfaces";
 
 export class Options {
-  private _logLevel: Level;
+  private _level: Level;
   private _console: boolean;
   private _maxLength: number;
 
   constructor(levelName?: LevelName, console?: boolean, maxLength?: number) {
-    this._logLevel = LEVELS.error;
+    this._level = LEVELS.error;
     this._console = true;
     this._maxLength = 200;
-    this.logLevel = levelName ? levelName : "error";
+    this.level = levelName ? levelName : "error";
     this.console = isBoolean(console) ? (console as boolean) : this.console;
     this.maxLength = maxLength ? maxLength : this.maxLength;
   }
 
-  set logLevel(name: LevelName) {
-    this._logLevel = LEVELS.hasOwnProperty(name)
-      ? LEVELS[name]
-      : this._logLevel;
+  set level(name: LevelName) {
+    this._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._level;
   }
 
-  get logLevel(): LevelName {
-    return this._logLevel.name;
+  get level(): LevelName {
+    return this._level.name;
   }
 
   set console(display: boolean) {
@@ -44,6 +42,6 @@ export class Options {
   }
 
   public displayMessage(messageId: number): boolean {
-    return this._console && this._logLevel.id <= messageId;
+    return this._console && this._level.id <= messageId;
   }
 }

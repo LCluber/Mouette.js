@@ -7,7 +7,7 @@ import { Timer } from "./timer";
 
 export class Group {
   public name: string;
-  public logs: Log[] = [];
+  public logs: Log[];
   private timers: Timer[];
   public options: Options;
 
@@ -20,12 +20,12 @@ export class Group {
   }
 
   public setLevel(name: LevelName): LevelName {
-    this.options.logLevel = name;
-    return this.options.logLevel;
+    this.options.level = name;
+    return this.options.level;
   }
 
   public getLevel(): LevelName {
-    return this.options.logLevel;
+    return this.options.level;
   }
 
   public displayConsole(value: boolean): boolean {

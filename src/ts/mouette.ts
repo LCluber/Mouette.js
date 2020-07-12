@@ -8,15 +8,15 @@ export class Logger {
   private static options: Options = new Options();
 
   public static setLevel(name: LevelName): LevelName {
-    this.options.logLevel = name;
+    this.options.level = name;
     for (const group of this.groups) {
-      group.setLevel(this.options.logLevel);
+      group.setLevel(this.options.level);
     }
     return this.getLevel();
   }
 
   public static getLevel(): LevelName {
-    return this.options.logLevel;
+    return this.options.level;
   }
 
   public static getGroup(name: string): Group | null {
@@ -64,7 +64,7 @@ export class Logger {
   }
 
   private static createGroup(name: string): Group {
-    const group = new Group(name, this.options.logLevel);
+    const group = new Group(name, this.options.level);
     this.groups.push(group);
     return group;
   }
