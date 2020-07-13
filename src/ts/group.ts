@@ -16,7 +16,6 @@ export class Group {
     this.logs = [];
     this.timers = [];
     this.options = new Options(level);
-    //this.html = '<span class="' + this.level.name + '">' + this.content + '</span><br>'
   }
 
   public setLevel(name: LevelName): LevelName {

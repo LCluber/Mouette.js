@@ -4499,10 +4499,10 @@ var Mouette = (function (exports) {
   /*#__PURE__*/
   function () {
     function Options(levelName, console, maxLength) {
-      this._level = LEVELS$1.error;
+      this._level = "error";
       this._console = true;
       this._maxLength = 200;
-      this.level = levelName ? levelName : "error";
+      this.level = levelName ? levelName : this._level;
       this.console = isBoolean(console) ? console : this.console;
       this.maxLength = maxLength ? maxLength : this.maxLength;
     }
@@ -4510,16 +4510,16 @@ var Mouette = (function (exports) {
     var _proto = Options.prototype;
 
     _proto.displayMessage = function displayMessage(messageId) {
-      return this._console && this._level.id <= messageId;
+      return this._console && LEVELS$1[this._level].id <= messageId;
     };
 
     _createClass(Options, [{
       key: "level",
       set: function set(name) {
-        this._level = LEVELS$1.hasOwnProperty(name) ? LEVELS$1[name] : this._level;
+        this._level = LEVELS$1.hasOwnProperty(name) ? name : this._level;
       },
       get: function get() {
-        return this._level.name;
+        return this._level;
       }
     }, {
       key: "console",
@@ -4567,12 +4567,7 @@ var Mouette = (function (exports) {
     var _proto = Log.prototype;
 
     _proto.display = function display(groupName) {
-      var name = this.name;
-
-      if (name === "time") {
-        name = "info";
-      }
-
+      var name = this.name === "time" ? "info" : this.name;
       console[name]("%c[" + groupName + "] " + this.date + " : ", "color:" + this.color + ";", this.content);
     };
 

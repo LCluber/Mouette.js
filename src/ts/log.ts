@@ -9,7 +9,7 @@ import { formatDate } from "./date";
 //     warn:  Function;
 //     error: Function;
 //   }
-// }
+// }l
 
 export class Log implements Level {
   id: number;
@@ -17,7 +17,6 @@ export class Log implements Level {
   color: string | null;
   content: MessageContent;
   date: string;
-  //html: string;
 
   constructor(level: Level, content: MessageContent) {
     this.id = level.id;
@@ -28,10 +27,7 @@ export class Log implements Level {
   }
 
   public display(groupName: string): void {
-    let name = this.name;
-    if (name === "time") {
-      name = "info";
-    }
+    let name = this.name === "time" ? "info" : this.name;
     console[<ConsoleMethod>name](
       "%c[" + groupName + "] " + this.date + " : ",
       "color:" + this.color + ";",

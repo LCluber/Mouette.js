@@ -37,20 +37,18 @@ const LEVELS = {
 
 class Options {
     constructor(levelName, console, maxLength) {
-        this._level = LEVELS.error;
+        this._level = "error";
         this._console = true;
         this._maxLength = 200;
-        this.level = levelName ? levelName : "error";
+        this.level = levelName ? levelName : this._level;
         this.console = isBoolean(console) ? console : this.console;
         this.maxLength = maxLength ? maxLength : this.maxLength;
     }
     set level(name) {
-        this._level = LEVELS.hasOwnProperty(name)
-            ? LEVELS[name]
-            : this._level;
+        this._level = LEVELS.hasOwnProperty(name) ? name : this._level;
     }
     get level() {
-        return this._level.name;
+        return this._level;
     }
     set console(display) {
         this._console = display ? true : false;
@@ -65,7 +63,7 @@ class Options {
         return this._maxLength;
     }
     displayMessage(messageId) {
-        return this._console && this._level.id <= messageId;
+        return this._console && LEVELS[this._level].id <= messageId;
     }
 }
 
@@ -99,10 +97,7 @@ class Log {
         this.date = formatDate();
     }
     display(groupName) {
-        let name = this.name;
-        if (name === "time") {
-            name = "info";
-        }
+        let name = (this.name === "time") ? "info" : this.name;
         console[name]("%c[" + groupName + "] " + this.date + " : ", "color:" + this.color + ";", this.content);
     }
 }
