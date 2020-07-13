@@ -1,6 +1,7 @@
 Mouette.Logger.setLevel("info");
+Mouette.Logger.displayConsole(true);
 var newLogsGroup = Mouette.Logger.addGroup("newLogsGroup");
-
+newLogsGroup.displayConsole(true);
 newLogsGroup.info(window);
 newLogsGroup.trace(window);
 newLogsGroup.warn(window);

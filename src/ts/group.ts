@@ -11,11 +11,15 @@ export class Group {
   private timers: Timer[];
   public options: Options;
 
-  constructor(name: string, level: LevelName) {
+  constructor(name: string, options: Options) {
     this.name = name;
     this.logs = [];
     this.timers = [];
-    this.options = new Options(level);
+    this.options = new Options(
+      options.level,
+      options.console,
+      options.maxLength
+    );
   }
 
   public setLevel(name: LevelName): LevelName {
@@ -43,7 +47,7 @@ export class Group {
   public time(key: string | number): void {
     let index = this.timers.findIndex(element => element.key === key);
     if (index > -1) {
-      //trigger TimeEnd
+      // trigger TimeEnd
       let newTimestamp = new Date().getTime();
       let delta = newTimestamp - this.timers[index].timestamp;
       this.log(LEVELS.time, key + " completed in " + delta + " ms");

@@ -4503,7 +4503,7 @@ var Mouette = (function (exports) {
       this._console = true;
       this._maxLength = 200;
       this.level = levelName ? levelName : this._level;
-      this.console = isBoolean(console) ? console : this.console;
+      this.console = isBoolean(console) ? console : this._console;
       this.maxLength = maxLength ? maxLength : this.maxLength;
     }
 
@@ -4582,11 +4582,11 @@ var Mouette = (function (exports) {
   var Group$1 =
   /*#__PURE__*/
   function () {
-    function Group(name, level) {
+    function Group(name, options) {
       this.name = name;
       this.logs = [];
       this.timers = [];
-      this.options = new Options(level);
+      this.options = new Options(options.level, options.console, options.maxLength);
     }
 
     var _proto = Group.prototype;
@@ -4799,7 +4799,7 @@ var Mouette = (function (exports) {
     };
 
     Logger.createGroup = function createGroup(name) {
-      var group = new Group$1(name, this.options.level);
+      var group = new Group$1(name, this.options);
       this.groups.push(group);
       return group;
     };

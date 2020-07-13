@@ -64,7 +64,7 @@ export class Logger {
   }
 
   private static createGroup(name: string): Group {
-    const group = new Group(name, this.options.level);
+    const group = new Group(name, this.options);
     this.groups.push(group);
     return group;
   }

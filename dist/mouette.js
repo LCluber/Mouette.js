@@ -41,7 +41,7 @@ class Options {
         this._console = true;
         this._maxLength = 200;
         this.level = levelName ? levelName : this._level;
-        this.console = isBoolean(console) ? console : this.console;
+        this.console = isBoolean(console) ? console : this._console;
         this.maxLength = maxLength ? maxLength : this.maxLength;
     }
     set level(name) {
@@ -97,7 +97,7 @@ class Log {
         this.date = formatDate();
     }
     display(groupName) {
-        let name = (this.name === "time") ? "info" : this.name;
+        let name = this.name === "time" ? "info" : this.name;
         console[name]("%c[" + groupName + "] " + this.date + " : ", "color:" + this.color + ";", this.content);
     }
 }
@@ -110,11 +110,11 @@ class Timer {
 }
 
 class Group {
-    constructor(name, level) {
+    constructor(name, options) {
         this.name = name;
         this.logs = [];
         this.timers = [];
-        this.options = new Options(level);
+        this.options = new Options(options.level, options.console, options.maxLength);
     }
     setLevel(name) {
         this.options.level = name;
@@ -226,7 +226,7 @@ class Logger {
         });
     }
     static createGroup(name) {
-        const group = new Group(name, this.options.level);
+        const group = new Group(name, this.options);
         this.groups.push(group);
         return group;
     }

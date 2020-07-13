@@ -31,7 +31,7 @@ export declare class Group {
     logs: Log[];
     private timers;
     options: Options;
-    constructor(name: string, level: LevelName);
+    constructor(name: string, options: Options);
     setLevel(name: LevelName): LevelName;
     getLevel(): LevelName;
     displayConsole(value: boolean): boolean;

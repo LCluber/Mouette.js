@@ -1,7 +1,7 @@
 {
   "name": "@lcluber/mouettejs",
   "version": "2.3.0",
-  "description": "Lightweight logger written in Typescript",
+  "description": "Lightweight logger",
   "keywords": [
     "logger"
   ],

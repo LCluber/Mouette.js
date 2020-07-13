@@ -12,7 +12,7 @@ export class Options {
     this._console = true;
     this._maxLength = 200;
     this.level = levelName ? levelName : this._level;
-    this.console = isBoolean(console) ? (console as boolean) : this.console;
+    this.console = isBoolean(console) ? (console as boolean) : this._console;
     this.maxLength = maxLength ? maxLength : this.maxLength;
   }
 
