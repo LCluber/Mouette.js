@@ -29,9 +29,14 @@ import { Logger, Group } from "@lcluber/mouettejs";
 
 //set log level
 //Logs everything >= info
-Logger.setLevel("info");
+Logger.setLevel("error");
 
 let newLogsGroup: Group = Logger.addGroup("newLogsGroup");
+
+newLogsGroup.setLevel("info");
+l;
+newLogsGroup.displayConsole(false); // do not display logs of the group into console
+
 newLogsGroup.info(window);
 newLogsGroup.trace(window);
 newLogsGroup.warn(window);
@@ -55,9 +60,13 @@ Logger.setLevel("off");
 ```javascript
 //set log level
 //Logs everything >= info
-Mouette.Loggler.setLevel("info");
+Mouette.Logger.setLevel("error");
 
 var newLogsGroup = Mouette.Logger.addGroup("newLogsGroup");
+
+newLogsGroup.setLevel("info");
+newLogsGroup.displayConsole(false); // do not display logs of the group into console
+
 newLogsGroup.info(window);
 newLogsGroup.trace(window);
 newLogsGroup.warn(window);
@@ -77,22 +86,32 @@ newLogsGroup.setLevel("off");
 ```javascript
 type LevelName = "info" | "time" | "trace" | "warn" | "error" | "off";
 
-static Logger.setLevel(name: LevelName): LevelName {}
-static Logger.getLevel(): LevelName {}
-static Logger.displayConsole(value: boolean): boolean {}
-static Logger.getGroup(name: string): Group | null {}
-static Logger.addGroup(name: string): Group {}
-static Logger.sendLogs(url: string, headers?: HTTPHeaders): Promise<any> {}
+static Logger.setLevel(name: LevelName): LevelName {} // set the minimum level at which logs can be stored and displayed into console. Note that this setting will propagate to every group. You can set a different level for a group AFTER setting the level for the entire logger.
+static Logger.getLevel(): LevelName {} // get the general level of the logger. Note that groups can have a different level if changed afterwards at group level
+static Logger.displayConsole(value: boolean): boolean {} // set wether or not to display logs into console at logger level. Note that this setting will propagate to every group. This option can be changed individually for each group if changed afterwards at group level
+static Logger.addGroup(name: string): Group {} // create a new group of logs
+static Logger.sendLogs(url: string, headers?: HTTPHeaders): Promise<any> {} // send logs using http post request
 
-Group.setLevel(name: LevelName): levelName {}
-Group.getLevel(): LevelName {}
-Group.displayConsole(value: boolean): boolean {}
+Group.setLevel(name: LevelName): levelName {} // set the minimum level at which logs of this group can be stored and displayed into console
+Group.getLevel(): LevelName {} // get the level at which logs of this group can be displayed
+Group.displayConsole(value: boolean): boolean {} // set wether or not to display logs into console
+Group.setMaxLength(length: number): number {} // set the maximum quantity of logs stored by this group
+Group.getMaxLength(): number {} // get the maximum quantity of logs stored by this group
 
-Group.info(message: string|number|any[]|Object): void {}
-Group.time(key: string | number): void {}
-Group.trace(message: string|number|any[]|Object): void {}
-Group.warn(message: string|number|any[]|Object): void {}
-Group.error(message: string|number|any[]|Object): void {}
+Group.info(message: string|number|any[]|Object): void {} // create an info log
+Group.time(key: string | number): void {} // create a time log. Use the same method to start or stop the timer. Using the same key, first call will start it, second call will stop it and return the elapsed time between the two.
+Group.trace(message: string|number|any[]|Object): void {} // create a trace log
+Group.warn(message: string|number|any[]|Object): void {} // create a warn log
+Group.error(message: string|number|any[]|Object): void {} // create an error log
+
+LEVELS: Levels = {
+  info:   { id:  1, name: "info",  color: "#28a745" },
+  time:   { id:  2, name: "time",  color: "#28a745" },
+  trace:  { id:  3, name: "trace", color: "#17a2b8" },
+  warn:   { id:  4, name: "warn",  color: "#ffc107" },
+  error:  { id:  5, name: "error", color: "#dc3545" },
+  off:    { id: 99, name: "off",   color: null }
+};
 
 ```
 

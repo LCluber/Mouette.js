@@ -36,6 +36,15 @@ export class Group {
     return this.options.console;
   }
 
+  public setMaxLength(length: number): number {
+    this.options.maxLength = length;
+    return this.options.maxLength;
+  }
+
+  public getMaxLength(): number {
+    return this.options.maxLength;
+  }
+
   public info(log: MessageContent): void {
     this.log(LEVELS.info, log);
   }
@@ -72,8 +81,8 @@ export class Group {
 
   private log(level: Level, log: MessageContent): void {
     const message = new Log(level, log);
-    this.addLog(message);
     if (this.options.displayMessage(message.id)) {
+      this.addLog(message);
       message.display(this.name);
     }
   }

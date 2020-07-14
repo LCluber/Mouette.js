@@ -35,6 +35,8 @@ export declare class Group {
     setLevel(name: LevelName): LevelName;
     getLevel(): LevelName;
     displayConsole(value: boolean): boolean;
+    setMaxLength(length: number): number;
+    getMaxLength(): number;
     info(log: MessageContent): void;
     trace(log: MessageContent): void;
     time(key: string | number): void;
@@ -80,10 +82,10 @@ export declare class Logger {
     private static options;
     static setLevel(name: LevelName): LevelName;
     static getLevel(): LevelName;
-    static getGroup(name: string): Group | null;
     static displayConsole(value: boolean): boolean;
     static addGroup(name: string): Group;
     static sendLogs(url: string, headers?: HTTPHeaders): Promise<any>;
+    private static getGroup;
     private static createGroup;
 }
 

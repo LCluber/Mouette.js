@@ -29,9 +29,9 @@ import { isBoolean } from '@lcluber/chjs';
 const LEVELS = {
     info: { id: 1, name: "info", color: "#28a745" },
     time: { id: 2, name: "time", color: "#28a745" },
-    trace: { id: 4, name: "trace", color: "#17a2b8" },
-    warn: { id: 5, name: "warn", color: "#ffc107" },
-    error: { id: 6, name: "error", color: "#dc3545" },
+    trace: { id: 3, name: "trace", color: "#17a2b8" },
+    warn: { id: 4, name: "warn", color: "#ffc107" },
+    error: { id: 5, name: "error", color: "#dc3545" },
     off: { id: 99, name: "off", color: null }
 };
 
@@ -127,6 +127,13 @@ class Group {
         this.options.console = value;
         return this.options.console;
     }
+    setMaxLength(length) {
+        this.options.maxLength = length;
+        return this.options.maxLength;
+    }
+    getMaxLength() {
+        return this.options.maxLength;
+    }
     info(log) {
         this.log(LEVELS.info, log);
     }
@@ -157,8 +164,8 @@ class Group {
     }
     log(level, log) {
         const message = new Log(level, log);
-        this.addLog(message);
         if (this.options.displayMessage(message.id)) {
+            this.addLog(message);
             message.display(this.name);
         }
     }
@@ -186,14 +193,6 @@ class Logger {
     }
     static getLevel() {
         return this.options.level;
-    }
-    static getGroup(name) {
-        for (const group of this.groups) {
-            if (group.name === name) {
-                return group;
-            }
-        }
-        return null;
     }
     static displayConsole(value) {
         this.options.console = value;
@@ -224,6 +223,14 @@ class Logger {
             console.log("error", err);
             return err;
         });
+    }
+    static getGroup(name) {
+        for (const group of this.groups) {
+            if (group.name === name) {
+                return group;
+            }
+        }
+        return null;
     }
     static createGroup(name) {
         const group = new Group(name, this.options);

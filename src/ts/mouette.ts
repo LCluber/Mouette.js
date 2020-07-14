@@ -19,14 +19,14 @@ export class Logger {
     return this.options.level;
   }
 
-  public static getGroup(name: string): Group | null {
-    for (const group of this.groups) {
-      if (group.name === name) {
-        return group;
-      }
-    }
-    return null;
-  }
+  // public static setMaxLength(length: number): number {
+  //   this.options.maxLength = length;
+  //   return this.options.maxLength;
+  // }
+
+  // public static getMaxLength(): number {
+  //   return this.options.maxLength;
+  // }
 
   public static displayConsole(value: boolean): boolean {
     this.options.console = value;
@@ -61,6 +61,15 @@ export class Logger {
         console.log("error", err);
         return err;
       });
+  }
+
+  private static getGroup(name: string): Group | null {
+    for (const group of this.groups) {
+      if (group.name === name) {
+        return group;
+      }
+    }
+    return null;
   }
 
   private static createGroup(name: string): Group {

@@ -4474,17 +4474,17 @@ var Mouette = (function (exports) {
       color: "#28a745"
     },
     trace: {
-      id: 4,
+      id: 3,
       name: "trace",
       color: "#17a2b8"
     },
     warn: {
-      id: 5,
+      id: 4,
       name: "warn",
       color: "#ffc107"
     },
     error: {
-      id: 6,
+      id: 5,
       name: "error",
       color: "#dc3545"
     },
@@ -4605,6 +4605,15 @@ var Mouette = (function (exports) {
       return this.options.console;
     };
 
+    _proto.setMaxLength = function setMaxLength(length) {
+      this.options.maxLength = length;
+      return this.options.maxLength;
+    };
+
+    _proto.getMaxLength = function getMaxLength() {
+      return this.options.maxLength;
+    };
+
     _proto.info = function info(log) {
       this.log(LEVELS$1.info, log);
     };
@@ -4643,9 +4652,9 @@ var Mouette = (function (exports) {
 
     _proto.log = function log(level, _log) {
       var message = new Log(level, _log);
-      this.addLog(message);
 
       if (this.options.displayMessage(message.id)) {
+        this.addLog(message);
         message.display(this.name);
       }
     };
@@ -4700,7 +4709,9 @@ var Mouette = (function (exports) {
       return this.options.level;
     };
 
-    Logger.getGroup = function getGroup(name) {
+    Logger.displayConsole = function displayConsole(value) {
+      this.options.console = value;
+
       for (var _iterator2 = this.groups, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
         var _ref2;
 
@@ -4714,31 +4725,6 @@ var Mouette = (function (exports) {
         }
 
         var group = _ref2;
-
-        if (group.name === name) {
-          return group;
-        }
-      }
-
-      return null;
-    };
-
-    Logger.displayConsole = function displayConsole(value) {
-      this.options.console = value;
-
-      for (var _iterator3 = this.groups, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
-        var _ref3;
-
-        if (_isArray3) {
-          if (_i3 >= _iterator3.length) break;
-          _ref3 = _iterator3[_i3++];
-        } else {
-          _i3 = _iterator3.next();
-          if (_i3.done) break;
-          _ref3 = _i3.value;
-        }
-
-        var group = _ref3;
         group.displayConsole(this.options.console);
       }
 
@@ -4758,36 +4744,36 @@ var Mouette = (function (exports) {
         HTTP.setHeaders("POST", headers);
       }
 
-      for (var _iterator4 = this.groups, _isArray4 = Array.isArray(_iterator4), _i4 = 0, _iterator4 = _isArray4 ? _iterator4 : _iterator4[Symbol.iterator]();;) {
-        var _ref4;
+      for (var _iterator3 = this.groups, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
+        var _ref3;
 
-        if (_isArray4) {
-          if (_i4 >= _iterator4.length) break;
-          _ref4 = _iterator4[_i4++];
+        if (_isArray3) {
+          if (_i3 >= _iterator3.length) break;
+          _ref3 = _iterator3[_i3++];
         } else {
-          _i4 = _iterator4.next();
-          if (_i4.done) break;
-          _ref4 = _i4.value;
+          _i3 = _iterator3.next();
+          if (_i3.done) break;
+          _ref3 = _i3.value;
         }
 
-        var group = _ref4;
+        var group = _ref3;
         logs.push.apply(logs, group.logs);
       }
 
       return HTTP.post(url, "json", logs).then(function (response) {
-        for (var _iterator5 = _this.groups, _isArray5 = Array.isArray(_iterator5), _i5 = 0, _iterator5 = _isArray5 ? _iterator5 : _iterator5[Symbol.iterator]();;) {
-          var _ref5;
+        for (var _iterator4 = _this.groups, _isArray4 = Array.isArray(_iterator4), _i4 = 0, _iterator4 = _isArray4 ? _iterator4 : _iterator4[Symbol.iterator]();;) {
+          var _ref4;
 
-          if (_isArray5) {
-            if (_i5 >= _iterator5.length) break;
-            _ref5 = _iterator5[_i5++];
+          if (_isArray4) {
+            if (_i4 >= _iterator4.length) break;
+            _ref4 = _iterator4[_i4++];
           } else {
-            _i5 = _iterator5.next();
-            if (_i5.done) break;
-            _ref5 = _i5.value;
+            _i4 = _iterator4.next();
+            if (_i4.done) break;
+            _ref4 = _i4.value;
           }
 
-          var group = _ref5;
+          var group = _ref4;
           group.initLogs();
         }
 
@@ -4796,6 +4782,29 @@ var Mouette = (function (exports) {
         console.log("error", err);
         return err;
       });
+    };
+
+    Logger.getGroup = function getGroup(name) {
+      for (var _iterator5 = this.groups, _isArray5 = Array.isArray(_iterator5), _i5 = 0, _iterator5 = _isArray5 ? _iterator5 : _iterator5[Symbol.iterator]();;) {
+        var _ref5;
+
+        if (_isArray5) {
+          if (_i5 >= _iterator5.length) break;
+          _ref5 = _iterator5[_i5++];
+        } else {
+          _i5 = _iterator5.next();
+          if (_i5.done) break;
+          _ref5 = _i5.value;
+        }
+
+        var group = _ref5;
+
+        if (group.name === name) {
+          return group;
+        }
+      }
+
+      return null;
     };
 
     Logger.createGroup = function createGroup(name) {
