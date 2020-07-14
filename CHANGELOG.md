@@ -1,7 +1,7 @@
-## Version 2.3.0 (July 13th 2020)
+## Version 2.3.0 (July 14th 2020)
 
-- New options parameter with 'logLevel' and 'displayConsole' parameters at logger and group levels
-- Add time feature to log timings
+- New options parameter with 'level', 'maxlength' and 'displayConsole' parameters at logger and group levels
+- Add time level to log timings and measure elapsed time between to actions.
 - Send logs to the server with http post requests using sendLogs() method
 
 ## [2.2.1](https://github.com/LCluber/Mouette.js/compare/v2.2.0...v2.2.1) (2019-09-25)
