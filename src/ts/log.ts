@@ -1,4 +1,4 @@
-import { LevelName, MessageContent, ConsoleMethod } from "./types";
+import { LevelName, LogContent, ConsoleMethod } from "./types";
 import { Level } from "./interfaces";
 import { formatDate } from "./date";
 
@@ -9,16 +9,16 @@ import { formatDate } from "./date";
 //     warn:  Function;
 //     error: Function;
 //   }
-// }l
+// }
 
 export class Log implements Level {
   id: number;
   name: LevelName;
   color: string | null;
-  content: MessageContent;
+  content: LogContent;
   date: string;
 
-  constructor(level: Level, content: MessageContent) {
+  constructor(level: Level, content: LogContent) {
     this.id = level.id;
     this.name = level.name;
     this.color = level.color;

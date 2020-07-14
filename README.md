@@ -85,6 +85,7 @@ newLogsGroup.setLevel("off");
 
 ```javascript
 type LevelName = "info" | "time" | "trace" | "warn" | "error" | "off";
+type LogContent = string | number | any[] | Object;
 
 static Logger.setLevel(name: LevelName): LevelName {} // set the minimum level at which logs can be stored and displayed into console. Note that this setting will propagate to every group. You can set a different level for a group AFTER setting the level for the entire logger.
 static Logger.getLevel(): LevelName {} // get the general level of the logger. Note that groups can have a different level if changed afterwards at group level
@@ -98,11 +99,11 @@ Group.displayConsole(value: boolean): boolean {} // set wether or not to display
 Group.setMaxLength(length: number): number {} // set the maximum quantity of logs stored by this group
 Group.getMaxLength(): number {} // get the maximum quantity of logs stored by this group
 
-Group.info(message: string|number|any[]|Object): void {} // create an info log
+Group.info(log: LogContent): void {} // create an info log
 Group.time(key: string | number): void {} // create a time log. Use the same method to start or stop the timer. Using the same key, first call will start it, second call will stop it and return the elapsed time between the two.
-Group.trace(message: string|number|any[]|Object): void {} // create a trace log
-Group.warn(message: string|number|any[]|Object): void {} // create a warn log
-Group.error(message: string|number|any[]|Object): void {} // create an error log
+Group.trace(log: LogContent): void {} // create a trace log
+Group.warn(log: LogContent): void {} // create a warn log
+Group.error(log: LogContent): void {} // create an error log
 
 LEVELS: Levels = {
   info:   { id:  1, name: "info",  color: "#28a745" },

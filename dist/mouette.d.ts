@@ -37,11 +37,11 @@ export declare class Group {
     displayConsole(value: boolean): boolean;
     setMaxLength(length: number): number;
     getMaxLength(): number;
-    info(log: MessageContent): void;
-    trace(log: MessageContent): void;
+    info(log: LogContent): void;
+    trace(log: LogContent): void;
     time(key: string | number): void;
-    warn(log: MessageContent): void;
-    error(log: MessageContent): void;
+    warn(log: LogContent): void;
+    error(log: LogContent): void;
     initLogs(): void;
     private log;
     private addLog;
@@ -69,9 +69,9 @@ export declare class Log implements Level {
     id: number;
     name: LevelName;
     color: string | null;
-    content: MessageContent;
+    content: LogContent;
     date: string;
-    constructor(level: Level, content: MessageContent);
+    constructor(level: Level, content: LogContent);
     display(groupName: string): void;
 }
 import { HTTPHeaders } from "@lcluber/aiasjs";
@@ -108,5 +108,5 @@ export declare class Timer {
     constructor(key: string | number);
 }
 export declare type LevelName = "info" | "time" | "trace" | "warn" | "error" | "off";
-export declare type MessageContent = string | number | any[] | Object;
+export declare type LogContent = string | number | any[] | Object;
 export declare type ConsoleMethod = "info" | "trace" | "warn" | "error";

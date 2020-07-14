@@ -9,7 +9,6 @@ export interface Level {
 export interface Levels {
   info: Level;
   time: Level;
-  // timeEnd: Level;
   trace: Level;
   warn: Level;
   error: Level;

@@ -1,4 +1,4 @@
-import { LevelName, MessageContent } from "./types";
+import { LevelName, LogContent } from "./types";
 import { Options } from "./options";
 import { Level } from "./interfaces";
 import { LEVELS } from "./levels";
@@ -45,11 +45,11 @@ export class Group {
     return this.options.maxLength;
   }
 
-  public info(log: MessageContent): void {
+  public info(log: LogContent): void {
     this.log(LEVELS.info, log);
   }
 
-  public trace(log: MessageContent): void {
+  public trace(log: LogContent): void {
     this.log(LEVELS.trace, log);
   }
 
@@ -67,11 +67,11 @@ export class Group {
     }
   }
 
-  public warn(log: MessageContent): void {
+  public warn(log: LogContent): void {
     this.log(LEVELS.warn, log);
   }
 
-  public error(log: MessageContent): void {
+  public error(log: LogContent): void {
     this.log(LEVELS.error, log);
   }
 
@@ -79,7 +79,7 @@ export class Group {
     this.logs = [];
   }
 
-  private log(level: Level, log: MessageContent): void {
+  private log(level: Level, log: LogContent): void {
     const message = new Log(level, log);
     if (this.options.displayMessage(message.id)) {
       this.addLog(message);
