@@ -1,3 +1,7 @@
+## Version 2.3.1 (July 15th 2020)
+
+- Fix dependencies for Typescript
+
 ## Version 2.3.0 (July 14th 2020)
 
 - New options parameter with 'level', 'maxlength' and 'displayConsole' parameters at logger and group levels

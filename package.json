@@ -1,6 +1,6 @@
 {
   "name": "@lcluber/mouettejs",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Lightweight logger",
   "keywords": [
     "logger"
@@ -43,15 +43,16 @@
   "files": [
     "dist/"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "@lcluber/aiasjs": "2.7.1",
+    "@lcluber/chjs": "2.10.1"
+  },
   "devDependencies": {
     "@babel/core": "7.2.2",
     "@babel/preset-env": "7.2.3",
     "@commitlint/cli": "8.0.0",
     "@commitlint/config-conventional": "8.0.0",
     "@commitlint/prompt": "8.0.0",
-    "@lcluber/aiasjs": "2.7.1",
-    "@lcluber/chjs": "2.10.1",
     "cz-conventional-changelog": "2.1.0",
     "grunt": "1.1.0",
     "grunt-contrib-clean": "1.1.0",
