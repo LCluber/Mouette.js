@@ -27,14 +27,12 @@ $ yarn add @lcluber/mouettejs
 ```javascript
 import { Logger, Group } from "@lcluber/mouettejs";
 
-//set log level
-//Logs everything >= info
 Logger.setLevel("error");
 
 let newLogsGroup: Group = Logger.addGroup("newLogsGroup");
 
 newLogsGroup.setLevel("info");
-l;
+
 newLogsGroup.displayConsole(false); // do not display logs of the group into console
 
 newLogsGroup.info(window);
@@ -58,8 +56,6 @@ Logger.setLevel("off");
 ```
 
 ```javascript
-//set log level
-//Logs everything >= info
 Mouette.Logger.setLevel("error");
 
 var newLogsGroup = Mouette.Logger.addGroup("newLogsGroup");
