@@ -22,7 +22,6 @@
 *
 * http://mouettejs.lcluber.com
 */
-export declare function formatDate(): string;
 
 
 
@@ -72,10 +71,12 @@ export declare class Message implements Level {
     date: string;
     constructor(level: Level, content: MessageContent);
     display(groupName: string): void;
+    private static addZero;
+    private static formatDate;
 }
 
 
-export declare class Logger {
+export default class Logger {
     private static level;
     private static groups;
     static setLevel(name: LevelName): LevelName;

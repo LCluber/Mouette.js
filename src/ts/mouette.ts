@@ -3,7 +3,7 @@ import { Level } from "./interfaces";
 import { LEVELS } from "./levels";
 import { Group } from "./group";
 
-export class Logger {
+export default class Logger {
   private static level: Level = LEVELS.error;
   private static groups: Group[] = [];
 

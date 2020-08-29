@@ -23,7 +23,7 @@
 * http://mouettejs.lcluber.com
 */
 
-var Mouette = (function (exports) {
+var Mouette = (function () {
   'use strict';
 
   var LEVELS = {
@@ -54,17 +54,6 @@ var Mouette = (function (exports) {
     }
   };
 
-  function addZero(value) {
-    return value < 10 ? "0" + value : value;
-  }
-
-  function formatDate() {
-    var now = new Date();
-    var date = [addZero(now.getMonth() + 1), addZero(now.getDate()), now.getFullYear().toString().substr(-2)];
-    var time = [addZero(now.getHours()), addZero(now.getMinutes()), addZero(now.getSeconds())];
-    return date.join("/") + " " + time.join(":");
-  }
-
   var Message =
   /*#__PURE__*/
   function () {
@@ -73,13 +62,24 @@ var Mouette = (function (exports) {
       this.name = level.name;
       this.color = level.color;
       this.content = content;
-      this.date = formatDate();
+      this.date = Message.formatDate();
     }
 
     var _proto = Message.prototype;
 
     _proto.display = function display(groupName) {
       console[this.name]("%c[" + groupName + "] " + this.date + " : ", "color:" + this.color + ";", this.content);
+    };
+
+    Message.addZero = function addZero(value) {
+      return value < 10 ? "0" + value : value;
+    };
+
+    Message.formatDate = function formatDate() {
+      var now = new Date();
+      var date = [Message.addZero(now.getMonth() + 1), Message.addZero(now.getDate()), now.getFullYear().toString().substr(-2)];
+      var time = [Message.addZero(now.getHours()), Message.addZero(now.getMinutes()), Message.addZero(now.getSeconds())];
+      return date.join("/") + " " + time.join(":");
     };
 
     return Message;
@@ -200,11 +200,10 @@ var Mouette = (function (exports) {
 
     return Logger;
   }();
+
   Logger.level = LEVELS.error;
   Logger.groups = [];
 
-  exports.Logger = Logger;
+  return Logger;
 
-  return exports;
-
-}({}));
+}());

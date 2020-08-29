@@ -12,7 +12,6 @@ export class Group {
     this.name = name;
     this.messages = [];
     this.level = level;
-    //this.html = '<span class="' + this.level.name + '">' + this.content + '</span><br>'
   }
 
   public setLevel(name: LevelName): LevelName {

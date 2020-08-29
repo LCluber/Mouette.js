@@ -31,37 +31,36 @@ const LEVELS = {
     off: { id: 99, name: "off", color: null }
 };
 
-function addZero(value) {
-    return value < 10 ? "0" + value : value;
-}
-function formatDate() {
-    const now = new Date();
-    const date = [
-        addZero(now.getMonth() + 1),
-        addZero(now.getDate()),
-        now
-            .getFullYear()
-            .toString()
-            .substr(-2)
-    ];
-    const time = [
-        addZero(now.getHours()),
-        addZero(now.getMinutes()),
-        addZero(now.getSeconds())
-    ];
-    return date.join("/") + " " + time.join(":");
-}
-
 class Message {
     constructor(level, content) {
         this.id = level.id;
         this.name = level.name;
         this.color = level.color;
         this.content = content;
-        this.date = formatDate();
+        this.date = Message.formatDate();
     }
     display(groupName) {
         console[this.name]("%c[" + groupName + "] " + this.date + " : ", "color:" + this.color + ";", this.content);
+    }
+    static addZero(value) {
+        return value < 10 ? "0" + value : value;
+    }
+    static formatDate() {
+        const now = new Date();
+        const date = [
+            Message.addZero(now.getMonth() + 1),
+            Message.addZero(now.getDate()),
+            now
+                .getFullYear()
+                .toString()
+                .substr(-2)
+        ];
+        const time = [
+            Message.addZero(now.getHours()),
+            Message.addZero(now.getMinutes()),
+            Message.addZero(now.getSeconds())
+        ];
+        return date.join("/") + " " + time.join(":");
     }
 }
 
@@ -131,4 +130,4 @@ class Logger {
 Logger.level = LEVELS.error;
 Logger.groups = [];
 
-export { Logger };
+export default Logger;
