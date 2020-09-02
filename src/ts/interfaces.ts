@@ -8,6 +8,7 @@ export interface Level {
 
 export interface Levels {
   info: Level;
+  time: Level;
   trace: Level;
   warn: Level;
   error: Level;

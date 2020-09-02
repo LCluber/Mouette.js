@@ -27,15 +27,26 @@ $ yarn add @lcluber/mouettejs
 ```javascript
 import { Logger, Group } from "@lcluber/mouettejs";
 
-//set log level
-//Logs everything >= info
-Logger.setLevel("info");
+Logger.setLevel("error");
 
 let newLogsGroup: Group = Logger.addGroup("newLogsGroup");
+
+newLogsGroup.setLevel("info");
+
+newLogsGroup.displayConsole(false); // do not display logs of the group into console
+
 newLogsGroup.info(window);
 newLogsGroup.trace(window);
 newLogsGroup.warn(window);
 newLogsGroup.error(window);
+
+newLogsGroup.time("timing log");
+for (i = 0; i < 100000; i++) {
+  // some code
+}
+newLogsGroup.time("timing log");
+
+Logger.setLevel("off");
 ```
 
 ### IIFE
@@ -45,33 +56,59 @@ newLogsGroup.error(window);
 ```
 
 ```javascript
-//set log level
-//Logs everything >= info
-Mouette.Logger.setLevel("info");
+Mouette.Logger.setLevel("error");
 
 var newLogsGroup = Mouette.Logger.addGroup("newLogsGroup");
+
+newLogsGroup.setLevel("info");
+newLogsGroup.displayConsole(false); // do not display logs of the group into console
+
 newLogsGroup.info(window);
 newLogsGroup.trace(window);
 newLogsGroup.warn(window);
 newLogsGroup.error(window);
+
+newLogsGroup.time("timing log");
+for (i = 0; i < 100000; i++) {
+  // some code
+}
+newLogsGroup.time("timing log");
+
+newLogsGroup.setLevel("off");
 ```
 
 ## API Reference
 
 ```javascript
-type LevelName = "info" | "trace" | "warn" | "error" | "off";
+type LevelName = "info" | "time" | "trace" | "warn" | "error" | "off";
+type LogContent = string | number | any[] | Object;
 
-static Logger.setLevel(name: LevelName): LevelName {}
-static Logger.getLevel(): LevelName {}
-static Logger.getGroup(name: string): Group|null {}
-static Logger.addGroup(name: string): Group {}
+static Logger.setLevel(name: LevelName): LevelName {} // set the minimum level at which logs can be stored and displayed into console. Note that this setting will propagate to every group. You can set a different level for a group AFTER setting the level for the entire logger.
+static Logger.getLevel(): LevelName {} // get the general level of the logger. Note that groups can have a different level if changed afterwards at group level
+static Logger.displayConsole(value: boolean): boolean {} // set wether or not to display logs into console at logger level. Note that this setting will propagate to every group. This option can be changed individually for each group if changed afterwards at group level
+static Logger.addGroup(name: string): Group {} // create a new group of logs
+static Logger.sendLogs(url: string, headers?: HTTPHeaders): Promise<any> {} // send logs using http post request
 
-Group.setLevel(name: LevelName): levelName {}
-Group.getLevel(): LevelName {}
-Group.info(message: string|number|any[]|Object): void {}
-Group.trace(message: string|number|any[]|Object): void {}
-Group.warn(message: string|number|any[]|Object): void {}
-Group.error(message: string|number|any[]|Object): void {}
+Group.setLevel(name: LevelName): levelName {} // set the minimum level at which logs of this group can be stored and displayed into console
+Group.getLevel(): LevelName {} // get the level at which logs of this group can be displayed
+Group.displayConsole(value: boolean): boolean {} // set wether or not to display logs into console
+Group.setMaxLength(length: number): number {} // set the maximum quantity of logs stored by this group
+Group.getMaxLength(): number {} // get the maximum quantity of logs stored by this group
+
+Group.info(log: LogContent): void {} // create an info log
+Group.time(key: string | number): void {} // create a time log. Use the same method to start or stop the timer. Using the same key, first call will start it, second call will stop it and return the elapsed time between the two.
+Group.trace(log: LogContent): void {} // create a trace log
+Group.warn(log: LogContent): void {} // create a warn log
+Group.error(log: LogContent): void {} // create an error log
+
+LEVELS: Levels = {
+  info:   { id:  1, name: "info",  color: "#28a745" },
+  time:   { id:  2, name: "time",  color: "#28a745" },
+  trace:  { id:  3, name: "trace", color: "#17a2b8" },
+  warn:   { id:  4, name: "warn",  color: "#ffc107" },
+  error:  { id:  5, name: "error", color: "#dc3545" },
+  off:    { id: 99, name: "off",   color: null }
+};
 
 ```
 

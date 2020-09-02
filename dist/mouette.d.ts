@@ -1,6 +1,6 @@
 /** MIT License
 * 
-* Copyright (c) 2015 Ludovic CLUBER 
+* Copyright (c) 2017 Ludovic CLUBER 
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -26,17 +26,25 @@
 
 
 export declare class Group {
-    private level;
     name: string;
-    messages: Message[];
-    constructor(name: string, level: Level);
+    logs: Log[];
+    private timers;
+    options: Options;
+    constructor(name: string, options: Options);
     setLevel(name: LevelName): LevelName;
     getLevel(): LevelName;
-    info(message: MessageContent): void;
-    trace(message: MessageContent): void;
-    warn(message: MessageContent): void;
-    error(message: MessageContent): void;
+    displayConsole(value: boolean): boolean;
+    setMaxLength(length: number): number;
+    getMaxLength(): number;
+    info(log: LogContent): void;
+    trace(log: LogContent): void;
+    time(key: string | number): void;
+    warn(log: LogContent): void;
+    error(log: LogContent): void;
+    initLogs(): void;
     private log;
+    private addLog;
+    private addTimer;
 }
 
 export interface Level {
@@ -46,6 +54,7 @@ export interface Level {
 }
 export interface Levels {
     info: Level;
+    time: Level;
     trace: Level;
     warn: Level;
     error: Level;
@@ -55,36 +64,50 @@ export interface Levels {
 export declare const LEVELS: Levels;
 
 
-declare global {
-    interface console {
-        info: Function;
-        trace: Function;
-        warn: Function;
-        error: Function;
-    }
-}
-export declare class Message implements Level {
+export declare class Log implements Level {
     id: number;
     name: LevelName;
     color: string | null;
-    content: MessageContent;
+    content: LogContent;
     date: string;
-    constructor(level: Level, content: MessageContent);
+    constructor(level: Level, content: LogContent);
     display(groupName: string): void;
     private static addZero;
     private static formatDate;
 }
+import { HTTPHeaders } from "@lcluber/aiasjs";
 
 
 export default class Logger {
-    private static level;
     private static groups;
+    private static options;
     static setLevel(name: LevelName): LevelName;
     static getLevel(): LevelName;
-    static getGroup(name: string): Group | null;
+    static displayConsole(value: boolean): boolean;
     static addGroup(name: string): Group;
-    private static pushGroup;
+    static sendLogs(url: string, headers?: HTTPHeaders): Promise<any>;
+    private static getGroup;
+    private static createGroup;
 }
-export declare type LevelName = "info" | "trace" | "warn" | "error" | "off";
-export declare type MessageContent = string | number | any[] | Object;
+
+export declare class Options {
+    private _level;
+    private _console;
+    private _maxLength;
+    constructor(levelName?: LevelName, console?: boolean, maxLength?: number);
+    set level(name: LevelName);
+    get level(): LevelName;
+    set console(display: boolean);
+    get console(): boolean;
+    set maxLength(length: number);
+    get maxLength(): number;
+    displayMessage(messageId: number): boolean;
+}
+export declare class Timer {
+    key: string | number;
+    timestamp: number;
+    constructor(key: string | number);
+}
+export declare type LevelName = "info" | "time" | "trace" | "warn" | "error" | "off";
+export declare type LogContent = string | number | any[] | Object;
 export declare type ConsoleMethod = "info" | "trace" | "warn" | "error";

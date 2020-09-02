@@ -1,29 +1,35 @@
-## [2.2.1](https://github.com/LCluber/Mouette.js/compare/v2.2.0...v2.2.1) (2019-09-25)
+## Version 2.3.1 (July 15th 2020)
 
+- Fix dependencies for Typescript
+
+## Version 2.3.0 (July 14th 2020)
+
+- New options parameter with 'level', 'maxlength' and 'displayConsole' parameters at logger and group levels
+- Add time level to log timings and measure elapsed time between to actions.
+- Send logs to the server with http post requests using sendLogs() method
+
+## [2.2.1](https://github.com/LCluber/Mouette.js/compare/v2.2.0...v2.2.1) (2019-09-25)
 
 ### Bug Fixes
 
-* **console:** fixed console interface definition ([02f7e04](https://github.com/LCluber/Mouette.js/commit/02f7e04))
+- **console:** fix console interface definition ([02f7e04](https://github.com/LCluber/Mouette.js/commit/02f7e04))
 
 # [2.2.0](https://github.com/LCluber/Mouette.js/compare/v2.1.0...v2.2.0) (2019-09-25)
 
-
 ### Features
 
-* **level:** set log level at group level ([cbb5c50](https://github.com/LCluber/Mouette.js/commit/cbb5c50))
+- **level:** set log level at group level ([cbb5c50](https://github.com/LCluber/Mouette.js/commit/cbb5c50))
 
 # [2.1.0](https://github.com/LCluber/Mouette.js/compare/v2.0.6...v2.1.0) (2019-08-16)
 
-
 ### Bug Fixes
 
-* **declarations:** fixed declarations file ([1677e94](https://github.com/LCluber/Mouette.js/commit/1677e94))
-
+- **declarations:** fix declarations file ([1677e94](https://github.com/LCluber/Mouette.js/commit/1677e94))
 
 ### Features
 
-* **prettierignore:** added prettierignore file ([6d5979f](https://github.com/LCluber/Mouette.js/commit/6d5979f))
-* **setlevel:** setLevel() method now returns level name ([3991665](https://github.com/LCluber/Mouette.js/commit/3991665))
+- **prettierignore:** added prettierignore file ([6d5979f](https://github.com/LCluber/Mouette.js/commit/6d5979f))
+- **setlevel:** setLevel() method now returns level name ([3991665](https://github.com/LCluber/Mouette.js/commit/3991665))
 
 ## Version 0.3.2 (June 29th 2019)
 
