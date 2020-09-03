@@ -1,3 +1,7 @@
+## Version 2.4.0 (September 04th 2020)
+
+- Library does not send logs itself anymore
+
 ## Version 2.3.1 (July 15th 2020)
 
 - Fix dependencies for Typescript

@@ -1,7 +1,7 @@
-import { HTTP, ResponseDataType, HTTPHeaders } from "@lcluber/aiasjs";
 import { LevelName } from "./types";
 import { Options } from "./options";
 import { Group } from "./group";
+import { Log } from "./log";
 
 export default class Logger {
   private static groups: Group[] = [];
@@ -40,27 +40,41 @@ export default class Logger {
     return this.getGroup(name) || this.createGroup(name);
   }
 
-  public static sendLogs(url: string, headers?: HTTPHeaders): Promise<any> {
+  // public static sendLogs(url: string, headers?: HTTPHeaders): Promise<any> {
+  //   let logs = [];
+  //   if (headers) {
+  //     HTTP.setHeaders("POST", headers);
+  //   }
+  //   for (const group of this.groups) {
+  //     logs.push(...group.logs);
+  //   }
+  //   return (HTTP.post(url, "json", logs) as Promise<ResponseDataType>)
+  //     .then(response => {
+  //       // if(response.success) {
+  //       for (const group of this.groups) {
+  //         group.initLogs();
+  //       }
+  //       // }
+  //       return response;
+  //     })
+  //     .catch(err => {
+  //       console.log("error", err);
+  //       return err;
+  //     });
+  // }
+
+  public static getLogs(): Log[] {
     let logs = [];
-    if (headers) {
-      HTTP.setHeaders("POST", headers);
-    }
     for (const group of this.groups) {
       logs.push(...group.logs);
     }
-    return (HTTP.post(url, "json", logs) as Promise<ResponseDataType>)
-      .then(response => {
-        // if(response.success) {
-        for (const group of this.groups) {
-          group.initLogs();
-        }
-        // }
-        return response;
-      })
-      .catch(err => {
-        console.log("error", err);
-        return err;
-      });
+    return logs;
+  }
+
+  public static resetLogs(): void {
+    for (const group of this.groups) {
+      group.resetLogs();
+    }
   }
 
   private static getGroup(name: string): Group | null {

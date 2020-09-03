@@ -41,7 +41,7 @@ export declare class Group {
     time(key: string | number): void;
     warn(log: LogContent): void;
     error(log: LogContent): void;
-    initLogs(): void;
+    resetLogs(): void;
     private log;
     private addLog;
     private addTimer;
@@ -75,7 +75,7 @@ export declare class Log implements Level {
     private static addZero;
     private static formatDate;
 }
-import { HTTPHeaders } from "@lcluber/aiasjs";
+
 
 
 export default class Logger {
@@ -85,7 +85,8 @@ export default class Logger {
     static getLevel(): LevelName;
     static displayConsole(value: boolean): boolean;
     static addGroup(name: string): Group;
-    static sendLogs(url: string, headers?: HTTPHeaders): Promise<any>;
+    static getLogs(): Log[];
+    static resetLogs(): void;
     private static getGroup;
     private static createGroup;
 }

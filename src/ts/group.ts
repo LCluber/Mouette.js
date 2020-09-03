@@ -75,7 +75,7 @@ export class Group {
     this.log(LEVELS.error, log);
   }
 
-  public initLogs() {
+  public resetLogs() {
     this.logs = [];
   }
 

@@ -23,7 +23,6 @@
 * http://mouettejs.lcluber.com
 */
 
-import { HTTP } from '@lcluber/aiasjs';
 import { isBoolean } from '@lcluber/chjs';
 
 const LEVELS = {
@@ -158,7 +157,7 @@ class Group {
     error(log) {
         this.log(LEVELS.error, log);
     }
-    initLogs() {
+    resetLogs() {
         this.logs = [];
     }
     log(level, log) {
@@ -203,25 +202,17 @@ class Logger {
     static addGroup(name) {
         return this.getGroup(name) || this.createGroup(name);
     }
-    static sendLogs(url, headers) {
+    static getLogs() {
         let logs = [];
-        if (headers) {
-            HTTP.setHeaders("POST", headers);
-        }
         for (const group of this.groups) {
             logs.push(...group.logs);
         }
-        return HTTP.post(url, "json", logs)
-            .then(response => {
-            for (const group of this.groups) {
-                group.initLogs();
-            }
-            return response;
-        })
-            .catch(err => {
-            console.log("error", err);
-            return err;
-        });
+        return logs;
+    }
+    static resetLogs() {
+        for (const group of this.groups) {
+            group.resetLogs();
+        }
     }
     static getGroup(name) {
         for (const group of this.groups) {

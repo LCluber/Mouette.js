@@ -1,6 +1,6 @@
 {
   "name": "@lcluber/mouettejs",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "description": "Lightweight logger",
   "keywords": [
     "logger"
@@ -37,7 +37,6 @@
     "dist/"
   ],
   "dependencies": {
-    "@lcluber/aiasjs": "2.7.1",
     "@lcluber/chjs": "2.10.1"
   },
   "devDependencies": {
