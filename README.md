@@ -47,6 +47,16 @@ for (i = 0; i < 100000; i++) {
 newLogsGroup.time("timing log");
 
 Logger.setLevel("off");
+
+var logs = Logger.getLogs(); // get all logs into 1 array
+
+console.log(logs); // Logs every log into console
+
+Logger.resetLogs(); // reset all Logs
+
+console.log(Logger.getLogs()); // logs are empty
+
+
 ```
 
 ### IIFE
@@ -75,6 +85,15 @@ for (i = 0; i < 100000; i++) {
 newLogsGroup.time("timing log");
 
 newLogsGroup.setLevel("off");
+
+var logs = Mouette.Logger.getLogs(); // get all logs into 1 array
+
+console.log(logs); // Logs every log into console
+
+Mouette.Logger.resetLogs(); // reset all Logs
+
+console.log(Mouette.Logger.getLogs()); // logs are empty
+
 ```
 
 ## API Reference
