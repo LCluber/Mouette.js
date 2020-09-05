@@ -106,7 +106,7 @@ static Logger.setLevel(name: LevelName): LevelName {} // set the minimum level a
 static Logger.getLevel(): LevelName {} // get the general level of the logger. Note that groups can have a different level if changed afterwards at group level
 static Logger.displayConsole(value: boolean): boolean {} // set wether or not to display logs into console at logger level. Note that this setting will propagate to every group. This option can be changed individually for each group if changed afterwards at group level
 static Logger.addGroup(name: string): Group {} // create a new group of logs
-static Logger.getLogs(): Log[] {} // get all the kigs as an array
+static Logger.getLogs(): Log[] {} // get all the logs in 1 array
 static Logger.resetLogs(): void {} // Delete every logs of every group 
 
 Group.setLevel(name: LevelName): levelName {} // set the minimum level at which logs of this group can be stored and displayed into console
