@@ -3,7 +3,7 @@ import { Options } from "./options";
 import { Group } from "./group";
 import { Log } from "./log";
 
-export default class Logger {
+export class Logger {
   private static groups: Group[] = [];
   private static options: Options = new Options();
 

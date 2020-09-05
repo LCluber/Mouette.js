@@ -1,3 +1,4 @@
+console.log(Mouette);
 Mouette.Logger.setLevel("error");
 Mouette.Logger.displayConsole(true);
 
@@ -18,3 +19,11 @@ for (i = 0; i < 100000; i++) {
 newLogsGroup.time("timing log");
 
 console.log(newLogsGroup);
+
+var logs = Mouette.Logger.getLogs();
+
+console.log(logs);
+
+Mouette.Logger.resetLogs();
+
+console.log(Mouette.Logger.getLogs());

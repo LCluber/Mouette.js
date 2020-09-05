@@ -78,7 +78,7 @@ export declare class Log implements Level {
 
 
 
-export default class Logger {
+export declare class Logger {
     private static groups;
     private static options;
     static setLevel(name: LevelName): LevelName;

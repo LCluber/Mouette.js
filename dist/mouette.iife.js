@@ -23,7 +23,7 @@
 * http://mouettejs.lcluber.com
 */
 
-var Mouette = (function () {
+var Mouette = (function (exports) {
   'use strict';
 
   function _defineProperties(target, props) {
@@ -415,10 +415,11 @@ var Mouette = (function () {
 
     return Logger;
   }();
-
   Logger.groups = [];
   Logger.options = new Options();
 
-  return Logger;
+  exports.Logger = Logger;
 
-}());
+  return exports;
+
+}({}));

@@ -231,4 +231,4 @@ class Logger {
 Logger.groups = [];
 Logger.options = new Options();
 
-export default Logger;
+export { Logger };
