@@ -1,3 +1,7 @@
+## Version 2.4.1 (September 05th 2020)
+
+- Smaller package size
+
 ## Version 2.4.0 (September 04th 2020)
 
 - Mouette.js does not provide method to send logs anymore
