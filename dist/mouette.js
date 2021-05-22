@@ -27,7 +27,7 @@ import { isBoolean } from '@lcluber/chjs';
 
 const LEVELS = {
     info: { id: 1, name: "info", color: "#28a745" },
-    time: { id: 2, name: "time", color: "#28a745" },
+    time: { id: 2, name: "time", color: "#28a745", time: null },
     trace: { id: 3, name: "trace", color: "#17a2b8" },
     warn: { id: 4, name: "warn", color: "#ffc107" },
     error: { id: 5, name: "error", color: "#dc3545" },
@@ -38,7 +38,7 @@ class Options {
     constructor(levelName, console, maxLength) {
         this._level = "error";
         this._console = true;
-        this._maxLength = 200;
+        this._maxLength = 400;
         this.level = levelName ? levelName : this._level;
         this.console = isBoolean(console) ? console : this._console;
         this.maxLength = maxLength ? maxLength : this.maxLength;
@@ -61,22 +61,32 @@ class Options {
     get maxLength() {
         return this._maxLength;
     }
-    displayMessage(messageId) {
-        return this._console && LEVELS[this._level].id <= messageId;
+    displayMessage() {
+        return this._console;
+    }
+    checkLevel(messageId) {
+        return LEVELS[this._level].id <= messageId;
     }
 }
 
 class Log {
-    constructor(level, content) {
-        this.id = level.id;
-        this.name = level.name;
-        this.color = level.color;
-        this.content = content;
+    constructor(level, content, group) {
+        this.level = level;
+        this.message = content;
         this.date = Log.formatDate();
+        this.group = group;
     }
-    display(groupName) {
-        let name = this.name === "time" ? "info" : this.name;
-        console[name]("%c[" + groupName + "] " + this.date + " : ", "color:" + this.color + ";", this.content);
+    display() {
+        const levelName = (this.level.name === 'time' ? 'info' : this.level.name);
+        console[levelName](`%c[${this.group}] ${this.date} : `, `color: ${this.level.color};`, this.message);
+    }
+    export() {
+        return {
+            level: this.level,
+            message: this.message,
+            date: this.date,
+            group: this.group
+        };
     }
     static addZero(value) {
         return value < 10 ? "0" + value : value;
@@ -96,7 +106,7 @@ class Log {
             Log.addZero(now.getMinutes()),
             Log.addZero(now.getSeconds())
         ];
-        return date.join("/") + " " + time.join(":");
+        return `${date.join("/")} ${time.join(":")}`;
     }
 }
 
@@ -143,12 +153,12 @@ class Group {
         if (index > -1) {
             let newTimestamp = new Date().getTime();
             let delta = newTimestamp - this.timers[index].timestamp;
-            this.log(LEVELS.time, key + " completed in " + delta + " ms");
+            this.log(Object.assign(Object.assign({}, LEVELS.time), { time: delta }), `${key} completed in ${delta} ms`);
             this.timers.splice(index, 1);
         }
         else {
             this.addTimer(key);
-            this.log(LEVELS.time, key + " started");
+            this.log(LEVELS.time, `${key} started`);
         }
     }
     warn(log) {
@@ -160,11 +170,20 @@ class Group {
     resetLogs() {
         this.logs = [];
     }
+    getLogs() {
+        let logs = [];
+        for (const log of this.logs) {
+            logs.push(log.export());
+        }
+        return logs;
+    }
     log(level, log) {
-        const message = new Log(level, log);
-        if (this.options.displayMessage(message.id)) {
+        if (this.options.checkLevel(level.id)) {
+            const message = new Log(level, log, this.name);
             this.addLog(message);
-            message.display(this.name);
+            if (this.options.displayMessage()) {
+                message.display();
+            }
         }
     }
     addLog(message) {
@@ -202,10 +221,31 @@ class Logger {
     static addGroup(name) {
         return this.getGroup(name) || this.createGroup(name);
     }
+    static sendLogs(url, headers = new Headers()) {
+        const logs = this.getLogs();
+        if (logs.length) {
+            headers.append('Content-Type', 'application/json');
+            const params = {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(logs)
+            };
+            return fetch(url, params)
+                .then(response => response.json())
+                .then((data) => {
+                this.resetLogs();
+                return data;
+            })
+                .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+        return null;
+    }
     static getLogs() {
         let logs = [];
         for (const group of this.groups) {
-            logs.push(...group.logs);
+            logs.push(...group.getLogs());
         }
         return logs;
     }

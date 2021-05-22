@@ -27,18 +27,26 @@ $ yarn add @lcluber/mouettejs
 ```javascript
 import { Logger, Group } from "@lcluber/mouettejs";
 
-Logger.setLevel("error");
+// some variables to log
+var string = 'test';
+var number = 2345;
+var array  = [1,2,3,4];
+var object = {
+  string: 'test',
+  number: 2345,
+  array: [1,2,3,4],
+  object: {yo: 'yo', ye: 'ye'}
+};
 
-let newLogsGroup: Group = Logger.addGroup("newLogsGroup");
+var newLogsGroup = Logger.addGroup("newLogsGroup");
 
 newLogsGroup.setLevel("info");
+newLogsGroup.displayConsole(true);
 
-newLogsGroup.displayConsole(false); // do not display logs of the group into console
-
-newLogsGroup.info(window);
-newLogsGroup.trace(window);
-newLogsGroup.warn(window);
-newLogsGroup.error(window);
+newLogsGroup.info(string);
+newLogsGroup.trace(number);
+newLogsGroup.warn(array);
+newLogsGroup.error(object);
 
 newLogsGroup.time("timing log");
 for (i = 0; i < 100000; i++) {
@@ -46,17 +54,14 @@ for (i = 0; i < 100000; i++) {
 }
 newLogsGroup.time("timing log");
 
-Logger.setLevel("off");
+var logs = Logger.getLogs();
 
-var logs = Logger.getLogs(); // get all logs into 1 array
+console.log('logs', logs);
 
-console.log(logs); // Logs every log into console
-
-Logger.resetLogs(); // reset all Logs
-
-console.log(Logger.getLogs()); // logs are empty
-
-
+var sendLogs = Logger.sendLogs('http://httpbin.org/post');
+sendLogs.then((responseData) => {
+  console.log(responseData); //status response 
+});
 ```
 
 ### IIFE
@@ -66,17 +71,27 @@ console.log(Logger.getLogs()); // logs are empty
 ```
 
 ```javascript
-Mouette.Logger.setLevel("error");
+
+// some variables to log
+var string = 'test';
+var number = 2345;
+var array  = [1,2,3,4];
+var object = {
+  string: 'test',
+  number: 2345,
+  array: [1,2,3,4],
+  object: {yo: 'yo', ye: 'ye'}
+};
 
 var newLogsGroup = Mouette.Logger.addGroup("newLogsGroup");
 
 newLogsGroup.setLevel("info");
-newLogsGroup.displayConsole(false); // do not display logs of the group into console
+newLogsGroup.displayConsole(true);
 
-newLogsGroup.info(window);
-newLogsGroup.trace(window);
-newLogsGroup.warn(window);
-newLogsGroup.error(window);
+newLogsGroup.info(string);
+newLogsGroup.trace(number);
+newLogsGroup.warn(array);
+newLogsGroup.error(object);
 
 newLogsGroup.time("timing log");
 for (i = 0; i < 100000; i++) {
@@ -84,15 +99,14 @@ for (i = 0; i < 100000; i++) {
 }
 newLogsGroup.time("timing log");
 
-newLogsGroup.setLevel("off");
+var logs = Mouette.Logger.getLogs();
 
-var logs = Mouette.Logger.getLogs(); // get all logs into 1 array
+console.log('logs', logs);
 
-console.log(logs); // Logs every log into console
-
-Mouette.Logger.resetLogs(); // reset all Logs
-
-console.log(Mouette.Logger.getLogs()); // logs are empty
+var sendLogs = Mouette.Logger.sendLogs('http://httpbin.org/post');
+sendLogs.then((responseData) => {
+  console.log(responseData); //status response 
+});
 
 ```
 
@@ -107,6 +121,7 @@ static Logger.getLevel(): LevelName {} // get the general level of the logger. N
 static Logger.displayConsole(value: boolean): boolean {} // set wether or not to display logs into console at logger level. Note that this setting will propagate to every group. This option can be changed individually for each group if changed afterwards at group level
 static Logger.addGroup(name: string): Group {} // create a new group of logs
 static Logger.getLogs(): Log[] {} // get all the logs in 1 array
+static Logger.sendLogs(url: string, headers: Headers): Promise<response> {} // sends all the logs to given backend API ans reset logs if success.
 static Logger.resetLogs(): void {} // Delete every logs of every group 
 
 Group.setLevel(name: LevelName): levelName {} // set the minimum level at which logs of this group can be stored and displayed into console

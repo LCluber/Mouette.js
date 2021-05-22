@@ -10,7 +10,7 @@ export class Options {
   constructor(levelName?: LevelName, console?: boolean, maxLength?: number) {
     this._level = "error";
     this._console = true;
-    this._maxLength = 200;
+    this._maxLength = 400;
     this.level = levelName ? levelName : this._level;
     this.console = isBoolean(console) ? (console as boolean) : this._console;
     this.maxLength = maxLength ? maxLength : this.maxLength;
@@ -40,7 +40,11 @@ export class Options {
     return this._maxLength;
   }
 
-  public displayMessage(messageId: number): boolean {
-    return this._console && LEVELS[this._level].id <= messageId;
+  public displayMessage(): boolean {
+    return this._console;
+  }
+
+  public checkLevel(messageId: number): boolean {
+    return LEVELS[this._level].id <= messageId;
   }
 }

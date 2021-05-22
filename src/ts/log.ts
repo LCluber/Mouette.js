@@ -1,4 +1,4 @@
-import { LevelName, LogContent, ConsoleMethod } from "./types";
+import { LogContent, ConsoleMethod } from "./types";
 import { Level } from "./interfaces";
 
 // declare global {
@@ -10,28 +10,39 @@ import { Level } from "./interfaces";
 //   }
 // }
 
-export class Log implements Level {
-  id: number;
-  name: LevelName;
-  color: string | null;
-  content: LogContent;
+export class Log {
+  level: Level;
+  message: LogContent;
   date: string;
+  group: string;
 
-  constructor(level: Level, content: LogContent) {
-    this.id = level.id;
-    this.name = level.name;
-    this.color = level.color;
-    this.content = content;
+  constructor(level: Level, content: LogContent, group: string) {
+    this.level = level;
+    this.message = content;
     this.date = Log.formatDate();
+    this.group = group;
   }
 
-  public display(groupName: string): void {
-    let name = this.name === "time" ? "info" : this.name;
-    console[<ConsoleMethod>name](
-      "%c[" + groupName + "] " + this.date + " : ",
-      "color:" + this.color + ";",
-      this.content
+  public display(): void {
+    const levelName = (this.level.name === 'time' ? 'info' : this.level.name) as ConsoleMethod;
+    console[levelName](
+      `%c[${this.group}] ${this.date} : `,
+      `color: ${this.level.color};`,
+      this.message
     );
+  }
+
+  // public toString(groupName: string): string {
+  //   return `${this.name}[${groupName}] ${this.date} : ${JSON.stringify(this.message)}`;
+  // }
+
+  public export(): Pick<Log,'level' | 'message' | 'date' | 'group'> {
+    return {
+      level: this.level,
+      message: this.message,
+      date: this.date,
+      group: this.group
+    }
   }
 
   private static addZero(value: number): string | number {
@@ -64,6 +75,6 @@ export class Log implements Level {
     // If hour is 0, set it to 12
     //t0 = t0 || 12;
     // Return the formatted string
-    return date.join("/") + " " + time.join(":") /*+ " " + suffix*/;
+    return `${date.join("/")} ${time.join(":")}`;
   }
 }

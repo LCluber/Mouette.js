@@ -59,11 +59,14 @@ export class Group {
       // trigger TimeEnd
       let newTimestamp = new Date().getTime();
       let delta = newTimestamp - this.timers[index].timestamp;
-      this.log(LEVELS.time, key + " completed in " + delta + " ms");
+      this.log(
+        {...LEVELS.time, time: delta}, 
+        `${key} completed in ${delta} ms`
+      );
       this.timers.splice(index, 1);
     } else {
       this.addTimer(key);
-      this.log(LEVELS.time, key + " started");
+      this.log(LEVELS.time, `${key} started`);
     }
   }
 
@@ -75,15 +78,25 @@ export class Group {
     this.log(LEVELS.error, log);
   }
 
-  public resetLogs() {
+  public resetLogs(): void {
     this.logs = [];
   }
 
+  public getLogs(): Pick<Log, 'level' | 'message' | 'date' | 'group'>[] {
+    let logs = [];
+    for (const log of this.logs) {
+      logs.push(log.export());
+    }
+    return logs;
+  }
+
   private log(level: Level, log: LogContent): void {
-    const message = new Log(level, log);
-    if (this.options.displayMessage(message.id)) {
+    if (this.options.checkLevel(level.id)) {
+      const message = new Log(level, log, this.name);
       this.addLog(message);
-      message.display(this.name);
+      if (this.options.displayMessage()) {
+        message.display(); 
+      }
     }
   }
 

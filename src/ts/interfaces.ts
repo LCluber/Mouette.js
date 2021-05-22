@@ -4,6 +4,7 @@ export interface Level {
   id: number;
   name: LevelName;
   color: string | null;
+  time?: number | null;
 }
 
 export interface Levels {

@@ -1,3 +1,7 @@
+## Version 2.5.0 (May 22th 2021)
+
+- Add sendLogs() method to send logs to a back-end API
+
 ## Version 2.4.1 (September 05th 2020)
 
 - Smaller package size

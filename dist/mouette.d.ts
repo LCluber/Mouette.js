@@ -42,6 +42,7 @@ export declare class Group {
     warn(log: LogContent): void;
     error(log: LogContent): void;
     resetLogs(): void;
+    getLogs(): Pick<Log, 'level' | 'message' | 'date' | 'group'>[];
     private log;
     private addLog;
     private addTimer;
@@ -51,6 +52,7 @@ export interface Level {
     id: number;
     name: LevelName;
     color: string | null;
+    time?: number | null;
 }
 export interface Levels {
     info: Level;
@@ -64,14 +66,14 @@ export interface Levels {
 export declare const LEVELS: Levels;
 
 
-export declare class Log implements Level {
-    id: number;
-    name: LevelName;
-    color: string | null;
-    content: LogContent;
+export declare class Log {
+    level: Level;
+    message: LogContent;
     date: string;
-    constructor(level: Level, content: LogContent);
-    display(groupName: string): void;
+    group: string;
+    constructor(level: Level, content: LogContent, group: string);
+    display(): void;
+    export(): Pick<Log, 'level' | 'message' | 'date' | 'group'>;
     private static addZero;
     private static formatDate;
 }
@@ -85,7 +87,8 @@ export declare class Logger {
     static getLevel(): LevelName;
     static displayConsole(value: boolean): boolean;
     static addGroup(name: string): Group;
-    static getLogs(): Log[];
+    static sendLogs(url: string, headers?: Headers): Promise<any> | null;
+    static getLogs(): Pick<Log, 'level' | 'message' | 'date' | 'group'>[];
     static resetLogs(): void;
     private static getGroup;
     private static createGroup;
@@ -102,7 +105,8 @@ export declare class Options {
     get console(): boolean;
     set maxLength(length: number);
     get maxLength(): number;
-    displayMessage(messageId: number): boolean;
+    displayMessage(): boolean;
+    checkLevel(messageId: number): boolean;
 }
 export declare class Timer {
     key: string | number;

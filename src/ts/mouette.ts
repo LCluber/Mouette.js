@@ -40,33 +40,33 @@ export class Logger {
     return this.getGroup(name) || this.createGroup(name);
   }
 
-  // public static sendLogs(url: string, headers?: HTTPHeaders): Promise<any> {
-  //   let logs = [];
-  //   if (headers) {
-  //     HTTP.setHeaders("POST", headers);
-  //   }
-  //   for (const group of this.groups) {
-  //     logs.push(...group.logs);
-  //   }
-  //   return (HTTP.post(url, "json", logs) as Promise<ResponseDataType>)
-  //     .then(response => {
-  //       // if(response.success) {
-  //       for (const group of this.groups) {
-  //         group.initLogs();
-  //       }
-  //       // }
-  //       return response;
-  //     })
-  //     .catch(err => {
-  //       console.log("error", err);
-  //       return err;
-  //     });
-  // }
+  public static sendLogs(url: string, headers: Headers = new Headers()): Promise<any> | null {
+    const logs = this.getLogs();
+    if (logs.length) {
+      headers.append('Content-Type', 'application/json');
+      const params = {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(logs)
+      }
+      return fetch(url, params)
+              .then(response => response.json())
+              .then((data) => {
+                // console.log('Success:', data);
+                this.resetLogs();
+                return data;
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+    }
+    return null;
+  }
 
-  public static getLogs(): Log[] {
+  public static getLogs(): Pick<Log, 'level' | 'message' | 'date' | 'group'>[] {
     let logs = [];
     for (const group of this.groups) {
-      logs.push(...group.logs);
+      logs.push(...group.getLogs());
     }
     return logs;
   }

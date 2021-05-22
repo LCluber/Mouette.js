@@ -80,7 +80,8 @@ var Mouette = (function (exports) {
     time: {
       id: 2,
       name: "time",
-      color: "#28a745"
+      color: "#28a745",
+      time: null
     },
     trace: {
       id: 3,
@@ -110,7 +111,7 @@ var Mouette = (function (exports) {
     function Options(levelName, console, maxLength) {
       this._level = "error";
       this._console = true;
-      this._maxLength = 200;
+      this._maxLength = 400;
       this.level = levelName ? levelName : this._level;
       this.console = isBoolean(console) ? console : this._console;
       this.maxLength = maxLength ? maxLength : this.maxLength;
@@ -118,8 +119,12 @@ var Mouette = (function (exports) {
 
     var _proto = Options.prototype;
 
-    _proto.displayMessage = function displayMessage(messageId) {
-      return this._console && LEVELS[this._level].id <= messageId;
+    _proto.displayMessage = function displayMessage() {
+      return this._console;
+    };
+
+    _proto.checkLevel = function checkLevel(messageId) {
+      return LEVELS[this._level].id <= messageId;
     };
 
     _createClass(Options, [{
@@ -154,19 +159,27 @@ var Mouette = (function (exports) {
   var Log =
   /*#__PURE__*/
   function () {
-    function Log(level, content) {
-      this.id = level.id;
-      this.name = level.name;
-      this.color = level.color;
-      this.content = content;
+    function Log(level, content, group) {
+      this.level = level;
+      this.message = content;
       this.date = Log.formatDate();
+      this.group = group;
     }
 
     var _proto = Log.prototype;
 
-    _proto.display = function display(groupName) {
-      var name = this.name === "time" ? "info" : this.name;
-      console[name]("%c[" + groupName + "] " + this.date + " : ", "color:" + this.color + ";", this.content);
+    _proto.display = function display() {
+      var levelName = this.level.name === 'time' ? 'info' : this.level.name;
+      console[levelName]("%c[" + this.group + "] " + this.date + " : ", "color: " + this.level.color + ";", this.message);
+    };
+
+    _proto.export = function _export() {
+      return {
+        level: this.level,
+        message: this.message,
+        date: this.date,
+        group: this.group
+      };
     };
 
     Log.addZero = function addZero(value) {
@@ -239,7 +252,9 @@ var Mouette = (function (exports) {
       if (index > -1) {
         var newTimestamp = new Date().getTime();
         var delta = newTimestamp - this.timers[index].timestamp;
-        this.log(LEVELS.time, key + " completed in " + delta + " ms");
+        this.log(Object.assign(Object.assign({}, LEVELS.time), {
+          time: delta
+        }), key + " completed in " + delta + " ms");
         this.timers.splice(index, 1);
       } else {
         this.addTimer(key);
@@ -259,12 +274,36 @@ var Mouette = (function (exports) {
       this.logs = [];
     };
 
-    _proto.log = function log(level, _log) {
-      var message = new Log(level, _log);
+    _proto.getLogs = function getLogs() {
+      var logs = [];
 
-      if (this.options.displayMessage(message.id)) {
+      for (var _iterator = this.logs, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+        var _ref;
+
+        if (_isArray) {
+          if (_i >= _iterator.length) break;
+          _ref = _iterator[_i++];
+        } else {
+          _i = _iterator.next();
+          if (_i.done) break;
+          _ref = _i.value;
+        }
+
+        var log = _ref;
+        logs.push(log.export());
+      }
+
+      return logs;
+    };
+
+    _proto.log = function log(level, _log) {
+      if (this.options.checkLevel(level.id)) {
+        var message = new Log(level, _log, this.name);
         this.addLog(message);
-        message.display(this.name);
+
+        if (this.options.displayMessage()) {
+          message.display();
+        }
       }
     };
 
@@ -344,6 +383,36 @@ var Mouette = (function (exports) {
       return this.getGroup(name) || this.createGroup(name);
     };
 
+    Logger.sendLogs = function sendLogs(url, headers) {
+      var _this = this;
+
+      if (headers === void 0) {
+        headers = new Headers();
+      }
+
+      var logs = this.getLogs();
+
+      if (logs.length) {
+        headers.append('Content-Type', 'application/json');
+        var params = {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(logs)
+        };
+        return fetch(url, params).then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          _this.resetLogs();
+
+          return data;
+        }).catch(function (error) {
+          console.error('Error:', error);
+        });
+      }
+
+      return null;
+    };
+
     Logger.getLogs = function getLogs() {
       var logs = [];
 
@@ -360,7 +429,7 @@ var Mouette = (function (exports) {
         }
 
         var group = _ref3;
-        logs.push.apply(logs, group.logs);
+        logs.push.apply(logs, group.getLogs());
       }
 
       return logs;
